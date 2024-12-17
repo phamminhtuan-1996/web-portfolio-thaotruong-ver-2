@@ -1,9 +1,11 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-
+import Button from 'react-bootstrap/Button';
+import { Shop } from 'iconsax-react';
 export default function Home() {
   return (
     <div className={styles.page}>
+      <Button variant="primary">Primary <Shop size="32" color="#d9e3f0" variant="Outline"/></Button>
       <main className={styles.main}>
         <Image
           className={styles.logo}
@@ -89,6 +91,7 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
+        
       </footer>
     </div>
   );
