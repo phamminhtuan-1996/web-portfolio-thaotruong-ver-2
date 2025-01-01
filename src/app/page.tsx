@@ -55,7 +55,7 @@ padding: 32px 32px 0 32px;
 `
 
 export default function Home() {
-  const listSkill = ['digital painting', 'Ux research', 'UI design', 'graphic design', 'branding', 'digital marketing', 'seo'];
+  const listSkill = ['seo 01', 'digital painting', 'Ux research', 'UI design', 'graphic design', 'branding', 'digital marketing', 'seo'];
 
   const [isActiveEffect, setActiveEffect] = useState('1');
   const getEffect = (value: string) => {
