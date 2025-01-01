@@ -136,7 +136,7 @@ export default function Home() {
         <DragDropTitle/>
         <div className="btn-home d-flex mt-5">
           <Link href="/about" className="btn btn-outline-primary text-white me-4 btn-lg d-flex justify-content-center align-items-center"> About me </Link>
-          <Link href="/about" className="btn btn-outline-primary text-white btn-lg d-flex justify-content-center align-items-center"> Jump to my works <Image src="img/jump-to-works-icon.svg" width={20} height={20}/></Link>
+          <Link href="/about" className="btn btn-outline-primary text-white btn-lg d-flex justify-content-center align-items-center"> Jump to my works <Image src="img/jump-to-works-icon.svg" alt="button" width={20} height={20}/></Link>
         </div>
       </div>
       <TrainSkill data={listSkill}/>
