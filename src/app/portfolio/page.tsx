@@ -6,7 +6,7 @@ h1 {
     color: red;
 }
 `
-export default async function porfolio () {
+export default function porfolio () {
     return (
         <DivParent>
             <h1>đây là trang portfolio</h1>

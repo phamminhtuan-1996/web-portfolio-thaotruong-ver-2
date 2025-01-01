@@ -1,98 +1,143 @@
+"use client";
+import {useState, useEffect} from 'react';
 import Image from "next/image";
-import styles from "./page.module.css";
-import Button from 'react-bootstrap/Button';
-import { Shop } from 'iconsax-react';
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <Button variant="primary">Primary <Shop size="32" color="#d9e3f0" variant="Outline"/></Button>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import styled from "styled-components";
+import Link from "next/link";
+import DragDropTitle from '@/components/DragDropTitle';
+import TrainSkill from '@/components/TrainSkill';
+const DivParent = styled.div`
+width: 100vw;
+height: 100vh;
+background-color: #090909;
+padding: 32px 32px 0 32px;
+.home-frame {
+  width: calc(100vw - 64px);
+  height: calc(100vh - 40px - 120px - 32px - 75px);
+  border: 1px solid white;
+  border-radius: 20px;
+  background: url('img/background-home.png');
+  background-size: cover;
+  padding: 86px 0 0 0;
+}
+.home-frame__name--effect {
+  width: 395px;
+  height: 78px;
+}
+.effect {
+  transition: 0.5s;
+  position: absolute;
+}
+.effect-one {
+  transform: translateY(-100%);
+  top: 0;
+  left:0;
+}
+.effect.active {
+  transform: translateY(0%);
+}
+.effect-two {
+  transform: translateX(100%);
+  top: 0;
+  left:0;
+}
+.effect-three {
+  transform: translateY(100%);
+  top: 0;
+  left:0;
+}
+.btn-home .btn {
+  height: 52px!important;
+  border-color: white!important;
+}
+.btn-home .btn:hover {
+  background-image: linear-gradient(to right,#FAC59F, #6B47AB)!important;
+}
+`
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+export default function Home() {
+  const listSkill = ['digital painting', 'Ux research', 'UI design', 'graphic design', 'branding', 'digital marketing', 'seo'];
+
+  const [isActiveEffect, setActiveEffect] = useState('1');
+  const getEffect = (value: string) => {
+    return isActiveEffect === value ? 'active' : '';
+  }
+
+
+  useEffect(() => {
+    let count = 1;
+    const interval = setInterval(() => {
+      if (count === 3) {
+        count = 1;
+        setActiveEffect('1');
+        return;
+      }
+      count += 1;
+      setActiveEffect(String(count));
+    }, 3000)
+    return () => clearInterval(interval);
+  }, [])
+  return (
+    <DivParent>
+      <div className="home-frame d-flex align-items-center flex-column">
+        <Image 
+          src='img/hello-stroke.svg'
+          alt="123"
+          width={350}
+          height={116}
+          priority
+          className="home-frame__hello"
+        />
+        <div className="home-frame__name d-flex">
+        <Image 
+          src='img/im-minzie.svg'
+          alt="123"
+          width={257}
+          height={78}
+          priority
+          className="home-frame__hello me-4"
+        />
+        <div className="home-frame__name--effect position-relative overflow-hidden">
+        <Image 
+          src='img/product-des.svg'
+          alt="123"
+          width={395}
+          height={78}
+          priority
+          className={`effect effect-one ${getEffect('1')}`}
+        />
+        <Image 
+          src='img/ux-ui-designer.svg'
+          alt="123"
+          width={551}
+          height={78}
+          priority
+          className={`effect effect-two ${getEffect('2')}`}
+        />
+        <Image 
+          src='img/2d-game-artist.svg'
+          alt="123"
+          width={551}
+          height={78}
+          priority
+          className={`effect effect-three ${getEffect('3')}`}
+        />
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-        
-      </footer>
-    </div>
+        </div>
+        <Image 
+          src='img/base-in-hcmc.svg'
+          alt="123"
+          width={227}
+          height={48}
+          priority
+          className="mt-2"
+        />
+        <DragDropTitle/>
+        <div className="btn-home mt-4">
+          <Link href="/about" className="btn btn-outline-primary text-white me-4 btn-lg"> About me </Link>
+          <Link href="/about" className="btn btn-outline-primary text-white btn-lg"> Jump to my works </Link>
+        </div>
+      </div>
+      <TrainSkill data={listSkill}/>
+    </DivParent>
   );
 }
