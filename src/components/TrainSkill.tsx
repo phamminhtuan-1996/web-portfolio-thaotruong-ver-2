@@ -14,23 +14,22 @@ const DivParent = styled.div`
 export default function TrainSkill({data = ['']}) {
     const [listItem, setListItem] = useState([...data, ...data, ...data]);
     const [tranSlate, setTranslate] = useState(0);
-    const [countLifeCycle, setCountLifeCycle] = useState(70)
-    useEffect(() => {
-        console.log(listItem.length);
-        if (listItem.length >= 200) {
-            setListItem((prev) => prev.slice(100));
-            setTranslate(0);
-            setCountLifeCycle(0);
-        }
-    }, [listItem])
+    // useEffect(() => {
+    //     console.log(listItem.length);
+    //     if (listItem.length >= 200) {
+    //         setListItem((prev) => prev.slice(100));
+    //         setTranslate(0);
+    //         setCountLifeCycle(0);
+    //     }
+    // }, [listItem])
     useEffect(() => {
         let count = 0;
-        // let countLifeCycle = 70;
+        let countLifeCycle = 70;
         const interval = setInterval(() => {
             count += 1;
             setTranslate(count);
             if (countLifeCycle === count) {
-                setCountLifeCycle(countLifeCycle + 70);
+                countLifeCycle += 70;
                 setListItem((prev) => [...prev, ...data, ...data, ...data]);
                 // count = 0;
             }   

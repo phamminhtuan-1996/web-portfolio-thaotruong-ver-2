@@ -48,14 +48,16 @@ padding: 32px 32px 0 32px;
 .btn-home .btn {
   height: 52px!important;
   border-color: white!important;
+  font-size: 14px;
+  border-radius: 12px;
 }
-.btn-home .btn:hover {
+.btn-home .btn:nth-child(2) {
   background-image: linear-gradient(to right,#FAC59F, #6B47AB)!important;
 }
 `
 
 export default function Home() {
-  const listSkill = ['seo 01', 'digital painting', 'Ux research', 'UI design', 'graphic design', 'branding', 'digital marketing', 'seo'];
+  const listSkill = ['digital painting', 'Ux research', 'UI design', 'graphic design', 'branding', 'digital marketing', 'seo'];
 
   const [isActiveEffect, setActiveEffect] = useState('1');
   const getEffect = (value: string) => {
@@ -132,9 +134,9 @@ export default function Home() {
           className="mt-2"
         />
         <DragDropTitle/>
-        <div className="btn-home mt-4">
-          <Link href="/about" className="btn btn-outline-primary text-white me-4 btn-lg"> About me </Link>
-          <Link href="/about" className="btn btn-outline-primary text-white btn-lg"> Jump to my works </Link>
+        <div className="btn-home d-flex mt-5">
+          <Link href="/about" className="btn btn-outline-primary text-white me-4 btn-lg d-flex justify-content-center align-items-center"> About me </Link>
+          <Link href="/about" className="btn btn-outline-primary text-white btn-lg d-flex justify-content-center align-items-center"> Jump to my works <Image src="img/jump-to-works-icon.svg" width={20} height={20}/></Link>
         </div>
       </div>
       <TrainSkill data={listSkill}/>

@@ -2,7 +2,7 @@
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Link from "next/link";
-import { Shop, Magicpen, Profile, Sms, DocumentDownload } from 'iconsax-react';
+import { Shop, Magicpen, Profile, Sms, ImportCurve } from 'iconsax-react';
 const DivParent = styled.div`
 .main-menu {
     bottom: 62px;
@@ -65,7 +65,7 @@ export default function MainMenu() {
                     <Sms size="24" color="#d9e3f0"/>
                 </Link>
                 <Link href="/" className="btn btn-download-cv p-2 border">
-                    <DocumentDownload size="24" color="#d9e3f0" className="me-1" /> <span className="text-white">My CV</span>
+                    <ImportCurve size="24" color="#d9e3f0" className="me-2" /> <span className="text-white">My CV</span>
                 </Link>
             </nav>
         </DivParent>
