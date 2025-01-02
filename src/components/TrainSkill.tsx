@@ -36,7 +36,6 @@ export default function TrainSkill({data = ['']}) {
             if (countLifeCycle === count) {
                 countLifeCycle += 70;
                 setListItem((prev) => [...prev, ...data, ...data, ...data]);
-                // count = 0;
             }   
         }, 100);
         return () => clearInterval(interval);
