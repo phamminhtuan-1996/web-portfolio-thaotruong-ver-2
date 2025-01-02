@@ -11,9 +11,6 @@ const DivParent = styled.div`
         display: block;
         position: absolute;
         left: 0;
-        // opacity: 1;
-        // mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 12.5%, rgb(0, 0, 0) 87.5%, rgba(0, 0, 0, 0) 100%);
-        // overflow: hidden;
     }
 `;
 
