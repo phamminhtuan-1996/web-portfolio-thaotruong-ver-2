@@ -26,8 +26,7 @@ body {
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: url('/public/img/cursor.svg'), auto;
-
+  cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto;
 }
 
 * {
@@ -40,6 +39,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+a:hover {
+  cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto;
+}
+
+
 
 @media (prefers-color-scheme: dark) {
   html {

@@ -6,22 +6,27 @@ const DivParent = styled.div`
     overflow: hidden;
     max-width: 100vw;
     flex-wrap: nowrap;
-    .skill-item {
-        
+    &::before {
+        content: ""
+        display: block;
+        position: absolute;
+        left: 0;
+        // opacity: 1;
+        // mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 12.5%, rgb(0, 0, 0) 87.5%, rgba(0, 0, 0, 0) 100%);
+        // overflow: hidden;
     }
 `;
 
 export default function TrainSkill({data = ['']}) {
     const [listItem, setListItem] = useState([...data, ...data, ...data]);
     const [tranSlate, setTranslate] = useState(0);
-    // useEffect(() => {
-    //     console.log(listItem.length);
-    //     if (listItem.length >= 200) {
-    //         setListItem((prev) => prev.slice(100));
-    //         setTranslate(0);
-    //         setCountLifeCycle(0);
-    //     }
-    // }, [listItem])
+    useEffect(() => {
+        console.log(listItem.length);
+        if (listItem.length >= 200) {
+            setListItem((prev) => prev.slice(24));
+        }
+    }, [listItem])
+    
     useEffect(() => {
         let count = 0;
         let countLifeCycle = 70;

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Shop, Magicpen, Profile, Sms, ImportCurve } from 'iconsax-react';
 const DivParent = styled.div`
 .main-menu {
-    bottom: 62px;
+    bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
     background-color: #1E1D24;
@@ -35,6 +35,12 @@ const DivParent = styled.div`
 }
 .btn.active {
     background-color: #8E8E8E;
+}
+@media (max-width: 990px) {
+    .main-menu {
+        width: 100%;
+        bottom: 0;
+    }
 }
 `
 

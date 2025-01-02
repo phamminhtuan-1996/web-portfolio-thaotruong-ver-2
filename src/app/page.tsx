@@ -9,15 +9,15 @@ const DivParent = styled.div`
 width: 100vw;
 height: 100vh;
 background-color: #090909;
-padding: 32px 32px 0 32px;
+padding: 1rem 32px 1rem 32px;
 .home-frame {
   width: calc(100vw - 64px);
-  height: calc(100vh - 40px - 120px - 32px - 75px);
+  height: calc(100vh - 32px - 84px - 40px - 1.5rem);
   border: 1px solid white;
   border-radius: 20px;
   background: url('img/background-home.png');
   background-size: cover;
-  padding: 86px 0 0 0;
+  padding: 1rem 0 1rem 0;
 }
 .home-frame__name--effect {
   width: 395px;
@@ -54,6 +54,10 @@ padding: 32px 32px 0 32px;
 .btn-home .btn:nth-child(2) {
   background-image: linear-gradient(to right,#FAC59F, #6B47AB)!important;
 }
+.btn:hover {
+  background-color: #6229CC!important;
+  background-image: none!important;
+}
 `
 
 export default function Home() {
@@ -80,7 +84,7 @@ export default function Home() {
   }, [])
   return (
     <DivParent>
-      <div className="home-frame d-flex align-items-center flex-column">
+      <div className="home-frame d-flex align-items-center flex-column justify-content-center">
         <Image 
           src='img/hello-stroke.svg'
           alt="123"
