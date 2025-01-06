@@ -6,8 +6,8 @@ import Link from "next/link";
 import DragDropTitle from '@/components/DragDropTitle';
 import TrainSkill from '@/components/TrainSkill';
 const DivParent = styled.div`
-width: 100vw;
-height: 100vh;
+width: 100%;
+height: 100%;
 background-color: #090909;
 padding: 1rem 32px 1rem 32px;
 .home-frame {
