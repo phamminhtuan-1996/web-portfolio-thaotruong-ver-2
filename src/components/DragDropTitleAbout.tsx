@@ -33,13 +33,17 @@ const DivParent = styled.div`
         font-size: 16px;
     }
 `
+type StartPosition = {
+    x: number;
+    y: number;
+}
 export default function DragDropTitle({title="", titleBig="", y = 0, x = 0}) {
-    const [positionX, setPositionX] = useState(x);
-    const [positionY, setPositionY] = useState(y);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+    const [positionX, setPositionX] = useState<number>(x);
+    const [positionY, setPositionY] = useState<number>(y);
+    const [isDragging, setIsDragging] = useState<boolean>(false);
+    const [startPosition, setStartPosition] = useState<StartPosition>({ x: 0, y: 0 });
 
-    const handleMouseDown = (e: any) => {
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         setIsDragging(true);
         setStartPosition({
             x: e.clientX - positionY,
@@ -47,7 +51,7 @@ export default function DragDropTitle({title="", titleBig="", y = 0, x = 0}) {
         });
     };
 
-    const handleMouseMove = (e: any) => {
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (isDragging) {
             setPositionY(e.clientX - startPosition.x);
             setPositionX(e.clientY - startPosition.y);

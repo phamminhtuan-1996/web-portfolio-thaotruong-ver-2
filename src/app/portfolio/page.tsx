@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 import {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {Col, Row} from 'react-bootstrap';
@@ -64,6 +65,8 @@ background-color: #090909;
     font-weight: 700;
 }
 .project-item__img {
+    width: 100%!important;
+    height: 100%!important;
     object-fit: cover;
 }
 .project-item-col {
@@ -100,8 +103,18 @@ background-color: #090909;
     }
   }
 `
-export default function porfolio () {
-    const filterDefaultHarcode = [
+type ListProjectItemDefault = {
+    id: string;
+    img: string;
+    filter: string[];
+}
+type FilterDefaultHarcode = {
+    color: string, 
+    isChecked: boolean, 
+    label: string,  
+}
+export default function Portfolio () {
+    const filterDefaultHarcode: FilterDefaultHarcode[] = [
     { color: 'ALL', isChecked: true, label: "ALL",   },
     { color: '#FAC59F', isChecked: false, label: "UX/UI Design",  },
     { color: '#7E57A9', isChecked: false, label: "Branding",   },
@@ -109,11 +122,11 @@ export default function porfolio () {
     { color: '#FAC59C', isChecked: false,  label: "Digital Painting",   },
     { color: '#D5FA1B', isChecked: false, label: "2D GAME",   }
   ];
-    const [filtersDefault, setFiltersDefault] = useState([...filterDefaultHarcode]);
-    const [filter, setFilter] = useState<any>([]);
-    const [isShowModalProject, setShowModalProject] = useState(false);
-    const [dataPick, setDataPick] = useState({});
-      const listProjectItemDefault: any[] = [
+    const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
+    const [filter, setFilter] = useState<string[]>([]);
+    const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
+    const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>(null);
+      const listProjectItemDefault: ListProjectItemDefault[] = [
         {
             id:'1', 
             img: 'img/dudu-project.png', 
@@ -127,10 +140,10 @@ export default function porfolio () {
       ];
 
       const handleOnfiler = (index: number) => {
-        let arrayCustomer = filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }));
+        const arrayCustomer = filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }));
         setFiltersDefault(arrayCustomer);
       }
-      const getShowOnItem = (item: any) => {
+      const getShowOnItem = (item: ListProjectItemDefault) => {
         let result = false;
         if (filter.length === 0) {
             return 'show-effect';
@@ -143,7 +156,7 @@ export default function porfolio () {
         return result ? "show-effect" : 'off-effect';
       }
 
-      const handleShowPopup = (data: any) => {
+      const handleShowPopup = (data: ListProjectItemDefault) => {
         setDataPick({...data});
         setShowModalProject(true);
       }
@@ -201,10 +214,12 @@ export default function porfolio () {
                                         {filterDefaultHarcode.find((items) => items.color === item.filter[0])?.label}
                                     </div>
                                 </div>
-                                <img
-                                    src={item.img}
-                                    alt={item.cate}
-                                    className="project-item__img w-100 h-100"
+                                <Image
+                                    src={`/${item.img}`}
+                                    alt={item.img}
+                                    width={421}
+                                    height={272}
+                                    className="project-item__img"
                                 />
                             </div>
                         </Col>

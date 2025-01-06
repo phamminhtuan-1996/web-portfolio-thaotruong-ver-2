@@ -1,10 +1,17 @@
 "use client";
-import {Modal, Button} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import styled from "styled-components";
 import { CloseCircle } from 'iconsax-react';
+
+type ListProjectItemDefault = {
+    id: string;
+    img: string;
+    filter: string[];
+}
+
 interface ModalProjectProps {
     show?: boolean; 
-    data?: any; 
+    data?: ListProjectItemDefault | null; 
     handleClose: (state: boolean) => void;
   }
 
@@ -18,7 +25,7 @@ interface ModalProjectProps {
 
 export default function ModalProject({
         show = false, 
-        data = null, 
+        data = {id: '', img: '', filter: []}, 
         handleClose
     }: ModalProjectProps) {
     
@@ -33,13 +40,17 @@ export default function ModalProject({
             <Modal
                 show={show} 
                 dialogClassName="modal-project"
-                onHide={handleClose}
+                onHide={() => handleClose(false)}
             >
             {/* <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>
             </Modal.Header> */}
             <Modal.Body className="p-0">
+               
                 <img src="img/capy_01.png" className="w-100"/>
+                {data && (
+                    <img src={data.img} className="w-100"/>
+                )}
             </Modal.Body>
             {/* <Modal.Footer>
             <Button variant="secondary" onClick={() => handleClose(false)}>

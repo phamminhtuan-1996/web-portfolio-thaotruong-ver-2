@@ -15,8 +15,8 @@ const DivParent = styled.div`
 `;
 
 export default function TrainSkill({data = ['']}) {
-    const [listItem, setListItem] = useState([...data, ...data, ...data]);
-    const [tranSlate, setTranslate] = useState(0);
+    const [listItem, setListItem] = useState<string[]>([...data, ...data, ...data]);
+    const [tranSlate, setTranslate] = useState<number>(0);
     useEffect(() => {
         console.log(listItem.length);
         if (listItem.length >= 200) {
