@@ -16,7 +16,8 @@
 }
 html,
 body {
-  max-width: 100vw;
+  width: 100%;
+  height: 100%;
   overflow-x: hidden;
   
 }
@@ -40,8 +41,8 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto;
+a:hover, button {
+  cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto !important;
 }
 
 
@@ -49,5 +50,12 @@ a:hover {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+@media (min-width: 990px) {
+  .modal-dialog.modal-project {
+    width: calc(100vw - 422px);
+    max-width: unset;
   }
 }
