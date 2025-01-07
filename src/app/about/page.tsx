@@ -7,6 +7,7 @@ import styled from "styled-components";
 import ExpItem from "@/components/ExpItem";
 import {TickCircle, Sms, Call, SmsTracking, Crown1} from 'iconsax-react';
 
+import TrainClients from '@/components/TrainClients';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
 const DivParent = styled.div`
   // padding-bottom: 150px;
@@ -90,27 +91,33 @@ const DivParent = styled.div`
     height: 1px;
     background-color: white;
 }
+
 .list-skill {
   padding-top: 59px;
+  padding-bottom: 86px;
 }
+
 .list-skill__title {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 30px;
   display: block;
 }
+
 .circle-skill__parent {
   width: 300px;
   height: 300px;
   border: 1px solid #FFFFFF52;
   border-radius: 50%;
 }
+
 .circle-skill__parent--child {
   width: 210px;
   height: 210px;
   border: 1px solid #FFFFFF52;
   border-radius: 50%;
 }
+
 .satellite {
   position: absolute;
   top: 0;
@@ -118,6 +125,7 @@ const DivParent = styled.div`
   transform: translateX(220px);
   animation: orbit 15s linear infinite; 
 }
+
 .satellite-child {
   position: absolute;
   top: 0;
@@ -125,6 +133,7 @@ const DivParent = styled.div`
   transform: translateX(150px);
   animation: orbit 15s linear infinite; 
 }
+
 @keyframes orbit {
   0% {
     transform: rotate(0deg) translate(-100px) rotate(0deg); /* Vị trí ban đầu */
@@ -181,6 +190,9 @@ const DivParent = styled.div`
  .message-contact {
   width: 770px;
  }
+ .list-client__title {
+  margin-bottom: 57px;
+ }
 `;
 type ListExp = {
   rangeTime: string;
@@ -227,6 +239,14 @@ export default function about() {
     "Mockups, Responsive, Adaptive",
     "Self-learning",
     "Critical thinking",
+  ]
+  const listClients: string[] = [
+    '/img/list-clients/cdn.png',
+    '/img/list-clients/du-du.png',
+    '/img/list-clients/halo-tea.png',
+    '/img/list-clients/happy-mind.png',
+    '/img/list-clients/tarocha.png',
+    '/img/list-clients/zo-skin.png',
   ]
   return (
     <DivParent>
@@ -323,7 +343,7 @@ export default function about() {
           </Row>
         </div>
       </div>
-      <div className="footer">
+      <div className="footer overflow-hidden">
         <div className="container">
           <div className="footer__title">
             <div className="footer__title--wrap d-flex align-items-center">
@@ -374,6 +394,15 @@ export default function about() {
               </Col>
             </Row>
           </div>
+          </div>
+          <div className="list-client">
+            <div className="list-client__title d-flex flex-column justify-content-center align-items-center">
+              <Image src="/img/clients.svg" alt="lets-discuss" width={263} height={36}/>
+              <h1 className="text-uppercase text-center text-white mb-4">I WORK WITH</h1>
+            </div>
+            <TrainClients data={listClients}/>
+          </div>
+          <div className="container">
           <div className="message">
             <div className="message__title  d-flex flex-column align-items-center justify-content-center">
               <h1 className="text-uppercase text-center text-white mb-4">Have an Awsome Project Idea?</h1>
