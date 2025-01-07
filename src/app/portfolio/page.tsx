@@ -102,6 +102,11 @@ background-color: #090909;
         display: block;
     }
   }
+  .img-port-top {
+    width: calc(100vw / 5);
+    top: -60%;
+    left: 0;
+  }
 `
 type ListProjectItemDefault = {
     id: string;
@@ -173,13 +178,15 @@ export default function Portfolio () {
         <DivParent>
             <header>
                 <Row>
-                    <Col md={9}>
+                    <Col md={10}>
                         <div className="title-port-wrap d-flex align-items-center">
                             <h1 className="title-port text-white">Design that solve problem</h1>
                         </div>
                         <h1 className="title-port">Where creativity meets functionality. </h1>
                     </Col>
-                    <Col md={3}></Col>
+                    <Col md={2} className="position-relative">
+                        <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                    </Col>
                 </Row>
             </header>
             <div className="list-cate">
