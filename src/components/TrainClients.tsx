@@ -41,7 +41,7 @@ export default function TrainClients({data = ['']}) {
         <DivParent className="d-flex overflow-hidden">
              <div className="d-flex justify-content-between" style={{transform: `translateX(-${tranSlate}%)`, transition: `0.5s`}}>
                 {listItem.map((item, index) => (
-                    <div className="train-client__item bg-dark pa-4 d-flex justify-content-center align-items-center">
+                    <div className="train-client__item bg-dark pa-4 d-flex justify-content-center align-items-center" key={index}>
                         <img src={item} alt="clients" />
                     </div>
                     
