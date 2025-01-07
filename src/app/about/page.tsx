@@ -70,6 +70,7 @@ const DivParent = styled.div`
   .footer {
     background-color: #0A0A0A;
     padding-bottom: 150px;
+    padding-top: 89px;
   }
   .footer__title--wrap h1 {
     font-size: 32px;
@@ -189,6 +190,9 @@ const DivParent = styled.div`
  }
  .message-contact {
   width: 770px;
+ }
+ .list-client {
+  padding-bottom: 111px;
  }
  .list-client__title {
   margin-bottom: 57px;
@@ -403,7 +407,7 @@ export default function about() {
             <TrainClients data={listClients}/>
           </div>
           <div className="container">
-          <div className="message">
+          <div className="message" id="message">
             <div className="message__title  d-flex flex-column align-items-center justify-content-center">
               <h1 className="text-uppercase text-center text-white mb-4">Have an Awsome Project Idea?</h1>
               <Image src="/img/lets-discuss.svg" alt="lets-discuss" width={263} height={36}/>
