@@ -111,6 +111,8 @@ const DivParent = styled.div`
   height: 300px;
   border: 1px solid #FFFFFF52;
   border-radius: 50%;
+  transition: 0.5s;
+  animation: circle 15s linear infinite;
 }
 
 .circle-skill__parent--child {
@@ -118,41 +120,70 @@ const DivParent = styled.div`
   height: 210px;
   border: 1px solid #FFFFFF52;
   border-radius: 50%;
+  animation: circle 15s infinite;
 }
 
 .satellite {
   position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateX(220px);
-  animation: orbit 15s linear infinite; 
+  transform: rotate(360deg);
+  animation: circle-reverse 16s infinite;
 }
 
 .satellite-child {
   position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateX(150px);
-  animation: orbit 15s linear infinite; 
+  transform: rotate(360deg);
+  animation: circle-reverse 16s infinite;
 }
 
-@keyframes orbit {
-  0% {
-    transform: rotate(0deg) translate(-100px) rotate(0deg); /* Vị trí ban đầu */
-  }
-  100% {
-    transform: rotate(360deg) translateX(-100px) rotate(-360deg); /* Xoay quanh trục child-core */
-  }
+.satellite:nth-child(1) { 
+  top:0;
+  right:0;
 }
-// @keyframes orbit {
-//   0% {
-//     transform: rotate(0deg) translateX(100px) translateY(0px) rotate(0deg); 
-//   }
+.satellite:nth-child(2) { 
+  top:0;
+  left:0;
+}
+.satellite:nth-child(3) { 
+  bottom:0;
+  left:0;
+}
+.satellite:nth-child(4) { 
+  bottom:0;
+  right:0;
+}
 
-//   100% {
-//       transform: rotate(360deg) translateX(100px) translateY(0px) rotate(-360deg); 
-//   }
-// }
+.satellite-child:nth-child(1) {
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.satellite-child:nth-child(2) { 
+  bottom: -15px;
+  right: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes circle {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+ }
+@keyframes circle-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+ }
+
+
+
+
  .message {
   padding-top: 76px;
  }
