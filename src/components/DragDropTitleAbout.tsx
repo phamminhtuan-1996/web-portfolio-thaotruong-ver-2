@@ -3,7 +3,7 @@ import {useState} from 'react';
 import styled from "styled-components";
 const DivParent = styled.div`
     width: 138px;
-    height: 144px;
+    height: 114px;
     border: 1px solid white;
     padding: 21px 15px;
     .shashape-child {
