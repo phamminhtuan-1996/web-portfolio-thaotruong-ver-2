@@ -55,6 +55,7 @@ const DivParent = styled.div`
   }
   .education {
     padding-top: 107px;
+    padding-bottom: 47px;
   }
   .title-school {
     font-size: 20px;
