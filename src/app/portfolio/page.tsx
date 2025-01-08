@@ -1,5 +1,4 @@
 "use client";
-import Image from 'next/image';
 import {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {Col, Row} from 'react-bootstrap';
@@ -112,10 +111,10 @@ padding-bottom: 150px;
   }
 `
 type ListProjectItemDefault = {
-    id: string;
+    id: number;
     img: string;
     filter: string[];
-    content: string;
+    content: string | null;
 }
 type FilterDefaultHarcode = {
     color: string, 
@@ -127,19 +126,8 @@ export default function Portfolio () {
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [filter, setFilter] = useState<string[]>([]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
-    const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>(null);
-    // const listProjectItemDefault: ListProjectItemDefault[] = [
-    //     {
-    //         id:'1', 
-    //         img: 'img/dudu-project.png', 
-    //         filter: ['#FAC59F']
-    //     },
-    //     {
-    //         id: '2', 
-    //         img: 'img/game-conga.png', 
-    //         filter: ['#D5FA1B']
-    //     }
-    // ];
+    const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>({id: 0, img: '', filter: [], content: ''});
+
     const listProjectItemDefault: ListProjectItemDefault[] = dataContent.map((item) => ({...item, filter: [item.filter]}))
 
       const handleOnfiler = (index: number) => {
@@ -233,7 +221,7 @@ export default function Portfolio () {
             </div>
             <ModalProject 
                 show={isShowModalProject} 
-                data={dataPick} 
+                data={dataPick  as ListProjectItemDefault | null | undefined} 
                 handleClose={(val) => setShowModalProject(val)}
             />
         </DivParent>

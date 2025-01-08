@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { CloseCircle } from 'iconsax-react';
 
 type ListProjectItemDefault = {
-    id: string;
+    id: number;
     img: string;
     filter: string[];
-    content: string;
+    content: string | null;
 }
 
 interface ModalProjectProps {
@@ -26,7 +26,7 @@ interface ModalProjectProps {
 
 export default function ModalProject({
         show = false, 
-        data = {id: '', img: '', filter: [], content: ''}, 
+        data = {id: 0, img: '', filter: [], content: ''}, 
         handleClose
     }: ModalProjectProps) {
     
@@ -43,9 +43,6 @@ export default function ModalProject({
                 dialogClassName="modal-project"
                 onHide={() => handleClose(false)}
             >
-            {/* <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header> */}
             <Modal.Body className="p-0">
             {data && (
                 <img src={data.img} className="w-100"/>
