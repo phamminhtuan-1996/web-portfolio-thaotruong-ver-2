@@ -44,8 +44,8 @@ export default function ModalProject({
                 onHide={() => handleClose(false)}
             >
             <Modal.Body className="p-0">
-            {data && (
-                <img src={data.img} className="w-100"/>
+            {!data?.content && (
+                <img src={data?.img} className="w-100"/>
             )}
 
             {data?.content && (

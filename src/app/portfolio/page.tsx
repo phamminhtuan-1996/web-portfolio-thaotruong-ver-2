@@ -35,7 +35,6 @@ padding-bottom: 150px;
 }
 .list-cate .btn {
     color: white;
-    font-weight: 700;
     font-size: 20px;
     margin-right: 32px;
 
@@ -122,7 +121,7 @@ type FilterDefaultHarcode = {
     label: string,  
 }
 export default function Portfolio () {
-    const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label !== 'ALL'}))
+    const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label === 'All'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [filter, setFilter] = useState<string[]>([]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
@@ -178,7 +177,7 @@ export default function Portfolio () {
             <div className="list-cate">
                 {filtersDefault.map((item, index) => (
                     <button
-                        className={`btn ${item.isChecked ? "bg-dark " : ""}`}
+                        className={`btn ${item.isChecked ? "bg-dark" : ""}`}
                         key={index}
                         onClick={() => handleOnfiler(index)}
                     >
