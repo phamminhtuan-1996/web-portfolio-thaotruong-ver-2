@@ -86,6 +86,7 @@ const DivParent = styled.div`
 }
 .footer__title--down h1 {
   white-space: nowrap;
+  font-size: 32px;
 }
   .footer__title--wrap::after {
     content: "";
@@ -113,7 +114,7 @@ const DivParent = styled.div`
   border: 1px solid #FFFFFF52;
   border-radius: 50%;
   transition: 0.5s;
-  animation: circle 15s linear infinite;
+  // animation: circle 15s linear infinite;
 }
 
 .circle-skill__parent--child {
@@ -121,19 +122,19 @@ const DivParent = styled.div`
   height: 210px;
   border: 1px solid #FFFFFF52;
   border-radius: 50%;
-  animation: circle 15s infinite;
+  // animation: circle 15s infinite;
 }
 
 .satellite {
   position: absolute;
   transform: rotate(360deg);
-  animation: circle-reverse 16s infinite;
+  // animation: circle-reverse 16s infinite;
 }
 
 .satellite-child {
   position: absolute;
   transform: rotate(360deg);
-  animation: circle-reverse 16s infinite;
+  // animation: circle-reverse 16s infinite;
 }
 
 .satellite:nth-child(1) { 
@@ -193,7 +194,7 @@ const DivParent = styled.div`
   height: 86px;
   border: 1px solid white;
   border-radius: 20px; 
-  padding: 0 14px 0 64px;
+  padding-left: 14px;
  }
  .message__input input {
   width: calc(100% - 32px - 16px);
@@ -394,7 +395,7 @@ export default function about() {
             <Row>
               <Col md={4}>
                 <span className="list-skill__title text-white">Tools</span>
-                <div className="circle-skill">
+                <div className="circle-skill d-none">
                   <div className="circle-skill__parent position-relative d-flex justify-content-center align-items-center">
                   <img src="/img/skill/Adobe_Illustrator_CC_icon.png" alt="figma" className="satellite"/>
                     <img src="/img/skill/Tool icon-1.png" alt="figma" className="satellite" />
@@ -409,6 +410,7 @@ export default function about() {
                     </div>
                   </div>
                 </div>
+                <img src="/img/tools_details.png" alt="tools_details" />
               </Col>
               <Col md={4}>
                 <span className="list-skill__title text-white">Skills</span>
@@ -434,7 +436,7 @@ export default function about() {
           </div>
           <div className="list-client">
             <div className="list-client__title d-flex flex-column justify-content-center align-items-center">
-              <Image src="/img/clients.svg" alt="lets-discuss" width={263} height={36}/>
+              <Image src="/img/clients.svg" alt="lets-discuss" width={263} height={36} className="mb-3 d-block"/>
               <h1 className="text-uppercase text-center text-white mb-4">I WORK WITH</h1>
             </div>
             <TrainClients data={listClients}/>
