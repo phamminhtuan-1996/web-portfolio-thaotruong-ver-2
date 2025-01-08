@@ -7,6 +7,7 @@ type ListProjectItemDefault = {
     id: string;
     img: string;
     filter: string[];
+    content: string;
 }
 
 interface ModalProjectProps {
@@ -18,14 +19,14 @@ interface ModalProjectProps {
 
   const DivClose = styled.div`
     position: fixed;
-    z-index: 1000;
+    z-index: 2000;
     top: 58px;
     right: 76px;
   `
 
 export default function ModalProject({
         show = false, 
-        data = {id: '', img: '', filter: []}, 
+        data = {id: '', img: '', filter: [], content: ''}, 
         handleClose
     }: ModalProjectProps) {
     
@@ -46,11 +47,15 @@ export default function ModalProject({
             <Modal.Title>Modal heading</Modal.Title>
             </Modal.Header> */}
             <Modal.Body className="p-0">
+            {data && (
+                <img src={data.img} className="w-100"/>
+            )}
+
+            {data?.content && (
+                 <img src={data.content} className="w-100"/>
+            )}
                
-                <img src="img/capy_01.png" className="w-100"/>
-                {data && (
-                    <img src={data.img} className="w-100"/>
-                )}
+                
             </Modal.Body>
             {/* <Modal.Footer>
             <Button variant="secondary" onClick={() => handleClose(false)}>

@@ -4,12 +4,15 @@ import {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {Col, Row} from 'react-bootstrap';
 import ModalProject from "@/components/ModalProject";
+import catePort from '@/data/cate-port.json';
+import dataContent from '@/data/data-content.json';
 
 const DivParent = styled.div`
 width: 100%;
-height: 100%;
+min-height: 100vh;
 padding: 44px 40px 0 40px;
 background-color: #090909;
+padding-bottom: 150px;
 .title-port {
     font-size: 32px;
 }
@@ -112,6 +115,7 @@ type ListProjectItemDefault = {
     id: string;
     img: string;
     filter: string[];
+    content: string;
 }
 type FilterDefaultHarcode = {
     color: string, 
@@ -119,30 +123,24 @@ type FilterDefaultHarcode = {
     label: string,  
 }
 export default function Portfolio () {
-    const filterDefaultHarcode: FilterDefaultHarcode[] = [
-    { color: 'ALL', isChecked: true, label: "ALL",   },
-    { color: '#FAC59F', isChecked: false, label: "UX/UI Design",  },
-    { color: '#7E57A9', isChecked: false, label: "Branding",   },
-    { color: '#FAC59A',  isChecked: false, label: "Graphic Design",  },
-    { color: '#FAC59C', isChecked: false,  label: "Digital Painting",   },
-    { color: '#D5FA1B', isChecked: false, label: "2D GAME",   }
-  ];
+    const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label !== 'ALL'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [filter, setFilter] = useState<string[]>([]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
     const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>(null);
-      const listProjectItemDefault: ListProjectItemDefault[] = [
-        {
-            id:'1', 
-            img: 'img/dudu-project.png', 
-            filter: ['#FAC59F']
-        },
-        {
-            id: '2', 
-            img: 'img/game-conga.png', 
-            filter: ['#D5FA1B']
-        }
-      ];
+    // const listProjectItemDefault: ListProjectItemDefault[] = [
+    //     {
+    //         id:'1', 
+    //         img: 'img/dudu-project.png', 
+    //         filter: ['#FAC59F']
+    //     },
+    //     {
+    //         id: '2', 
+    //         img: 'img/game-conga.png', 
+    //         filter: ['#D5FA1B']
+    //     }
+    // ];
+    const listProjectItemDefault: ListProjectItemDefault[] = dataContent.map((item) => ({...item, filter: [item.filter]}))
 
       const handleOnfiler = (index: number) => {
         const arrayCustomer = filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }));
@@ -210,7 +208,7 @@ export default function Portfolio () {
                             onClick={() => handleShowPopup(item)}
                         >
                             <div
-                                className="project-item overflow-hidden w-100 position-relative bg-dark"
+                                className="project-item overflow-hidden w-100 position-relative bg-dark mb-4"
                             >
                                 <div className="project-item__label position-absolute d-flex align-items-center">
                                     <div
@@ -221,8 +219,8 @@ export default function Portfolio () {
                                         {filterDefaultHarcode.find((items) => items.color === item.filter[0])?.label}
                                     </div>
                                 </div>
-                                <Image
-                                    src={`/${item.img}`}
+                                <img
+                                    src={`${item.img.search('http://') > -1 ? item.img : '/'+item.img}`}
                                     alt={item.img}
                                     width={421}
                                     height={272}
