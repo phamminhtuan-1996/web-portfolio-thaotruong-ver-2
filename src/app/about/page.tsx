@@ -297,8 +297,8 @@ export default function about() {
         
         <DragDropTitleAbout titleBig="2000+" title="screens" y={485} x={-390}/>
         <DragDropTitleAbout titleBig="ထ" title="ideas" y={520} x={-171}/>
-        <DragDropTitleAbout titleBig="4+" title="years experience" y={-490} x={-496}/>
-        <DragDropTitleAbout titleBig="10+" title="projects" y={-444} x={-343}/>
+        <DragDropTitleAbout titleBig="4+" title="years experience" y={-550} x={-657}/>
+        <DragDropTitleAbout titleBig="10+" title="projects" y={-472} x={-488}/>
       </div>
       <div className="experience">
         <div className="container">

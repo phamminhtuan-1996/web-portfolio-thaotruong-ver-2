@@ -5,6 +5,7 @@ const DivParent = styled.div`
     width: 138px;
     height: 144px;
     border: 1px solid white;
+    padding: 21px 15px;
     .shashape-child {
         width: 16px;
         height: 16px;
