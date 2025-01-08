@@ -66,6 +66,7 @@ const DivParent = styled.div`
   .education-item img{
     width: 91px;
     height: 79px;
+    object-fit: contain;
   }
   .footer {
     background-color: #0A0A0A;
