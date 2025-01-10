@@ -2,7 +2,6 @@
 
 import { Row, Col, Button } from "react-bootstrap";
 import {linkCv} from '@/utils/constants';
-import {isMobileOrSmallScreen} from '@/utils/helper';
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";

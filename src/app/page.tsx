@@ -1,6 +1,5 @@
 "use client";
 import {useState, useEffect} from 'react';
-import {isMobileOrSmallScreen} from '@/utils/helper';
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
