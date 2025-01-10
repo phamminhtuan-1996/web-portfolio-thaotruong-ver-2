@@ -26,15 +26,16 @@ export default function TrainClients({data = ['']}) {
     
     useEffect(() => {
         let count = 0;
-        let countLifeCycle = 70;
+        let countLifeCycle = 50;
         const interval = setInterval(() => {
             count += 1;
             setTranslate(count);
+            console.log('count', count, 'countLifeCycle', countLifeCycle)
             if (countLifeCycle === count) {
-                countLifeCycle += 70;
-                setListItem((prev) => [...prev, ...data, ...data, ...data]);
+                countLifeCycle += 50;
+                setListItem((prev) => [...prev, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ]);
             }   
-        }, 200);
+        }, 300);
         return () => clearInterval(interval);
     }, [])
     return (

@@ -28,6 +28,13 @@ const DivParent = styled.div`
     .title {
         font-size: 20px;
     }
+    @media (max-width: 990px) {
+        width: calc(100% - 32px);
+        .title {
+            font-size: 12px;
+            text-align: center;
+        }
+    }
 `
 export default function DragDropTitle() {
     return (

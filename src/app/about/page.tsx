@@ -1,6 +1,8 @@
 "use client";
 
 import { Row, Col, Button } from "react-bootstrap";
+import {linkCv} from '@/utils/constants';
+import {isMobileOrSmallScreen} from '@/utils/helper';
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
@@ -30,7 +32,7 @@ const DivParent = styled.div`
     // width: 100%;
     // height: 100%;
   }
-  .header__content p {
+  .header__content .about-content {
     font-size: 16px;
   }
   .header__content span {
@@ -52,6 +54,10 @@ const DivParent = styled.div`
     font-size: 24px;
     font-weight: 400;
     color: #171616;
+    text-decoration: none;
+  }
+  .link-cv:hover {
+    text-decoration: underline;
   }
   .education {
     padding-top: 107px;
@@ -231,6 +237,54 @@ const DivParent = styled.div`
  .list-client__title {
   margin-bottom: 57px;
  }
+
+ .slogan-mobile {
+  display: none;
+ }
+ .slogan-desktop {
+  display: block;
+ }
+
+
+
+ @media (max-width: 990px) {
+    .header__content .row {
+      margin: 0;
+      padding: 0;
+    }
+    .header__content {
+      width: calc(100vw - 32px);
+      height: auto;
+    }
+    .header {
+        height: auto;
+    }
+    .slogan-mobile {
+      display: block;
+      font-size: 10px!important;
+    }
+    .slogan-desktop {
+      display: none;
+     }
+    .content-about {
+      font-size: 10px;
+    }
+    .header__content .col-md-5 {
+      order: 2;
+      display: flex;
+    }
+    .header__content .col-md-5 img {
+      width: 40%;
+      height: auto;
+    }
+    .header .col-md-7 {
+      padding: 0 3rem;
+    }
+    .apostrophe-left {
+      top: 0;
+      left: -15%;
+  }
+}
 `;
 type ListExp = {
   rangeTime: string;
@@ -291,17 +345,18 @@ export default function about() {
       <div className="header d-flex flex-column align-items-center overflow-hidden">
         <Image src="img/about-me.svg" alt="about me" width={169} height={29} />
         <div className="header__content">
-          <Row>
-            <Col md={5}>
+          <Row className="w-100">
+            <Col xs={12} md={5}>
               <Image
                 src="/img/avt-thaotruong.png"
                 alt="avt-thaotruong"
                 width={264}
                 height={332}
               />
+              <span className="slogan-mobile">I am currently working at Aemi with my beloved colleagues.</span>
             </Col>
-            <Col md={7}>
-              <p className="text-white position-relative">
+            <Col xs={12} md={7}>
+              <p className="content-about text-white position-relative">
               <Image
                 src="/img/apostrophe-left.svg"
                 alt="avt-thaotruong"
@@ -323,7 +378,7 @@ export default function about() {
                     className="ms-2"
                 />
               </p>
-              <span>I am currently working at Aemi with my <br/> beloved colleagues.</span>
+              <span className="slogan-desktop">I am currently working at Aemi with my <br/> beloved colleagues.</span>
             </Col>
           </Row>
         </div>
@@ -352,7 +407,7 @@ export default function about() {
                 height={32} 
                 className="me-2"
               />
-              <Link href="#" className="link-cv text-decoration-none">See more in my CV</Link>
+              <Link href={linkCv} className="link-cv" target="_blank" >See more in my CV</Link>
             </Col>
           </Row>
         </div>

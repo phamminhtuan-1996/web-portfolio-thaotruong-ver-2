@@ -1,5 +1,6 @@
 "use client";
 import {useState, useEffect} from 'react';
+import {isMobileOrSmallScreen} from '@/utils/helper';
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
@@ -58,6 +59,30 @@ padding: 1rem 32px 1rem 32px;
   background-color: #6229CC!important;
   background-image: none!important;
 }
+@media (max-width: 990px) {
+  .home-frame__name--title {
+    width: calc((100vw/2) - 64px - 50px);
+    margin-right: 5px!important;
+  }
+   .home-frame__name--effect {
+    width: calc((100vw/2) - 64px)
+  }
+  .home-frame__name--effect img{
+    width: calc((100vw/2) - 64px);
+  }
+  .btn-home {
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .btn-home .btn:first-child {
+    margin-right: 0!important;
+    margin-bottom: 20px;
+  }
+  .home-frame__hello:first-child {
+    width: calc(100% - 32px);
+  }
+ }
 `
 
 export default function Home() {
@@ -67,6 +92,7 @@ export default function Home() {
   const getEffect = (value: string) => {
     return isActiveEffect === value ? 'active' : '';
   }
+
 
 
   useEffect(() => {
@@ -100,7 +126,7 @@ export default function Home() {
           width={257}
           height={78}
           priority
-          className="home-frame__hello me-4"
+          className="home-frame__name--title me-4"
         />
         <div className="home-frame__name--effect position-relative overflow-hidden">
         <Image 
@@ -140,7 +166,7 @@ export default function Home() {
         <DragDropTitle/>
         <div className="btn-home d-flex mt-5">
           <Link href="/about" className="btn btn-outline-primary text-white me-4 btn-lg d-flex justify-content-center align-items-center"> About me </Link>
-          <Link href="/about" className="btn btn-outline-primary text-white btn-lg d-flex justify-content-center align-items-center"> Jump to my works <Image src="img/jump-to-works-icon.svg" alt="button" width={20} height={20}/></Link>
+          <Link href="/portfolio" className="btn btn-outline-primary text-white btn-lg d-flex justify-content-center align-items-center"> Jump to my works <Image src="img/jump-to-works-icon.svg" alt="button" width={20} height={20}/></Link>
         </div>
       </div>
       <TrainSkill data={listSkill}/>
