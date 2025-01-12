@@ -1,5 +1,4 @@
 "use client";
-
 import { Row, Col, Button } from "react-bootstrap";
 import {linkCv} from '@/utils/constants';
 import Link from "next/link";
@@ -340,7 +339,8 @@ export default function about() {
     '/img/list-clients/happy-mind.png',
     '/img/list-clients/tarocha.png',
     '/img/list-clients/zo-skin.png',
-  ]
+  ];
+
   return (
     <DivParent>
       <div className="header d-flex flex-column align-items-center overflow-hidden">
@@ -502,15 +502,20 @@ export default function about() {
               <h1 className="text-uppercase text-center text-white mb-4">Have an Awsome Project Idea?</h1>
               <Image src="/img/lets-discuss.svg" alt="lets-discuss" width={263} height={36}/>
             </div>
-            <div className="message__input mx-auto d-flex justify-content-between">
+            <form
+              action="https://docs.google.com/forms/d/e/1FAIpQLSd5UeS35O2bRd9JyTZH6PR4Cj3pH7ehq_4bhUPmucl16HL-uQ/formResponse"
+              className="message__input mx-auto d-flex justify-content-between"
+              method="POST"
+              target="_blank"
+            >
               <div className="message__input--wrap">
                 <Sms size="32" color="#6229CC"/>
-                <input type="text" placeholder="Message here"/>
+                <input type="text" name="entry.604871011" placeholder="Message here"/>
               </div>
               <div className="message__input--wrap-right d-flex justify-content-center align-items-center">
-                <Button className="d-block h-100">Send</Button>
+                <Button type="submit" className="d-block h-100">Send</Button>
               </div>
-            </div>
+            </form>
             <div className="message-contact mx-auto mt-4 d-flex justify-content-between">
               <div className="message-contact__item">
                 <Call size="32" color="#FFF"/>
