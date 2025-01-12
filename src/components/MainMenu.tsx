@@ -42,6 +42,7 @@ const DivParent = styled.div`
     .main-menu {
         width: 100%;
         bottom: 0;
+        border-radius: 0;
     }
 }
 `

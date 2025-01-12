@@ -83,7 +83,7 @@ padding-bottom: 150px;
 .off-effect {
     animation: show-off 0.5s forwards;
     transform: scale(0);
-    display: block;
+    display:block
 }
 .show-effect {
     animation: show-on 0.5s forwards;
@@ -116,7 +116,10 @@ padding-bottom: 150px;
     left: 0;
   }
   @media (max-width: 990px) {
-    padding: 16px;
+    padding: 16px 16px 64px 16px;
+    .project-item {
+        height: 224px;
+    }
     .title-port {
         font-size: 16px;
     }
@@ -126,12 +129,18 @@ padding-bottom: 150px;
     .title-port-wrap::after {
         width: 30%;
     }
+    .list-cate {
+        max-width: calc(100vw -(16px* 2));
+        overflow: auto;
+        display: flex;
+    }
     .list-cate .btn {
-        width: 120px!important;
+        width: auto!important;
         font-size: 14px;
         padding: 8px;
         margin: 0px;
-        white-space: nowrap
+        white-space: nowrap;
+        margin-right: 1rem;
     }
     .list-cate .btn:hover {
         background-color: #212529!important;
@@ -169,11 +178,6 @@ export default function Portfolio () {
       const handleOnfiler = (index: number) => {
         const arrayCustomer = [...filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }))];
         setFiltersDefault(arrayCustomer);
-        if (isMobileOrSmallScreen()) {
-            setTimeout(() => {
-
-            }, 1000)
-        } 
       }
       const getShowOnItem = (item: ListProjectItemDefault) => {
         let result = false;
@@ -185,7 +189,7 @@ export default function Portfolio () {
                 result = true;
             }
         })
-        return result ? "show-effect" : 'off-effect';
+        return result ? "show-effect" : isMobileOrSmallScreen() ? 'd-none' : 'off-effect';
       }
 
       const handleShowPopup = (data: ListProjectItemDefault) => {
@@ -220,7 +224,7 @@ export default function Portfolio () {
                     </Row>
                 
             </header>
-            {!isMobileOrSmallScreen() && (
+          
                 <div className="list-cate">
                     {filtersDefault.map((item, index) => (
                         <button
@@ -232,8 +236,7 @@ export default function Portfolio () {
                         </button> 
                     ))}
                 </div>
-            )}
-             {isMobileOrSmallScreen() && (
+             {/* {isMobileOrSmallScreen() && (
                  <Slider {...(settingsSlick as Settings)} className="list-cate">
                      {filtersDefault.map((item, index) => (
                         <button
@@ -245,7 +248,7 @@ export default function Portfolio () {
                         </button> 
                     ))}
                  </Slider>
-             )}
+             )} */}
             <div className="list-project mt-4">
                    <Row>
                    {listProjectItemDefault.map((item, index) => (
