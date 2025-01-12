@@ -56,7 +56,6 @@ export default function MainMenu() {
 
     useEffect(() => {
         const url = pathname === "/" ? "home" : pathname.replace('/', '');
-        console.log('url', url);
         setActive(url);
     }, [pathname])
     useEffect(() => {
