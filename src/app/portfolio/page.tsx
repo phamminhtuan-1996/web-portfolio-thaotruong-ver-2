@@ -83,6 +83,7 @@ padding-bottom: 150px;
 .off-effect {
     animation: show-off 0.5s forwards;
     transform: scale(0);
+    display: block;
 }
 .show-effect {
     animation: show-on 0.5s forwards;
@@ -166,8 +167,13 @@ export default function Portfolio () {
     const listProjectItemDefault: ListProjectItemDefault[] = dataContent.map((item) => ({...item, filter: [item.filter]}))
 
       const handleOnfiler = (index: number) => {
-        const arrayCustomer = filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }));
+        const arrayCustomer = [...filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }))];
         setFiltersDefault(arrayCustomer);
+        if (isMobileOrSmallScreen()) {
+            setTimeout(() => {
+
+            }, 1000)
+        } 
       }
       const getShowOnItem = (item: ListProjectItemDefault) => {
         let result = false;
