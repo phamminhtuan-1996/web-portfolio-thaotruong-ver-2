@@ -7,7 +7,6 @@ import catePort from '@/data/cate-port.json';
 import dataContent from '@/data/data-content.json';
 import {isMobileOrSmallScreen} from '@/utils/helper';
 
-import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -29,7 +28,7 @@ padding-bottom: 150px;
 .title-port-wrap::after {
     content: "";
     display: block;
-    width: 438px;
+    width: 60%;
     height: 1px;
     background-color: white;
 }
@@ -92,6 +91,20 @@ padding-bottom: 150px;
 .list-project {
     transition: 0.5s;
 }
+.project-item:hover .project-item__shield {
+    opacity: 1;
+}
+.project-item__shield {
+    width: 100%;
+    height: 100%;
+    background-color: #000000a1;
+    opacity: 0;
+    transition: 0.5s;
+}
+.project-item__shield--title {
+    font-size: 16px;
+    font-weight: 600;
+}
 @keyframes show-off {
     from {
         transform: scale(1);
@@ -111,8 +124,13 @@ padding-bottom: 150px;
     }
   }
   .img-port-top {
-    width: calc(100vw / 5);
+    width: 50%;
+    height: calc(100% + 190px);
+    object-fit: cover;
     top: -60%;
+    right: 0;
+  }
+  .img-port-top:first-child {
     left: 0;
   }
   @media (max-width: 990px) {
@@ -159,14 +177,6 @@ type FilterDefaultHarcode = {
     label: string,  
 }
 export default function Portfolio () {
-    const settingsSlick:Settings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        arrows: false
-      };
     const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label === 'All'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [filter, setFilter] = useState<string[]>([]);
@@ -218,7 +228,10 @@ export default function Portfolio () {
                         </Col>
                         <Col md={2} className="position-relative">
                             {!isMobileOrSmallScreen() && (
-                                 <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                                <>
+                                    <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                                    <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                                </>
                             )} 
                         </Col>
                     </Row>
@@ -236,19 +249,6 @@ export default function Portfolio () {
                         </button> 
                     ))}
                 </div>
-             {/* {isMobileOrSmallScreen() && (
-                 <Slider {...(settingsSlick as Settings)} className="list-cate">
-                     {filtersDefault.map((item, index) => (
-                        <button
-                            className={`btn ${item.isChecked ? "bg-dark" : ""}`}
-                            key={index}
-                            onClick={() => handleOnfiler(index)}
-                        >
-                            {item.label}
-                        </button> 
-                    ))}
-                 </Slider>
-             )} */}
             <div className="list-project mt-4">
                    <Row>
                    {listProjectItemDefault.map((item, index) => (
@@ -270,6 +270,13 @@ export default function Portfolio () {
                                         {filterDefaultHarcode.find((items) => items.color === item.filter[0])?.label}
                                     </div>
                                 </div>
+                                {!item.content && (
+                                    <div className="project-item__shield position-absolute  d-flex align-items-center justify-content-center">
+                                        <span className="project-item__shield--title text-white"
+                                          // eslint-disable-next-line react/no-unescaped-entities
+                                        >Oops! I'm still working on it</span>
+                                    </div>
+                                )}
                                 <img
                                     src={`${item.img.search('http://') > -1 ? item.img : '/'+item.img}`}
                                     alt={item.img}

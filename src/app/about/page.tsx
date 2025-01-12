@@ -19,7 +19,7 @@ const DivParent = styled.div`
   }
   .header__content {
     width: 647px;
-    height: 369px;
+    height: 362px;
     border-radius: 20px;
     background-image: url("img/background-home.png");
     background-size: cover;
@@ -244,7 +244,9 @@ const DivParent = styled.div`
   display: block;
  }
 
-
+ .content-about {
+  font-weight: 200;
+}
 
  @media (max-width: 990px) {
     .header__content .row {
@@ -324,14 +326,14 @@ export default function about() {
   const listSoftSkill: string[] = [
     "Empathetic",
     "Problem-solving",
-    "Graphic Design, Branding, Keyvisual",
     "Meticulous",
     "Collaborative",
-    "Mockups, Responsive, Adaptive",
     "Self-learning",
     "Critical thinking",
   ]
   const listClients: string[] = [
+    '/img/list-clients/aemi-client.png',
+    '/img/list-clients/piano-client.png',
     '/img/list-clients/cdn.png',
     '/img/list-clients/du-du.png',
     '/img/list-clients/halo-tea.png',
@@ -354,14 +356,14 @@ export default function about() {
               />
               <span className="slogan-mobile">I am currently working at Aemi with my beloved colleagues.</span>
             </Col>
-            <Col xs={12} md={7}>
+            <Col xs={12} md={7} className="d-flex align-items-center">
               <p className="content-about text-white position-relative">
               <Image
                 src="/img/apostrophe-left.svg"
                 alt="avt-thaotruong"
                 width={27}
                 height={24}
-                className="apostrophe-left position-absolute "
+                className="apostrophe-left position-absolute"
               />        
                 Hi there, I’m Thao, also known as Minzie! <br/> As a UX/UI designer
                 with 4+ years of <br/> experience and a background in <br/> marketing, I
@@ -377,7 +379,6 @@ export default function about() {
                     className="ms-2"
                 />
               </p>
-              <span className="slogan-desktop">I am currently working at Aemi with my <br/> beloved colleagues.</span>
             </Col>
           </Row>
         </div>

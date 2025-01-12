@@ -5,6 +5,7 @@ import styled from "styled-components";
 const DivParent = styled.div`
     flex-wrap: nowrap;
     max-width: 100vw;
+    scroll-behavior: smooth;
     .train-client__item {
         width: 200px;
         height: 112px;
@@ -13,37 +14,39 @@ const DivParent = styled.div`
     }
 `;
 
-export default function TrainClients({data = ['']}) {
+type LitItem = {
+    img: string;
+    value: number;
+}
 
-    const [listItem, setListItem] = useState<string[]>([...data, ...data, ...data]);
+export default function TrainClients({data = ['']}) {
+    const dataCustom: LitItem[] = data.map((item) => ({img: item, value: 0}));
+    const [listItem, setListItem] = useState<LitItem[]>([...dataCustom, ...dataCustom,]);
     const [tranSlate, setTranslate] = useState<number>(0);
+    let count = 600; 
     useEffect(() => {
-        console.log(listItem.length);
-        if (listItem.length >= 200) {
-            setListItem((prev) => prev.slice(24));
+        if (tranSlate === count) {
+            count += 600;
+            setListItem((prev) => [...prev, ...prev]);
         }
-    }, [listItem])
-    
+    }, [tranSlate])
     useEffect(() => {
-        let count = 0;
-        let countLifeCycle = 50;
         const interval = setInterval(() => {
-            count += 1;
-            setTranslate(count);
-            console.log('count', count, 'countLifeCycle', countLifeCycle)
-            if (countLifeCycle === count) {
-                countLifeCycle += 50;
-                setListItem((prev) => [...prev, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ...data, ]);
-            }   
-        }, 300);
+            setTranslate(((prev) => prev + 5))
+            setListItem((prev) => prev.map((item) => ({...item, value: item.value + 5})));
+        }, 100)
         return () => clearInterval(interval);
     }, [])
     return (
         <DivParent className="d-flex overflow-hidden">
-             <div className="d-flex justify-content-between" style={{transform: `translateX(-${tranSlate}%)`, transition: `0.5s`}}>
+             <div className="d-flex justify-content-between">
                 {listItem.map((item, index) => (
-                    <div className="train-client__item bg-dark pa-4 d-flex justify-content-center align-items-center" key={index}>
-                        <img src={item} alt="clients" />
+                    <div
+                        className="train-client__item bg-dark pa-4 d-flex justify-content-center align-items-center" 
+                        key={index}
+                        style={{transform: `translateX(-${item.value}%)`, transition: `0.5s`}}
+                    >
+                        <img src={item.img} alt="clients" />
                     </div>
                     
                 ))}
