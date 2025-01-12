@@ -5,6 +5,12 @@ import {Col, Row} from 'react-bootstrap';
 import ModalProject from "@/components/ModalProject";
 import catePort from '@/data/cate-port.json';
 import dataContent from '@/data/data-content.json';
+import {isMobileOrSmallScreen} from '@/utils/helper';
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const DivParent = styled.div`
 width: 100%;
@@ -108,6 +114,28 @@ padding-bottom: 150px;
     top: -60%;
     left: 0;
   }
+  @media (max-width: 990px) {
+    padding: 16px;
+    .title-port {
+        font-size: 16px;
+    }
+    .title-port {
+        margin-right: 16px!important;
+    }
+    .title-port-wrap::after {
+        width: 30%;
+    }
+    .list-cate .btn {
+        width: 120px!important;
+        font-size: 14px;
+        padding: 8px;
+        margin: 0px;
+        white-space: nowrap
+    }
+    .list-cate .btn:hover {
+        background-color: #212529!important;
+    }
+  }
 `
 type ListProjectItemDefault = {
     id: number;
@@ -121,6 +149,14 @@ type FilterDefaultHarcode = {
     label: string,  
 }
 export default function Portfolio () {
+    const settingsSlick = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        arrows: false
+      };
     const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label === 'All'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [filter, setFilter] = useState<string[]>([]);
@@ -162,29 +198,48 @@ export default function Portfolio () {
     return (
         <DivParent>
             <header>
-                <Row>
-                    <Col md={10}>
-                        <div className="title-port-wrap d-flex align-items-center">
-                            <h1 className="title-port text-white">Design that solve problem</h1>
-                        </div>
-                        <h1 className="title-port">Where creativity meets functionality. </h1>
-                    </Col>
-                    <Col md={2} className="position-relative">
-                        <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
-                    </Col>
-                </Row>
+                
+                    <Row>
+                        <Col md={10}>
+                            <div className="title-port-wrap d-flex align-items-center">
+                                <h1 className="title-port text-white">Design that solve problem</h1>
+                            </div>
+                            <h1 className="title-port">Where creativity meets functionality. </h1>
+                        </Col>
+                        <Col md={2} className="position-relative">
+                            {!isMobileOrSmallScreen() && (
+                                 <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                            )} 
+                        </Col>
+                    </Row>
+                
             </header>
-            <div className="list-cate">
-                {filtersDefault.map((item, index) => (
-                    <button
-                        className={`btn ${item.isChecked ? "bg-dark" : ""}`}
-                        key={index}
-                        onClick={() => handleOnfiler(index)}
-                    >
-                        {item.label}
-                    </button> 
-                ))}
-            </div>
+            {!isMobileOrSmallScreen() && (
+                <div className="list-cate">
+                    {filtersDefault.map((item, index) => (
+                        <button
+                            className={`btn ${item.isChecked ? "bg-dark" : ""}`}
+                            key={index}
+                            onClick={() => handleOnfiler(index)}
+                        >
+                            {item.label}
+                        </button> 
+                    ))}
+                </div>
+            )}
+             {isMobileOrSmallScreen() && (
+                 <Slider {...settingsSlick} className="list-cate">
+                     {filtersDefault.map((item, index) => (
+                        <button
+                            className={`btn ${item.isChecked ? "bg-dark" : ""}`}
+                            key={index}
+                            onClick={() => handleOnfiler(index)}
+                        >
+                            {item.label}
+                        </button> 
+                    ))}
+                 </Slider>
+             )}
             <div className="list-project mt-4">
                    <Row>
                    {listProjectItemDefault.map((item, index) => (

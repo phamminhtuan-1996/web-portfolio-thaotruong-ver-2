@@ -1,6 +1,7 @@
 "use client";
 import {useState, useEffect} from 'react';
 import {linkCv} from '@/utils/constants';
+import { usePathname } from "next/navigation";
 import styled from 'styled-components';
 import Link from "next/link";
 import { Shop, Magicpen, Profile, Sms, ImportCurve } from 'iconsax-react';
@@ -46,11 +47,15 @@ const DivParent = styled.div`
 `
 
 export default function MainMenu() {
+    const pathname = usePathname();
     const [isActive, setActive] = useState('');
     const getActive = (value: string) => {
         return isActive.search(value) > -1 ? "active" : '';
     }
 
+    useEffect(() => {
+        setActive(pathname.replace('/', ''));
+    }, [pathname])
     useEffect(() => {
         const url = window.location.pathname === "/" ? "home" : window.location.pathname.replace('/', '');
         setActive(url);

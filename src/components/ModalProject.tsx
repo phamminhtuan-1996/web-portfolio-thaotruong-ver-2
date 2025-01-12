@@ -2,6 +2,7 @@
 import {Modal} from 'react-bootstrap';
 import styled from "styled-components";
 import { CloseCircle } from 'iconsax-react';
+import {isMobileOrSmallScreen} from '@/utils/helper';
 
 type ListProjectItemDefault = {
     id: number;
@@ -22,6 +23,10 @@ interface ModalProjectProps {
     z-index: 2000;
     top: 58px;
     right: 76px;
+    @media (max-width: 990px) {
+        top: 10px;
+        right: 10px;
+    }
   `
 
 export default function ModalProject({
@@ -34,7 +39,7 @@ export default function ModalProject({
         <>
             {show && (
                 <DivClose onClick={() => handleClose(false)}>
-                    <CloseCircle size="90" color="#FFF"/>
+                    <CloseCircle size={ isMobileOrSmallScreen() ? "52" :"90"} color={isMobileOrSmallScreen() ? "#000" : "#FFF"}/>
                 </DivClose>
             )}
 
