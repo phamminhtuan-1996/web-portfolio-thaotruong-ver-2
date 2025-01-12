@@ -7,7 +7,7 @@ import catePort from '@/data/cate-port.json';
 import dataContent from '@/data/data-content.json';
 import {isMobileOrSmallScreen} from '@/utils/helper';
 
-import Slider from "react-slick";
+import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -149,7 +149,7 @@ type FilterDefaultHarcode = {
     label: string,  
 }
 export default function Portfolio () {
-    const settingsSlick = {
+    const settingsSlick:Settings = {
         dots: false,
         infinite: false,
         speed: 500,
@@ -228,7 +228,7 @@ export default function Portfolio () {
                 </div>
             )}
              {isMobileOrSmallScreen() && (
-                 <Slider {...settingsSlick} className="list-cate">
+                 <Slider {...(settingsSlick as Settings)} className="list-cate">
                      {filtersDefault.map((item, index) => (
                         <button
                             className={`btn ${item.isChecked ? "bg-dark" : ""}`}

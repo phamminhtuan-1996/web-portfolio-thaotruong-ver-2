@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-slick": "^0.23.13",
     "babel-plugin-styled-components": "^2.1.4",
     "bootstrap": "^5.3.3",
     "iconsax-react": "^0.0.8",
