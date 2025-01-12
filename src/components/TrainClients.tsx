@@ -24,10 +24,7 @@ export default function TrainClients({data = ['']}) {
     const [listItem, setListItem] = useState<LitItem[]>([...dataCustom, ...dataCustom,]);
     const [tranSlate, setTranslate] = useState<number>(0);
     const [countCyper, setCountCyber] = useState<number>(600);
-    var count = 600; 
     useEffect(() => {
-        console.log('listItem', listItem.length);
-        
         if (listItem.length >= 1000) {
             const customData = listItem.splice(600);
             setListItem(customData);
