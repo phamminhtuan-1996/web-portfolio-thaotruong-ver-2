@@ -23,13 +23,22 @@ export default function TrainClients({data = ['']}) {
     const dataCustom: LitItem[] = data.map((item) => ({img: item, value: 0}));
     const [listItem, setListItem] = useState<LitItem[]>([...dataCustom, ...dataCustom,]);
     const [tranSlate, setTranslate] = useState<number>(0);
-    let count = 600; 
+    const [countCyper, setCountCyber] = useState<number>(600);
+    var count = 600; 
     useEffect(() => {
-        if (tranSlate === count) {
-            count += 600;
+        console.log('listItem', listItem.length);
+        
+        if (listItem.length >= 1000) {
+            const customData = listItem.splice(600);
+            setListItem(customData);
+        }
+    }, [listItem])
+    useEffect(() => {
+        if (tranSlate === countCyper) {
+            setCountCyber((prev) => prev + 600);
             setListItem((prev) => [...prev, ...prev]);
         }
-    }, [tranSlate])
+    }, [tranSlate, countCyper])
     useEffect(() => {
         const interval = setInterval(() => {
             setTranslate(((prev) => prev + 5))
