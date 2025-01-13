@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Head from "next/head";
 import MainMenu from '@/components/MainMenu';
 import PopupWarningReponsive from '@/components/PopupWarningReponsive';
 import "./globals.css";
@@ -27,6 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+       <Head>
+          <meta property="og:title" content="My Awesome Page" />
+          <meta property="og:description" content="This is an amazing page with awesome content!" />
+          <meta property="og:image" content="/img/thumbnail_link.png" />
+          <meta name="twitter:card" content="summary_large_image" />
+      </Head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
         <MainMenu/>

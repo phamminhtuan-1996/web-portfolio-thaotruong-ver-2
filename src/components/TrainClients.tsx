@@ -54,7 +54,6 @@ export default function TrainClients({data = ['']}) {
                     >
                         <img src={item.img} alt="clients" />
                     </div>
-                    
                 ))}
             </div>
             
