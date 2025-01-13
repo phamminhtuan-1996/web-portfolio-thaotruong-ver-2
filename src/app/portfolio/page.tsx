@@ -19,6 +19,7 @@ background-color: #090909;
 padding-bottom: 150px;
 .title-port {
     font-size: 32px;
+    white-space: nowrap;
 }
 .title-port:nth-child(2) {
     color: transparent;
