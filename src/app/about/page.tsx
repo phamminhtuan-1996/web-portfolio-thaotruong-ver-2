@@ -1,6 +1,7 @@
 "use client";
 import { Row, Col, Button } from "react-bootstrap";
 import {linkCv} from '@/utils/constants';
+import { isMobileOrSmallScreen } from '../../utils/helper';
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
@@ -247,6 +248,16 @@ const DivParent = styled.div`
   font-weight: 200;
 }
 
+.education__title--mobile {
+  display: none!important;
+}
+
+.education__title--desktop {
+  display: flex;
+}
+.message__input--wrap textarea {
+  display: none;
+}
  @media (max-width: 990px) {
     .header__content .row {
       margin: 0;
@@ -267,15 +278,16 @@ const DivParent = styled.div`
       display: none;
      }
     .content-about {
-      font-size: 10px;
+      font-size: 12px;
+      margin: 0;
     }
     .header__content .col-md-5 {
       order: 2;
       display: flex;
     }
     .header__content .col-md-5 img {
-      width: 40%;
-      height: auto;
+      width: 50%;
+      height: 100%;
     }
     .header .col-md-7 {
       padding: 0 3rem;
@@ -284,6 +296,107 @@ const DivParent = styled.div`
       top: 0;
       left: -15%;
   }
+  .title-school {
+    font-size: 14px;
+  }
+  .title-major {
+    font-size: 12px;
+  }
+  .education {
+    padding-top: 1rem;
+  }
+  .education__title--mobile {
+    display: flex!important;
+  }
+  .education__title--desktop {
+    display: none;
+  }
+  .education__img {
+    width: 100%;
+    height: auto;
+    margin-top: 1rem;
+  }
+  .wrap-cv {
+    display: none!important;
+  }
+  .experience__title {
+    font-size: 36px;
+  }
+  .message-contact {
+    flex-direction: column;
+  }
+  .message-contact__item { 
+    margin-bottom: 1rem;
+  }
+  
+  .message__input {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    flex-direction: column;
+  }
+  .message__input--wrap {
+    width: 100%;
+    display: flex;
+  }
+  .message__input--wrap svg{
+    margin-right: 5px;
+  }
+  .message__input--wrap input {
+    display: none;
+  }
+  
+  .message__input--wrap textarea {
+    display: block;
+    outline: none;
+    border: none;
+    color: white;
+    background-color: #00800000;
+  }
+  .message__input--wrap-right {
+    width: 100%;
+  }
+  .message__input--wrap-right .btn {
+    width: 100%;
+  }
+  .footer__title--wrap h1 {
+    font-size: 16px;
+    margin-right: 1rem;
+  }
+  .footer__title--down h1 {
+    font-size: 16px;
+    white-space: wrap;
+  }
+  .footer__title--wrap::after {
+    width: 50%;
+  }
+  .footer { 
+    padding-top: 1rem;
+  }
+
+  .list-skill__title {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 16px;
+  }
+  .list-skill {
+    padding-top: 44px;
+  }
+  .education__list {
+    padding: 0 1rem;
+  }
+  img[alt="tools_details"] {
+    width: 80%;
+    display: block;
+    margin: auto;
+  }
+  .skill-item__title {
+    font-size: 14px;
+    margin-left: 12px!important;
+  }
+  .skill-item svg {
+    width: 20px;
+}
 }
 `;
 type ListExp = {
@@ -306,9 +419,9 @@ export default function about() {
     {rangeTime: "11/2017 - 10/2020", companyName: "ICHIP TECHNOLOGY & YOURTV MEDIA GROUP", role: "Digital Marketing - SEO"},
   ]
   const listEducation: ListEducation[] = [
-    {name: 'Banking University', major: "Marketing", thumbnail: '/img/banking-university-logo.png'},
-    {name: 'Nordic Coder', major: "Digital Product Design", thumbnail: '/img/nordic-coder-logo.png'},
-    {name: 'NHAT NGHE EDU JSC', major: "Marketing", thumbnail: '/img/nhatnghe-logo.png'},
+    {name: 'Banking University', major: "Major: Marketing", thumbnail: '/img/banking-university-logo.png'},
+    {name: 'Nordic Coder', major: "Major: Digital Product Design", thumbnail: '/img/nordic-coder-logo.png'},
+    {name: 'NHAT NGHE EDU JSC', major: "Major: Marketing", thumbnail: '/img/nhatnghe-logo.png'},
     {name: 'TOEIC Certificate', major: "Band score: 735", thumbnail: '/img/toeic-logo.png'},
   ];
   const listHardSkill: string[] = [
@@ -347,14 +460,14 @@ export default function about() {
         <Image src="img/about-me.svg" alt="about me" width={169} height={29} />
         <div className="header__content">
           <Row className="w-100">
-            <Col xs={12} md={5}>
+            <Col xs={12} md={5} className="d-flex justify-content-center">
               <Image
                 src="/img/avt-thaotruong.png"
                 alt="avt-thaotruong"
                 width={264}
                 height={332}
               />
-              <span className="slogan-mobile">I am currently working at Aemi with my beloved colleagues.</span>
+              {/* <span className="slogan-mobile">I am currently working at Aemi with my beloved colleagues.</span> */}
             </Col>
             <Col xs={12} md={7} className="d-flex align-items-center">
               <p className="content-about text-white position-relative">
@@ -383,10 +496,10 @@ export default function about() {
           </Row>
         </div>
         
-        <DragDropTitleAbout titleBig="2000+" title="screens" y={485} x={-390}/>
-        <DragDropTitleAbout titleBig="ထ" title="ideas" y={520} x={-171}/>
-        <DragDropTitleAbout titleBig="4+" title="years experience" y={-550} x={-657}/>
-        <DragDropTitleAbout titleBig="10+" title="projects" y={-472} x={-488}/>
+        <DragDropTitleAbout titleBig="2000+" title="screens" y={485} x={ isMobileOrSmallScreen() ? 0 : -390}/>
+        <DragDropTitleAbout titleBig="ထ" title="ideas" y={520} x={isMobileOrSmallScreen() ? 0 : -171}/>
+        <DragDropTitleAbout titleBig="4+" title="years experience" y={-550} x={ isMobileOrSmallScreen() ? 0 : -657}/>
+        <DragDropTitleAbout titleBig="10+" title="projects" y={-472} x={isMobileOrSmallScreen() ? 0 : -488}/>
       </div>
       <div className="experience">
         <div className="container">
@@ -399,7 +512,7 @@ export default function about() {
               ))}
               
             </Col>
-            <Col md={3} className="d-flex justify-content-end">
+            <Col md={3} className="wrap-cv d-flex justify-content-end">
               <Image
                 src="/img/right-carousel-cv.svg"
                 alt="right-carousel-cv"
@@ -413,15 +526,20 @@ export default function about() {
         </div>
       </div>
       <div className="education">
+        <div className="education__title--mobile pe-4 flex-column justify-content-end align-items-end">
+          <Image src="/img/proudly.svg" alt="proudly" width={85} height={25}/>
+          <h1 className="experience__title">Education</h1>
+        </div>
+      
         <div className="container">
           <Row>
             <Col md={6} className="d-flex align-items-center">
-              <Row>
+              <Row className="education__list">
                 {listEducation.map((item,index) => (
-                  <Col md={6} className="education-item d-flex flex-column mb-4" key={index}>
+                  <Col xs={6} md={6} className="education-item d-flex flex-column mb-4" key={index}>
                     <img src={item.thumbnail} alt="education logo"/>
                     <span className="title-school">{item.name}</span>
-                    <span className="title-major">Major: {item.major}</span>
+                    <span className="title-major">{item.major}</span>
                 </Col>
                 )) }
                 
@@ -429,9 +547,11 @@ export default function about() {
               </Row>
             </Col>
             <Col md={6} className="d-flex flex-column align-items-end">
-              <Image src="/img/proudly.svg" alt="proudly" width={85} height={25}/>
-              <h1 className="experience__title">Education</h1>
-              <Image src="/img/list-education.png" alt="education" width={561} height={370} />
+              <div className="education__title--desktop flex-column align-items-end">
+                <Image src="/img/proudly.svg" alt="proudly" width={85} height={25}/>
+                <h1 className="experience__title">Education</h1>
+              </div>
+              <Image src="/img/list-education.png" alt="education" className="education__img" width={561} height={370} />
             </Col>
           </Row>
         </div>
@@ -468,7 +588,7 @@ export default function about() {
                 <img src="/img/tools_details.png" alt="tools_details" />
               </Col>
               <Col md={4}>
-                <span className="list-skill__title text-white">Skills</span>
+                <span className="list-skill__title text-start text-white">Skills</span>
                 {listHardSkill.map((item, index) => (
                   <div className="skill-item mb-2" key={index}>
                     <TickCircle size="32" color="#FFF"/>
@@ -478,7 +598,7 @@ export default function about() {
                 
               </Col>
               <Col md={4}>
-                <span className="list-skill__title text-white">Soft skills</span>
+                <span className="list-skill__title text-start text-white">Soft skills</span>
                 {listSoftSkill.map((item, index) => (
                   <div className="skill-item mb-2" key={index}>
                     <TickCircle size="32" color="#FFF"/>
@@ -511,6 +631,7 @@ export default function about() {
               <div className="message__input--wrap">
                 <Sms size="32" color="#6229CC"/>
                 <input type="text" name="entry.604871011" placeholder="Message here"/>
+                <textarea name="entry.604871011" cols={50} rows={8} placeholder="Message here"></textarea>
               </div>
               <div className="message__input--wrap-right d-flex justify-content-center align-items-center">
                 <Button type="submit" className="d-block h-100">Send</Button>

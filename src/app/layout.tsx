@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
         <MainMenu/>
-        <PopupWarningReponsive/>
+        {/* <PopupWarningReponsive/> */}
       </body>
     </html>
   );
