@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from 'react';
 import { Row, Col, Button } from "react-bootstrap";
 import {linkCv} from '@/utils/constants';
 import Link from "next/link";
@@ -6,7 +7,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import ExpItem from "@/components/ExpItem";
 import {TickCircle, Sms, Call, SmsTracking, Crown1} from 'iconsax-react';
-
+import { isMobileOrSmallScreen } from '../../utils/helper';
 import TrainClients from '@/components/TrainClients';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
 const DivParent = styled.div`
@@ -268,6 +269,8 @@ const DivParent = styled.div`
     }
     .header {
         height: auto;
+        position: relative;
+        padding-bottom: 186px;
     }
     .slogan-mobile {
       display: block;
@@ -394,11 +397,7 @@ const DivParent = styled.div`
     margin-left: 12px!important;
   }
   .skill-item svg {
-    width: 20px;
-}
-  .header {
-    position: relative;
-    padding: 186px;
+      width: 20px;
   }
 }
 `;
@@ -424,7 +423,8 @@ type ListTitleAboutDragDrop = {
 }
 
 
-export default function about() {
+export default function About() {
+  const [isMobile, setMobile] = useState<boolean>(false);
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
@@ -474,6 +474,13 @@ export default function about() {
     '/img/list-clients/tarocha.png',
     '/img/list-clients/zo-skin.png',
   ];
+
+  useEffect(() => {
+    console.log('isMobile', isMobile);
+}, [isMobile])
+useEffect(() => {
+    setMobile(isMobileOrSmallScreen());
+}, [])
 
   return (
     <DivParent>
@@ -649,7 +656,7 @@ export default function about() {
               target="_blank"
             >
               <div className="message__input--wrap">
-                <Sms size="32" color="#6229CC"/>
+                <Sms size={ isMobile ? 25 : 32  } color="#6229CC"/>
                 <input type="text" name="entry.604871011" placeholder="Message here"/>
                 <textarea name="entry.604871011" cols={50} rows={8} placeholder="Message here"></textarea>
               </div>

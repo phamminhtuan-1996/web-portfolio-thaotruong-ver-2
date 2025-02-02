@@ -32,6 +32,7 @@ export default function RootLayout({
           <meta property="og:description" content="This is an amazing page with awesome content!" />
           <meta property="og:image" content="/img/thumbnail_link.png" />
           <meta name="twitter:card" content="summary_large_image" />
+          <meta name="format-detection" content="telephone=no" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
