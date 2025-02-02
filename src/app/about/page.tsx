@@ -1,7 +1,6 @@
 "use client";
 import { Row, Col, Button } from "react-bootstrap";
 import {linkCv} from '@/utils/constants';
-import { isMobileOrSmallScreen } from '../../utils/helper';
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
@@ -397,6 +396,10 @@ const DivParent = styled.div`
   .skill-item svg {
     width: 20px;
 }
+  .header {
+    position: relative;
+    padding: 186px;
+  }
 }
 `;
 type ListExp = {
@@ -411,6 +414,16 @@ type ListEducation = {
   thumbnail: string;
 }
 
+type ListTitleAboutDragDrop = {
+  titleBig: string;
+  title: string;
+  x: number;
+  y: number;
+  xMobile: number;
+  yMobile: number;
+}
+
+
 export default function about() {
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
@@ -421,9 +434,17 @@ export default function about() {
   const listEducation: ListEducation[] = [
     {name: 'Banking University', major: "Major: Marketing", thumbnail: '/img/banking-university-logo.png'},
     {name: 'Nordic Coder', major: "Major: Digital Product Design", thumbnail: '/img/nordic-coder-logo.png'},
-    {name: 'NHAT NGHE EDU JSC', major: "Major: Marketing", thumbnail: '/img/nhatnghe-logo.png'},
+    {name: 'NHAT NGHE EDU JSC', major: "Major: Search Engine Optimization", thumbnail: '/img/nhatnghe-logo.png'},
     {name: 'TOEIC Certificate', major: "Band score: 735", thumbnail: '/img/toeic-logo.png'},
   ];
+
+  const listTitleAboutDragDrop: ListTitleAboutDragDrop[] = [
+    { titleBig: '2000+', title: 'screens', x: -390, y: 485, xMobile: 28, yMobile: 3},
+    { titleBig: 'ထ', title: 'ideas', x: -171, y: 520, xMobile: 5, yMobile: 10 },
+    { titleBig: '4+', title: 'years experience', x: -657, y: -550, xMobile: 52, yMobile: 10 },
+    { titleBig: '10+', title: 'projects', x: -488, y: -472, xMobile: 76, yMobile: 5 },
+  ]
+
   const listHardSkill: string[] = [
     "User research, Design Thinking",
     "Personas, Journey maps, User Flows",
@@ -467,7 +488,6 @@ export default function about() {
                 width={264}
                 height={332}
               />
-              {/* <span className="slogan-mobile">I am currently working at Aemi with my beloved colleagues.</span> */}
             </Col>
             <Col xs={12} md={7} className="d-flex align-items-center">
               <p className="content-about text-white position-relative">
@@ -495,11 +515,11 @@ export default function about() {
             </Col>
           </Row>
         </div>
-        
-        <DragDropTitleAbout titleBig="2000+" title="screens" y={485} x={ isMobileOrSmallScreen() ? 0 : -390}/>
-        <DragDropTitleAbout titleBig="ထ" title="ideas" y={520} x={isMobileOrSmallScreen() ? 0 : -171}/>
-        <DragDropTitleAbout titleBig="4+" title="years experience" y={-550} x={ isMobileOrSmallScreen() ? 0 : -657}/>
-        <DragDropTitleAbout titleBig="10+" title="projects" y={-472} x={isMobileOrSmallScreen() ? 0 : -488}/>
+        {listTitleAboutDragDrop.map((item) => (
+          <>
+            <DragDropTitleAbout {...item}/>
+          </>
+        ))}
       </div>
       <div className="experience">
         <div className="container">

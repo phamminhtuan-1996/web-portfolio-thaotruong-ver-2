@@ -22,7 +22,8 @@ export default function PopupWarningReponsive() {
         router.push("/portfolio"); 
     }
     const checkMobileAndPage = () => {
-        if (isMobileOrSmallScreen() && pathname !== '/portfolio') {
+        const listShow = ['/portfolio', '/about'];
+        if (isMobileOrSmallScreen() && !listShow.includes(pathname)) {
             setShow(true);
         }
     }
