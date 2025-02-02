@@ -667,11 +667,11 @@ useEffect(() => {
             <div className="message-contact mx-auto mt-4 d-flex justify-content-between">
               <div className="message-contact__item">
                 <Call size="32" color="#FFF"/>
-                <span className="text-white ms-3">038 679 8487</span>
+                <span className="text-white ms-3 text-decoration-none">038 679 8487</span>
               </div>
               <div className="message-contact__item">
                 <SmsTracking size="32" color="#FFF"/>
-                <span className="text-white ms-3">thaotruongdesign@gmail.com</span>
+                <span className="text-white ms-3 text-decoration-none">thaotruongdesign@gmail.com</span>
               </div>
               <div className="message-contact__item">
                 <Crown1 size="32" color="#FFF"/>
