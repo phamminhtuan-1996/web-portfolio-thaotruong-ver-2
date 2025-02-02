@@ -91,9 +91,11 @@ padding: 1rem 32px 1rem 32px;
   }
   .home-frame {
     width: 100%;
+    height: auto;
     border: none;
     border-radius: unset;
     background-position: 50% 50%;
+    padding: 1rem 0;
   }
  }
 `
