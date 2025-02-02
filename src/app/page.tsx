@@ -60,8 +60,8 @@ padding: 1rem 32px 1rem 32px;
   background-image: none!important;
 }
 @media (max-width: 990px) {
+  padding: 0;
   .home-frame__name--title {
-   
     margin-right: 5px!important;
   }
    .home-frame__name--effect {
@@ -88,6 +88,12 @@ padding: 1rem 32px 1rem 32px;
   .home-frame__name {
     flex-direction: column;
     align-items: center;
+  }
+  .home-frame {
+    width: 100%;
+    border: none;
+    border-radius: unset;
+    background-position: 50% 50%;
   }
  }
 `
