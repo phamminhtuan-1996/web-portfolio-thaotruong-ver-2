@@ -367,7 +367,7 @@ const DivParent = styled.div`
   }
   .footer__title--down h1 {
     font-size: 16px;
-    white-space: wrap;
+    white-space: wrap!important;
   }
   .footer__title--wrap::after {
     width: 50%;
