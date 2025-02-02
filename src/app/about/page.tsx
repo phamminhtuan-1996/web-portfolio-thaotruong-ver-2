@@ -474,10 +474,6 @@ export default function About() {
     '/img/list-clients/tarocha.png',
     '/img/list-clients/zo-skin.png',
   ];
-
-  useEffect(() => {
-    console.log('isMobile', isMobile);
-}, [isMobile])
 useEffect(() => {
     setMobile(isMobileOrSmallScreen());
 }, [])

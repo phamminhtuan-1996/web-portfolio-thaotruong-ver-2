@@ -1,8 +1,9 @@
 "use client";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import { isMobileOrSmallScreen } from '../utils/helper';
 import DragDropTitle from '@/components/DragDropTitle';
 import TrainSkill from '@/components/TrainSkill';
 const DivParent = styled.div`
@@ -60,14 +61,17 @@ padding: 1rem 32px 1rem 32px;
 }
 @media (max-width: 990px) {
   .home-frame__name--title {
-    width: calc((100vw/2) - 64px - 50px);
+   
     margin-right: 5px!important;
   }
    .home-frame__name--effect {
-    width: calc((100vw/2) - 64px)
+    width: 100%;
+  }
+  .home-frame__name--effect img:first-child{
+    width: 100%;
   }
   .home-frame__name--effect img{
-    width: calc((100vw/2) - 64px);
+    width: 400px;
   }
   .btn-home {
     align-items: center;
@@ -81,20 +85,52 @@ padding: 1rem 32px 1rem 32px;
   .home-frame__hello:first-child {
     width: calc(100% - 32px);
   }
+  .home-frame__name {
+    flex-direction: column;
+    align-items: center;
+  }
  }
 `
 
 export default function Home() {
   const listSkill = ['digital painting', 'Ux research', 'UI design', 'graphic design', 'branding', 'digital marketing', 'seo'];
-
+  const [isMobile, setMobile] = useState<boolean>(false);
   const [isActiveEffect, setActiveEffect] = useState('1');
   const getEffect = (value: string) => {
     return isActiveEffect === value ? 'active' : '';
   }
 
-
+  const ImgMinzie = useCallback(() => {
+    if (!isMobile) {
+      return (
+        <>
+          <Image 
+            src='img/im-minzie.svg'
+            alt="123"
+            width={257}
+            height={78}
+            priority
+            className="home-frame__name--title me-4"
+          />
+        </>
+      )
+    }
+    return (
+      <>
+        <Image 
+          src='img/im-minzie-mobile.svg'
+          alt="123"
+          width={257}
+          height={78}
+          priority
+          className="home-frame__name--title me-4"
+        />
+      </>
+    )
+  }, [isMobile])
 
   useEffect(() => {
+    setMobile(isMobileOrSmallScreen());
     let count = 1;
     const interval = setInterval(() => {
       if (count === 3) {
@@ -119,14 +155,7 @@ export default function Home() {
           className="home-frame__hello"
         />
         <div className="home-frame__name d-flex">
-        <Image 
-          src='img/im-minzie.svg'
-          alt="123"
-          width={257}
-          height={78}
-          priority
-          className="home-frame__name--title me-4"
-        />
+        <ImgMinzie />
         <div className="home-frame__name--effect position-relative overflow-hidden">
         <Image 
           src='img/product-des.svg'
