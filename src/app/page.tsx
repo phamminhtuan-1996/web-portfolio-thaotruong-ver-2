@@ -60,7 +60,7 @@ padding: 1rem 32px 1rem 32px;
   background-image: none!important;
 }
 @media (max-width: 990px) {
-  padding: 0;
+  padding: 0 0 140px 0;
   .home-frame__name--title {
     margin-right: 5px!important;
   }
