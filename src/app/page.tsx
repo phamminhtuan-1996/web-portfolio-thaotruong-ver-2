@@ -63,7 +63,6 @@ padding: 1rem 32px 1rem 32px;
   overflow: auto;
   padding: 0 0 140px 0;
   .home-frame__name--title {
-    width: 40%;
     margin-right: 5px!important;
   }
    .home-frame__name--effect {
@@ -130,8 +129,8 @@ export default function Home() {
         <Image 
           src='img/im-minzie-mobile.svg'
           alt="123"
-          width={257}
-          height={78}
+          width={110}
+          height={37}
           priority
           className="home-frame__name--title me-4"
         />
@@ -220,24 +219,24 @@ export default function Home() {
         <Image 
           src='img/product-des.svg'
           alt="123"
-          width={395}
-          height={78}
+          width={isMobile ? 244 : 395}
+          height={isMobile ? 48 : 78}
           priority
           className={`effect effect-one ${getEffect('1')}`}
         />
         <Image 
           src='img/ux-ui-designer.svg'
           alt="123"
-          width={551}
-          height={78}
+          width={isMobile ? 244 : 551}
+          height={isMobile ? 48 : 78}
           priority
           className={`effect effect-two ${getEffect('2')}`}
         />
         <Image 
           src='img/2d-game-artist.svg'
           alt="123"
-          width={551}
-          height={78}
+          width={isMobile ? 244 : 551}
+          height={isMobile ? 48 : 78}
           priority
           className={`effect effect-three ${getEffect('3')}`}
         />
