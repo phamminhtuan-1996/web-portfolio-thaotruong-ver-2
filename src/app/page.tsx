@@ -60,8 +60,10 @@ padding: 1rem 32px 1rem 32px;
   background-image: none!important;
 }
 @media (max-width: 990px) {
+  overflow: auto;
   padding: 0 0 140px 0;
   .home-frame__name--title {
+    width: 40%;
     margin-right: 5px!important;
   }
    .home-frame__name--effect {
@@ -95,7 +97,7 @@ padding: 1rem 32px 1rem 32px;
     border: none;
     border-radius: unset;
     background-position: 50% 50%;
-    padding: 1rem 0;
+    padding: 38px 0;
   }
  }
 `
@@ -137,6 +139,63 @@ export default function Home() {
     )
   }, [isMobile])
 
+  const ImgHello = useCallback(() => {
+    if (!isMobile) {
+      return (
+        <>
+          <Image 
+            src='img/hello-stroke.svg'
+            alt="123"
+            width={350}
+            height={116}
+            priority
+            className="mt-2"
+          />
+        </>
+      )
+    }
+    return (
+      <>
+       <Image 
+          src='img/hello-stroke-mobile.svg'
+          alt="123"
+          width={250}
+          height={116}
+          priority
+          className="mt-2"
+        />
+      </>
+    )
+  }, [isMobile])
+  const ImgBaseHCM = useCallback(() => {
+    if (!isMobile) {
+      return (
+        <>
+          <Image 
+            src='img/base-in-hcmc.svg'
+            alt="123"
+            width={227}
+            height={48}
+            priority
+            className="mt-2"
+          /> 
+        </>
+      )
+    }
+    return (
+      <>
+       <Image 
+            src='img/base-in-hcmc.svg'
+            alt="123"
+            width={144}
+            height={48}
+            priority
+            className="mt-2"
+          /> 
+      </>
+    )
+  }, [isMobile])
+
   useEffect(() => {
     setMobile(isMobileOrSmallScreen());
     let count = 1;
@@ -154,14 +213,7 @@ export default function Home() {
   return (
     <DivParent>
       <div className="home-frame d-flex align-items-center flex-column justify-content-center">
-        <Image 
-          src='img/hello-stroke.svg'
-          alt="123"
-          width={350}
-          height={116}
-          priority
-          className="home-frame__hello"
-        />
+        <ImgHello />
         <div className="home-frame__name d-flex">
         <ImgMinzie />
         <div className="home-frame__name--effect position-relative overflow-hidden">
@@ -191,14 +243,15 @@ export default function Home() {
         />
         </div>
         </div>
-        <Image 
+        {/* <Image 
           src='img/base-in-hcmc.svg'
           alt="123"
           width={227}
           height={48}
           priority
           className="mt-2"
-        />
+        /> */}
+        <ImgBaseHCM/>
         <DragDropTitle/>
         <div className="btn-home d-flex mt-5">
           <Link href="/about" className="btn btn-outline-primary text-white me-4 btn-lg d-flex justify-content-center align-items-center"> About me </Link>
