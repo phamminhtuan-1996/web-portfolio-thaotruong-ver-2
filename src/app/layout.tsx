@@ -27,8 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
        <head>
-          <meta property="og:title" content="My Awesome Page" />
-          <meta property="og:description" content="This is an amazing page with awesome content!" />
+          <meta property="og:title" content="Thao Truong portfolio" />
+          <meta property="og:description" content="Welcome to my page" />
           <meta property="og:image" content="/img/thumbnail_link.png" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="format-detection" content="telephone=no" />

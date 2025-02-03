@@ -80,6 +80,7 @@ padding: 1rem 32px 1rem 32px;
     justify-content: center;
   }
   .btn-home .btn:first-child {
+    width: 182px;
     margin-right: 0!important;
     margin-bottom: 20px;
   }
