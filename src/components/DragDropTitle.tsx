@@ -30,9 +30,14 @@ const DivParent = styled.div`
     }
     @media (max-width: 990px) {
         width: calc(100% - 32px);
+        height: 80px;
         .title {
             font-size: 12px;
             text-align: center;
+        }
+        .shashape-child {
+            width: 10px;
+            height: 10px;
         }
     }
 `

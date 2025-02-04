@@ -66,14 +66,13 @@ padding: 1rem 32px 1rem 32px;
     margin-right: 5px!important;
   }
    .home-frame__name--effect {
-    width: 100%;
+    width: 219px;
+    height: 48px;
   }
   .home-frame__name--effect img:first-child{
     width: 100%;
   }
-  .home-frame__name--effect img{
-    width: 400px;
-  }
+
   .btn-home {
     align-items: center;
     flex-direction: column;
@@ -88,6 +87,7 @@ padding: 1rem 32px 1rem 32px;
     width: calc(100% - 32px);
   }
   .home-frame__name {
+    width: 100%;
     flex-direction: column;
     align-items: center;
   }
@@ -98,6 +98,13 @@ padding: 1rem 32px 1rem 32px;
     border-radius: unset;
     background-position: 50% 50%;
     padding: 38px 0;
+  }
+  .effect-three {
+    left: 50%;
+  }
+  .effect-three.active {
+    transform: translate(-50%, 0%);
+
   }
  }
 `
@@ -226,31 +233,24 @@ export default function Home() {
           className={`effect effect-one ${getEffect('1')}`}
         />
         <Image 
-          src='img/ux-ui-designer.svg'
-          alt="123"
-          width={isMobile ? 244 : 551}
-          height={isMobile ? 48 : 78}
-          priority
-          className={`effect effect-two ${getEffect('2')}`}
-        />
+            src={ isMobile ? 'img/ux-ui-designer-mobile.svg' : 'img/ux-ui-designer.svg' }
+            alt="123"
+            width={isMobile ? 219 : 551}
+            height={isMobile ? 48 :  78}
+            priority
+            className={`effect effect-two ${getEffect('2')}`}
+          />
         <Image 
-          src='img/2d-game-artist.svg'
-          alt="123"
-          width={isMobile ? 244 : 551}
-          height={isMobile ? 48 : 78}
-          priority
-          className={`effect effect-three ${getEffect('3')}`}
-        />
+              src={ isMobile ? 'img/2d-game-artist-mobile.svg' : 'img/2d-game-artist.svg' }
+              alt="123"
+              width={isMobile ? 118 : 551}
+              height={isMobile ? 48 : 78}
+              priority
+              className={`effect effect-three ${getEffect('3')}`}
+            />
         </div>
         </div>
-        {/* <Image 
-          src='img/base-in-hcmc.svg'
-          alt="123"
-          width={227}
-          height={48}
-          priority
-          className="mt-2"
-        /> */}
+
         <ImgBaseHCM/>
         <DragDropTitle/>
         <div className="btn-home d-flex mt-5">
