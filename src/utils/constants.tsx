@@ -1,1 +1,1 @@
-export const linkCv: string = "https://drive.google.com/file/d/1Bf0sQm4a76bj20FlHCoQ8cOqyj6jZZGl/view";
+export const linkCv: string = "https://drive.google.com/file/d/1z4LKHJcq_r-K0yxsADVQCX4xzaR2q5oq/view?usp=sharing";
