@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import MainMenu from '@/components/MainMenu';
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Analytics } from "@vercel/analytics/react"
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +34,7 @@ export default function RootLayout({
           <meta property="og:image" content="/img/thumbnail_link.png" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="format-detection" content="telephone=no" />
+          <Analytics/>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
