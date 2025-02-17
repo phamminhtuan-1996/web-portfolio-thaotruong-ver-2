@@ -642,7 +642,7 @@ useEffect(() => {
           <div className="container">
           <div className="message" id="message">
             <div className="message__title  d-flex flex-column align-items-center justify-content-center">
-              <h1 className="text-uppercase text-center text-white mb-4">Have an Awsome Project Idea?</h1>
+              <h1 className="text-uppercase text-center text-white mb-4">Have an Awesome Project Idea?</h1>
               <Image src="/img/lets-discuss.svg" alt="lets-discuss" width={263} height={36}/>
             </div>
             <form
@@ -652,7 +652,9 @@ useEffect(() => {
               target="_blank"
             >
               <div className="message__input--wrap">
-                <Sms size={ isMobile ? 25 : 32  } color="#6229CC"/>
+                {!isMobile && (
+                  <Sms size="32" color="#6229CC"/>
+                )}
                 <input type="text" name="entry.604871011" placeholder="Message here"/>
                 <textarea name="entry.604871011" cols={50} rows={8} placeholder="Message here"></textarea>
               </div>
@@ -662,15 +664,15 @@ useEffect(() => {
             </form>
             <div className="message-contact mx-auto mt-4 d-flex justify-content-between">
               <div className="message-contact__item">
-                <Call size="32" color="#FFF"/>
+                <Call size={isMobile ? 24 : 32} color="#FFF"/>
                 <span className="text-white ms-3 text-decoration-none">038 679 8487</span>
               </div>
               <div className="message-contact__item">
-                <SmsTracking size="32" color="#FFF"/>
+                <SmsTracking size={isMobile ? 24 : 32}  color="#FFF"/>
                 <span className="text-white ms-3 text-decoration-none">thaotruongdesign@gmail.com</span>
               </div>
               <div className="message-contact__item">
-                <Crown1 size="32" color="#FFF"/>
+                <Crown1 size={isMobile ? 24 : 32}  color="#FFF"/>
                 <span className="text-white ms-3">Certified Product Designer</span>
               </div>
             </div>
