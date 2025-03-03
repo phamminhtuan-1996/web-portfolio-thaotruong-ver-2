@@ -1,5 +1,11 @@
 [
     {
+      "id": 0,
+      "img": "img/payfoxi_thumbnail.jpg",
+      "filter": "#FAC59F",
+      "content": "img/foxit_castudy.jpg"
+    },
+    {
       "id": 1,
       "img": "img/thumb_aemi.png",
       "filter": "#FAC59F",
