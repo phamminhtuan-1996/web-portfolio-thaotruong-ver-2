@@ -27,7 +27,7 @@ body {
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto;
+  /* cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto; */
 }
 
 * {
@@ -41,9 +41,9 @@ a {
   text-decoration: none;
 }
 
-a:hover, button {
+/* a:hover, button {
   cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto !important;
-}
+} */
 
 
 

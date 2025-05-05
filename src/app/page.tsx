@@ -1,8 +1,9 @@
 "use client";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import { isMobileOrSmallScreen } from '../utils/helper';
 import DragDropTitle from '@/components/DragDropTitle';
 import TrainSkill from '@/components/TrainSkill';
 const DivParent = styled.div`
@@ -58,18 +59,152 @@ padding: 1rem 32px 1rem 32px;
   background-color: #6229CC!important;
   background-image: none!important;
 }
+@media (max-width: 990px) {
+  overflow: auto;
+  padding: 0 0 140px 0;
+  .home-frame__name--title {
+    margin-right: 5px!important;
+  }
+   .home-frame__name--effect {
+    width: 219px;
+    height: 48px;
+  }
+  .home-frame__name--effect img:first-child{
+    width: 100%;
+  }
+
+  .btn-home {
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .btn-home .btn:first-child {
+    width: 182px;
+    margin-right: 0!important;
+    margin-bottom: 20px;
+  }
+  .home-frame__hello:first-child {
+    width: calc(100% - 32px);
+  }
+  .home-frame__name {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .home-frame {
+    width: 100%;
+    height: auto;
+    border: none;
+    border-radius: unset;
+    background-position: 50% 50%;
+    padding: 38px 0;
+  }
+  .effect-three {
+    left: 50%;
+  }
+  .effect-three.active {
+    transform: translate(-50%, 0%);
+
+  }
+ }
 `
 
 export default function Home() {
   const listSkill = ['digital painting', 'Ux research', 'UI design', 'graphic design', 'branding', 'digital marketing', 'seo'];
-
+  const [isMobile, setMobile] = useState<boolean>(false);
   const [isActiveEffect, setActiveEffect] = useState('1');
   const getEffect = (value: string) => {
     return isActiveEffect === value ? 'active' : '';
   }
 
+  const ImgMinzie = useCallback(() => {
+    if (!isMobile) {
+      return (
+        <>
+          <Image 
+            src='img/im-minzie.svg'
+            alt="123"
+            width={257}
+            height={78}
+            priority
+            className="home-frame__name--title me-4"
+          />
+        </>
+      )
+    }
+    return (
+      <>
+        <Image 
+          src='img/im-minzie-mobile.svg'
+          alt="123"
+          width={110}
+          height={37}
+          priority
+          className="home-frame__name--title me-4"
+        />
+      </>
+    )
+  }, [isMobile])
+
+  const ImgHello = useCallback(() => {
+    if (!isMobile) {
+      return (
+        <>
+          <Image 
+            src='img/hello-stroke.svg'
+            alt="123"
+            width={350}
+            height={116}
+            priority
+            className="mt-2"
+          />
+        </>
+      )
+    }
+    return (
+      <>
+       <Image 
+          src='img/hello-stroke-mobile.svg'
+          alt="123"
+          width={250}
+          height={116}
+          priority
+          className="mt-2"
+        />
+      </>
+    )
+  }, [isMobile])
+  const ImgBaseHCM = useCallback(() => {
+    if (!isMobile) {
+      return (
+        <>
+          <Image 
+            src='img/base-in-hcmc.svg'
+            alt="123"
+            width={227}
+            height={48}
+            priority
+            className="mt-2"
+          /> 
+        </>
+      )
+    }
+    return (
+      <>
+       <Image 
+            src='img/base-in-hcmc.svg'
+            alt="123"
+            width={144}
+            height={48}
+            priority
+            className="mt-2"
+          /> 
+      </>
+    )
+  }, [isMobile])
 
   useEffect(() => {
+    setMobile(isMobileOrSmallScreen());
     let count = 1;
     const interval = setInterval(() => {
       if (count === 3) {
@@ -85,62 +220,42 @@ export default function Home() {
   return (
     <DivParent>
       <div className="home-frame d-flex align-items-center flex-column justify-content-center">
-        <Image 
-          src='img/hello-stroke.svg'
-          alt="123"
-          width={350}
-          height={116}
-          priority
-          className="home-frame__hello"
-        />
+        <ImgHello />
         <div className="home-frame__name d-flex">
-        <Image 
-          src='img/im-minzie.svg'
-          alt="123"
-          width={257}
-          height={78}
-          priority
-          className="home-frame__hello me-4"
-        />
+        <ImgMinzie />
         <div className="home-frame__name--effect position-relative overflow-hidden">
         <Image 
           src='img/product-des.svg'
           alt="123"
-          width={395}
-          height={78}
+          width={isMobile ? 244 : 395}
+          height={isMobile ? 48 : 78}
           priority
           className={`effect effect-one ${getEffect('1')}`}
         />
         <Image 
-          src='img/ux-ui-designer.svg'
-          alt="123"
-          width={551}
-          height={78}
-          priority
-          className={`effect effect-two ${getEffect('2')}`}
-        />
+            src={ isMobile ? 'img/ux-ui-designer-mobile.svg' : 'img/ux-ui-designer.svg' }
+            alt="123"
+            width={isMobile ? 219 : 551}
+            height={isMobile ? 48 :  78}
+            priority
+            className={`effect effect-two ${getEffect('2')}`}
+          />
         <Image 
-          src='img/2d-game-artist.svg'
-          alt="123"
-          width={551}
-          height={78}
-          priority
-          className={`effect effect-three ${getEffect('3')}`}
-        />
+              src={ isMobile ? 'img/2d-game-artist-mobile.svg' : 'img/2d-game-artist.svg' }
+              alt="123"
+              width={isMobile ? 118 : 551}
+              height={isMobile ? 48 : 78}
+              priority
+              className={`effect effect-three ${getEffect('3')}`}
+            />
         </div>
         </div>
-        <Image 
-          src='img/base-in-hcmc.svg'
-          alt="123"
-          width={227}
-          height={48}
-          priority
-          className="mt-2"
-        />
+
+        <ImgBaseHCM/>
         <DragDropTitle/>
         <div className="btn-home d-flex mt-5">
           <Link href="/about" className="btn btn-outline-primary text-white me-4 btn-lg d-flex justify-content-center align-items-center"> About me </Link>
-          <Link href="/about" className="btn btn-outline-primary text-white btn-lg d-flex justify-content-center align-items-center"> Jump to my works <Image src="img/jump-to-works-icon.svg" alt="button" width={20} height={20}/></Link>
+          <Link href="/portfolio" className="btn btn-outline-primary text-white btn-lg d-flex justify-content-center align-items-center"> Jump to my works <Image src="img/jump-to-works-icon.svg" alt="button" width={20} height={20}/></Link>
         </div>
       </div>
       <TrainSkill data={listSkill}/>

@@ -22,17 +22,37 @@ const DivParent = styled.div`
     .role-title {
         font-size: 18px;
     }
+
+    @media (max-width: 990px) {
+        .circle-time {
+            width: 8px;
+            height: 8px;
+            margin-right: 15px;
+        }
+    .range-time {
+        font-size: 11px;
+        // white-space: nowrap;
+        font-weight: 600;
+      }
+      .company-name {
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .role-title {
+        font-size: 11px;
+      }
+    } 
 `;
 
 export default function ExpItem({rangeTime = "6/2022 - Now", companyName = "AEMI LIMITED LIABILITY COMPANY ", role = "Product Designer" }) {
     return (
         <DivParent>
             <Row>
-                <Col md={4} className="d-flex align-items-center justify-conten-center">
+                <Col  xs={5} md={4} className="d-flex align-items-center justify-conten-center">
                     <div className="circle-time"></div>
                     <span className="range-time">{rangeTime}</span>
                 </Col>
-                <Col md={8} className="d-flex flex-column">
+                <Col xs={7} md={8} className="d-flex flex-column">
                     <span className="company-name">{companyName}</span> 
                     <span className="role-title">{role}</span>
                 </Col>

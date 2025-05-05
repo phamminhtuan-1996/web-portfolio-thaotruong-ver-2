@@ -1,5 +1,7 @@
 "use client";
 import {useState, useEffect} from 'react';
+import {linkCv} from '@/utils/constants';
+import { usePathname } from "next/navigation";
 import styled from 'styled-components';
 import Link from "next/link";
 import { Shop, Magicpen, Profile, Sms, ImportCurve } from 'iconsax-react';
@@ -40,16 +42,22 @@ const DivParent = styled.div`
     .main-menu {
         width: 100%;
         bottom: 0;
+        border-radius: 0;
     }
 }
 `
 
 export default function MainMenu() {
+    const pathname = usePathname();
     const [isActive, setActive] = useState('');
     const getActive = (value: string) => {
         return isActive.search(value) > -1 ? "active" : '';
     }
 
+    useEffect(() => {
+        const url = pathname === "/" ? "home" : pathname.replace('/', '');
+        setActive(url);
+    }, [pathname])
     useEffect(() => {
         const url = window.location.pathname === "/" ? "home" : window.location.pathname.replace('/', '');
         setActive(url);
@@ -70,7 +78,7 @@ export default function MainMenu() {
                 <Link href="/about#message" className={`btn  ${getActive('contact')}`} onClick={() => { setActive('contact'); }}>
                     <Sms size="24" color="#d9e3f0"/>
                 </Link>
-                <Link href="/" className="btn btn-download-cv p-2 border">
+                <Link href={linkCv} className="btn btn-download-cv p-2 border" target="_blank">
                     <ImportCurve size="24" color="#d9e3f0" className="me-2" /> <span className="text-white">My CV</span>
                 </Link>
             </nav>

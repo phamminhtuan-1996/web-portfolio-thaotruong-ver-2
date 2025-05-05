@@ -2,11 +2,13 @@
 import {Modal} from 'react-bootstrap';
 import styled from "styled-components";
 import { CloseCircle } from 'iconsax-react';
+import {isMobileOrSmallScreen} from '@/utils/helper';
 
 type ListProjectItemDefault = {
-    id: string;
+    id: number;
     img: string;
     filter: string[];
+    content: string | null;
 }
 
 interface ModalProjectProps {
@@ -18,14 +20,18 @@ interface ModalProjectProps {
 
   const DivClose = styled.div`
     position: fixed;
-    z-index: 1000;
+    z-index: 2000;
     top: 58px;
     right: 76px;
+    @media (max-width: 990px) {
+        top: 10px;
+        right: 10px;
+    }
   `
 
 export default function ModalProject({
         show = false, 
-        data = {id: '', img: '', filter: []}, 
+        data = {id: 0, img: '', filter: [], content: ''}, 
         handleClose
     }: ModalProjectProps) {
     
@@ -33,7 +39,7 @@ export default function ModalProject({
         <>
             {show && (
                 <DivClose onClick={() => handleClose(false)}>
-                    <CloseCircle size="90" color="#FFF"/>
+                    <CloseCircle size={ isMobileOrSmallScreen() ? "52" :"90"} color={isMobileOrSmallScreen() ? "#000" : "#FFF"}/>
                 </DivClose>
             )}
 
@@ -42,15 +48,16 @@ export default function ModalProject({
                 dialogClassName="modal-project"
                 onHide={() => handleClose(false)}
             >
-            {/* <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header> */}
             <Modal.Body className="p-0">
+            {!data?.content && (
+                <img src={data?.img} className="w-100"/>
+            )}
+
+            {data?.content && (
+                 <img src={data.content} className="w-100"/>
+            )}
                
-                <img src="img/capy_01.png" className="w-100"/>
-                {data && (
-                    <img src={data.img} className="w-100"/>
-                )}
+                
             </Modal.Body>
             {/* <Modal.Footer>
             <Button variant="secondary" onClick={() => handleClose(false)}>

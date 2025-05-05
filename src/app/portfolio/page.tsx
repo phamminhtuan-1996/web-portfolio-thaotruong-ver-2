@@ -1,17 +1,25 @@
 "use client";
-import Image from 'next/image';
 import {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {Col, Row} from 'react-bootstrap';
 import ModalProject from "@/components/ModalProject";
+import catePort from '@/data/cate-port.json';
+import dataContent from '@/data/data-content.json';
+import {isMobileOrSmallScreen} from '@/utils/helper';
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const DivParent = styled.div`
 width: 100%;
-height: 100%;
+min-height: 100vh;
 padding: 44px 40px 0 40px;
 background-color: #090909;
+padding-bottom: 150px;
 .title-port {
     font-size: 32px;
+    white-space: nowrap;
 }
 .title-port:nth-child(2) {
     color: transparent;
@@ -21,7 +29,7 @@ background-color: #090909;
 .title-port-wrap::after {
     content: "";
     display: block;
-    width: 438px;
+    width: 60%;
     height: 1px;
     background-color: white;
 }
@@ -33,7 +41,6 @@ background-color: #090909;
 }
 .list-cate .btn {
     color: white;
-    font-weight: 700;
     font-size: 20px;
     margin-right: 32px;
 
@@ -76,6 +83,7 @@ background-color: #090909;
 .off-effect {
     animation: show-off 0.5s forwards;
     transform: scale(0);
+    display:block
 }
 .show-effect {
     animation: show-on 0.5s forwards;
@@ -83,6 +91,20 @@ background-color: #090909;
 }
 .list-project {
     transition: 0.5s;
+}
+.project-item:hover .project-item__shield {
+    opacity: 1;
+}
+.project-item__shield {
+    width: 100%;
+    height: 100%;
+    background-color: #000000a1;
+    opacity: 0;
+    transition: 0.5s;
+}
+.project-item__shield--title {
+    font-size: 16px;
+    font-weight: 600;
 }
 @keyframes show-off {
     from {
@@ -103,15 +125,52 @@ background-color: #090909;
     }
   }
   .img-port-top {
-    width: calc(100vw / 5);
+    width: 50%;
+    height: calc(100% + 190px);
+    object-fit: cover;
     top: -60%;
+    right: 0;
+  }
+  .img-port-top:first-child {
     left: 0;
+  }
+  @media (max-width: 990px) {
+    padding: 16px 16px 64px 16px;
+    .project-item {
+        height: 224px;
+    }
+    .title-port {
+        font-size: 16px;
+    }
+    .title-port {
+        margin-right: 16px!important;
+    }
+    .title-port-wrap::after {
+        width: 30%;
+    }
+    .list-cate {
+        max-width: calc(100vw -(16px* 2));
+        overflow: auto;
+        display: flex;
+    }
+    .list-cate .btn {
+        width: auto!important;
+        font-size: 14px;
+        padding: 8px;
+        margin: 0px;
+        white-space: nowrap;
+        margin-right: 1rem;
+    }
+    .list-cate .btn:hover {
+        background-color: #212529!important;
+    }
   }
 `
 type ListProjectItemDefault = {
-    id: string;
+    id: number;
     img: string;
     filter: string[];
+    content: string | null;
 }
 type FilterDefaultHarcode = {
     color: string, 
@@ -119,33 +178,16 @@ type FilterDefaultHarcode = {
     label: string,  
 }
 export default function Portfolio () {
-    const filterDefaultHarcode: FilterDefaultHarcode[] = [
-    { color: 'ALL', isChecked: true, label: "ALL",   },
-    { color: '#FAC59F', isChecked: false, label: "UX/UI Design",  },
-    { color: '#7E57A9', isChecked: false, label: "Branding",   },
-    { color: '#FAC59A',  isChecked: false, label: "Graphic Design",  },
-    { color: '#FAC59C', isChecked: false,  label: "Digital Painting",   },
-    { color: '#D5FA1B', isChecked: false, label: "2D GAME",   }
-  ];
+    const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label === 'All'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [filter, setFilter] = useState<string[]>([]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
-    const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>(null);
-      const listProjectItemDefault: ListProjectItemDefault[] = [
-        {
-            id:'1', 
-            img: 'img/dudu-project.png', 
-            filter: ['#FAC59F']
-        },
-        {
-            id: '2', 
-            img: 'img/game-conga.png', 
-            filter: ['#D5FA1B']
-        }
-      ];
+    const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>({id: 0, img: '', filter: [], content: ''});
+
+    const listProjectItemDefault: ListProjectItemDefault[] = dataContent.map((item) => ({...item, filter: [item.filter]}))
 
       const handleOnfiler = (index: number) => {
-        const arrayCustomer = filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }));
+        const arrayCustomer = [...filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }))];
         setFiltersDefault(arrayCustomer);
       }
       const getShowOnItem = (item: ListProjectItemDefault) => {
@@ -158,7 +200,7 @@ export default function Portfolio () {
                 result = true;
             }
         })
-        return result ? "show-effect" : 'off-effect';
+        return result ? "show-effect" : isMobileOrSmallScreen() ? 'd-none' : 'off-effect';
       }
 
       const handleShowPopup = (data: ListProjectItemDefault) => {
@@ -177,29 +219,37 @@ export default function Portfolio () {
     return (
         <DivParent>
             <header>
-                <Row>
-                    <Col md={10}>
-                        <div className="title-port-wrap d-flex align-items-center">
-                            <h1 className="title-port text-white">Design that solve problem</h1>
-                        </div>
-                        <h1 className="title-port">Where creativity meets functionality. </h1>
-                    </Col>
-                    <Col md={2} className="position-relative">
-                        <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
-                    </Col>
-                </Row>
+                
+                    <Row>
+                        <Col md={10}>
+                            <div className="title-port-wrap d-flex align-items-center">
+                                <h1 className="title-port text-white">Design that solve problem</h1>
+                            </div>
+                            <h1 className="title-port">Where creativity meets functionality. </h1>
+                        </Col>
+                        <Col md={2} className="position-relative">
+                            {!isMobileOrSmallScreen() && (
+                                <>
+                                    <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                                    <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                                </>
+                            )} 
+                        </Col>
+                    </Row>
+                
             </header>
-            <div className="list-cate">
-                {filtersDefault.map((item, index) => (
-                    <button
-                        className={`btn ${item.isChecked ? "bg-dark " : ""}`}
-                        key={index}
-                        onClick={() => handleOnfiler(index)}
-                    >
-                        {item.label}
-                    </button> 
-                ))}
-            </div>
+          
+                <div className="list-cate">
+                    {filtersDefault.map((item, index) => (
+                        <button
+                            className={`btn ${item.isChecked ? "bg-dark" : ""}`}
+                            key={index}
+                            onClick={() => handleOnfiler(index)}
+                        >
+                            {item.label}
+                        </button> 
+                    ))}
+                </div>
             <div className="list-project mt-4">
                    <Row>
                    {listProjectItemDefault.map((item, index) => (
@@ -210,7 +260,7 @@ export default function Portfolio () {
                             onClick={() => handleShowPopup(item)}
                         >
                             <div
-                                className="project-item overflow-hidden w-100 position-relative bg-dark"
+                                className="project-item overflow-hidden w-100 position-relative bg-dark mb-4"
                             >
                                 <div className="project-item__label position-absolute d-flex align-items-center">
                                     <div
@@ -221,8 +271,15 @@ export default function Portfolio () {
                                         {filterDefaultHarcode.find((items) => items.color === item.filter[0])?.label}
                                     </div>
                                 </div>
-                                <Image
-                                    src={`/${item.img}`}
+                                {!item.content && (
+                                    <div className="project-item__shield position-absolute  d-flex align-items-center justify-content-center">
+                                        <span className="project-item__shield--title text-white"
+                                          // eslint-disable-next-line react/no-unescaped-entities
+                                        >Oops! I'm still working on it</span>
+                                    </div>
+                                )}
+                                <img
+                                    src={`${item.img.search('http://') > -1 ? item.img : '/'+item.img}`}
                                     alt={item.img}
                                     width={421}
                                     height={272}
@@ -235,7 +292,7 @@ export default function Portfolio () {
             </div>
             <ModalProject 
                 show={isShowModalProject} 
-                data={dataPick} 
+                data={dataPick  as ListProjectItemDefault | null | undefined} 
                 handleClose={(val) => setShowModalProject(val)}
             />
         </DivParent>
