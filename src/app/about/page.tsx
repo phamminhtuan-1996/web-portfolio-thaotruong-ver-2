@@ -8,7 +8,7 @@ import styled from "styled-components";
 import ExpItem from "@/components/ExpItem";
 import {TickCircle, Sms, Call, SmsTracking, Crown1} from 'iconsax-react';
 import { isMobileOrSmallScreen } from '../../utils/helper';
-import TrainClients from '@/components/TrainClients';
+import TrainClientV2 from '@/components/TrainClientV2';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
 const DivParent = styled.div`
   // padding-bottom: 150px;
@@ -637,7 +637,7 @@ useEffect(() => {
               <Image src="/img/clients.svg" alt="lets-discuss" width={263} height={36} className="mb-3 d-block"/>
               <h1 className="text-uppercase text-center text-white mb-4">I WORK WITH</h1>
             </div>
-            <TrainClients data={listClients}/>
+            <TrainClientV2 data={listClients}/>
           </div>
           <div className="container">
           <div className="message" id="message">
