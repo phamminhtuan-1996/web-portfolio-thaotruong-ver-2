@@ -281,7 +281,7 @@ export default function Portfolio () {
                                     </div>
                                 )}
                                 <Image
-                                    src={`${item.img.search('http://') > -1 ? item.img : '/'+item.img}`}
+                                    src={item.img.startsWith('http') ? item.img : (item.img.startsWith('/') ? item.img : '/' + item.img)}
                                     alt={item.nameProject || "Project image"}
                                     width={421}
                                     height={272}

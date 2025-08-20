@@ -51,11 +51,25 @@ export default function ModalProject({
             >
             <Modal.Body className="p-0">
             {!data?.content && data?.img && (
-                <Image src={data.img} alt="Project image" className="w-100" width={1200} height={800} style={{width: '100%', height: 'auto'}}/>
+                <Image 
+                    src={data.img.startsWith('http') ? data.img : (data.img.startsWith('/') ? data.img : '/' + data.img)} 
+                    alt="Project image" 
+                    className="w-100" 
+                    width={1200} 
+                    height={800} 
+                    style={{width: '100%', height: 'auto'}}
+                />
             )}
 
             {data?.content && (
-                 <Image src={data.content} alt="Project content" className="w-100" width={1200} height={800} style={{width: '100%', height: 'auto'}}/>
+                 <Image 
+                    src={data.content.startsWith('http') ? data.content : (data.content.startsWith('/') ? data.content : '/' + data.content)} 
+                    alt="Project content" 
+                    className="w-100" 
+                    width={1200} 
+                    height={800} 
+                    style={{width: '100%', height: 'auto'}}
+                 />
             )}
                
                 
