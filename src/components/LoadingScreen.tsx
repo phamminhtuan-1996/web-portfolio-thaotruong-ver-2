@@ -41,6 +41,7 @@ const LoadingText = styled.p`
   font-size: 14px;
   letter-spacing: 3px;
   opacity: 0;
+  display:none;
 `;
 
 interface LoadingScreenProps {
