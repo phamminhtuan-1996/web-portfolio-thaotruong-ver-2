@@ -518,10 +518,8 @@ useEffect(() => {
             </Col>
           </Row>
         </div>
-        {listTitleAboutDragDrop.map((item) => (
-          <>
-            <DragDropTitleAbout {...item}/>
-          </>
+        {listTitleAboutDragDrop.map((item, index) => (
+          <DragDropTitleAbout key={index} {...item}/>
         ))}
       </div>
       <div className="experience">
