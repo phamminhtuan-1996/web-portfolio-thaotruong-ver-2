@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
