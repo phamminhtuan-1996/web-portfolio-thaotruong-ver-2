@@ -542,6 +542,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/animejs@^3.1.13":
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/@types/animejs/-/animejs-3.1.13.tgz#f31d1630a647b4695c2dbdc7950c6d26bab1fcc7"
+  integrity sha512-yWg9l1z7CAv/TKpty4/vupEh24jDGUZXv4r26StRkpUPQm04ztJaftgpto8vwdFs8SiTq6XfaPKCSI+wjzNMvQ==
+
 "@types/estree@^1.0.6":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.8.tgz#958b91c991b1867ced318bedea0e215ee050726e"

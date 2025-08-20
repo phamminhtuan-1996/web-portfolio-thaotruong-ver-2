@@ -2,6 +2,7 @@
 import {useState, useEffect} from 'react';
 import styled from "styled-components";
 import {Col, Row} from 'react-bootstrap';
+import Image from 'next/image';
 import ModalProject from "@/components/ModalProject";
 import catePort from '@/data/cate-port.json';
 import dataContent from '@/data/data-content.json';
@@ -171,6 +172,7 @@ type ListProjectItemDefault = {
     img: string;
     filter: string[];
     content: string | null;
+    nameProject?: string;
 }
 type FilterDefaultHarcode = {
     color: string, 
@@ -230,8 +232,8 @@ export default function Portfolio () {
                         <Col md={2} className="position-relative">
                             {!isMobileOrSmallScreen() && (
                                 <>
-                                    <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
-                                    <img src="/img/animation-port.gif" className="img-port-top position-absolute"/>
+                                    <Image src="/img/animation-port.gif" alt="Animation port" className="img-port-top position-absolute" width={100} height={100}/>
+                                    <Image src="/img/animation-port.gif" alt="Animation port" className="img-port-top position-absolute" width={100} height={100}/>
                                 </>
                             )} 
                         </Col>
@@ -278,9 +280,9 @@ export default function Portfolio () {
                                         >Oops! I'm still working on it</span>
                                     </div>
                                 )}
-                                <img
+                                <Image
                                     src={`${item.img.search('http://') > -1 ? item.img : '/'+item.img}`}
-                                    alt={item.img}
+                                    alt={item.nameProject || "Project image"}
                                     width={421}
                                     height={272}
                                     className="project-item__img"

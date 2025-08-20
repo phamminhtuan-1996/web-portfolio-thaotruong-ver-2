@@ -558,7 +558,7 @@ useEffect(() => {
               <Row className="education__list">
                 {listEducation.map((item,index) => (
                   <Col xs={6} md={6} className="education-item d-flex flex-column mb-4" key={index}>
-                    <img src={item.thumbnail} alt="education logo"/>
+                    <Image src={item.thumbnail} alt="education logo" width={91} height={79} style={{objectFit: 'contain'}}/>
                     <span className="title-school">{item.name}</span>
                     <span className="title-major">{item.major}</span>
                 </Col>
@@ -593,20 +593,20 @@ useEffect(() => {
                 <span className="list-skill__title text-white">Tools</span>
                 <div className="circle-skill d-none">
                   <div className="circle-skill__parent position-relative d-flex justify-content-center align-items-center">
-                  <img src="/img/skill/Adobe_Illustrator_CC_icon.png" alt="figma" className="satellite"/>
-                    <img src="/img/skill/Tool icon-1.png" alt="figma" className="satellite" />
-                    <img src="/img/skill/Tool icon.png" alt="figma" className="satellite"/>
-                    <img src="/img/skill/Wordpress.png" alt="figma"  className="satellite"/>
+                  <Image src="/img/skill/Adobe_Illustrator_CC_icon.png" alt="Adobe Illustrator" className="satellite" width={50} height={50}/>
+                    <Image src="/img/skill/Tool icon-1.png" alt="Tool icon" className="satellite" width={50} height={50}/>
+                    <Image src="/img/skill/Tool icon.png" alt="Tool icon" className="satellite" width={50} height={50}/>
+                    <Image src="/img/skill/Wordpress.png" alt="Wordpress"  className="satellite" width={50} height={50}/>
                     <div className="circle-skill__parent--child position-relative d-flex justify-content-center align-items-center">
-                     <img src="/img/skill/AdobeXD.png" alt="figma" className="satellite-child"/>
-                     <img src="/img/skill/Tool icon-2.png" alt="figma" className="satellite-child" />
+                     <Image src="/img/skill/AdobeXD.png" alt="Adobe XD" className="satellite-child" width={40} height={40}/>
+                     <Image src="/img/skill/Tool icon-2.png" alt="Tool icon" className="satellite-child" width={40} height={40}/>
                       <div className="child-core">
-                        <img src="/img/skill/figma.png" alt="figma" />
+                        <Image src="/img/skill/figma.png" alt="Figma" width={60} height={60}/>
                       </div>
                     </div>
                   </div>
                 </div>
-                <img src="/img/tools_details.png" alt="tools_details" />
+                <Image src="/img/tools_details.png" alt="tools_details" width={300} height={300} style={{width: '80%', height: 'auto', display: 'block', margin: 'auto'}}/>
               </Col>
               <Col md={4}>
                 <span className="list-skill__title text-start text-white">Skills</span>

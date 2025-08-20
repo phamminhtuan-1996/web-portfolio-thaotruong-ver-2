@@ -349,7 +349,7 @@ export default function Home() {
           <div className="row align-items-center">
             {/* Left Column - Main Text */}
             <div className="col-12 col-lg-4 mb-5 mb-lg-0">
-              <S.GreetingText>Hello, I'm Thao Truong</S.GreetingText>
+              <S.GreetingText>Hello, I&apos;m Thao Truong</S.GreetingText>
               
               <S.MainTitle>
                 <S.TitleProduct>PRODUCT</S.TitleProduct>

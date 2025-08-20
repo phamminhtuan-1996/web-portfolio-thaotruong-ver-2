@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import MainMenu from '@/components/MainMenu';
-import LoadingProvider from '@/components/LoadingProvider';
+import LoadingProviderWrapper from '@/components/LoadingProviderWrapper';
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Analytics } from "@vercel/analytics/react"
@@ -41,10 +41,10 @@ export default function RootLayout({
           <Analytics/>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <LoadingProvider>
+        <LoadingProviderWrapper>
           {children}
           <MainMenu/>
-        </LoadingProvider>
+        </LoadingProviderWrapper>
       </body>
     </html>
   );

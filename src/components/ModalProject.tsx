@@ -1,5 +1,6 @@
 "use client";
 import {Modal} from 'react-bootstrap';
+import Image from 'next/image';
 import styled from "styled-components";
 import { CloseCircle } from 'iconsax-react';
 import {isMobileOrSmallScreen} from '@/utils/helper';
@@ -49,12 +50,12 @@ export default function ModalProject({
                 onHide={() => handleClose(false)}
             >
             <Modal.Body className="p-0">
-            {!data?.content && (
-                <img src={data?.img} className="w-100"/>
+            {!data?.content && data?.img && (
+                <Image src={data.img} alt="Project image" className="w-100" width={1200} height={800} style={{width: '100%', height: 'auto'}}/>
             )}
 
             {data?.content && (
-                 <img src={data.content} className="w-100"/>
+                 <Image src={data.content} alt="Project content" className="w-100" width={1200} height={800} style={{width: '100%', height: 'auto'}}/>
             )}
                
                 
