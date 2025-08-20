@@ -1,11 +1,13 @@
 "use client";
 import {useState, useEffect} from 'react';
-import {linkCv} from '@/utils/constants';
 import { usePathname } from "next/navigation";
 import styled from 'styled-components';
 import Link from "next/link";
 import Image from "next/image";
 import { ImportCurve } from 'iconsax-react';
+import CVSelectionModal from './CVSelectionModal';
+import PDFViewerModal from './PDFViewerModal';
+
 const DivParent = styled.div`
 .main-menu {
     top: 1rem;
@@ -38,6 +40,14 @@ const DivParent = styled.div`
     align-items: center;
     border: 1px solid #FFFFFF59!important;
     background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
 }
 .btn:hover {
     background-color: #373737;
@@ -46,6 +56,7 @@ const DivParent = styled.div`
     border: none;
     color: #416EC2;
 }
+
 @media (max-width: 990px) {
     .main-menu {
         width: 100%;
@@ -58,6 +69,10 @@ const DivParent = styled.div`
 export default function MainMenu() {
     const pathname = usePathname();
     const [isActive, setActive] = useState('');
+    const [showCVModal, setShowCVModal] = useState(false);
+    const [showPDFModal, setShowPDFModal] = useState(false);
+    const [selectedCV, setSelectedCV] = useState<'normal' | 'ats' | null>(null);
+
     const getActive = (value: string) => {
         return isActive.search(value) > -1 ? "active" : '';
     }
@@ -66,10 +81,26 @@ export default function MainMenu() {
         const url = pathname === "/" ? "home" : pathname.replace('/', '');
         setActive(url);
     }, [pathname])
+    
     useEffect(() => {
         const url = window.location.pathname === "/" ? "home" : window.location.pathname.replace('/', '');
         setActive(url);
     }, [])
+
+    const handleCVClick = () => {
+        setShowCVModal(true);
+    }
+
+    const handleCVSelection = (type: 'normal' | 'ats') => {
+        setSelectedCV(type);
+        setShowCVModal(false);
+        setShowPDFModal(true);
+    }
+
+    const handleClosePDF = () => {
+        setShowPDFModal(false);
+        setSelectedCV(null);
+    }
 
     return (
         <DivParent>
@@ -89,10 +120,25 @@ export default function MainMenu() {
                 <Link href="/about#message" className={`btn  ${getActive('contact')}`} onClick={() => { setActive('contact'); }}>
                     Contact
                 </Link>
-                <Link href={linkCv} className="btn btn-download-cv p-2 border" target="_blank">
-                    <ImportCurve size="24" color="#d9e3f0" className="me-2" /> <span className="text-white">My CV</span>
-                </Link>
+                <div className="btn btn-download-cv p-2 border" onClick={handleCVClick}>
+                    <ImportCurve size="24" color="#d9e3f0" className="me-2" /> 
+                    <span className="text-white">My CV</span>
+                </div>
             </nav>
+
+            {/* CV Selection Modal */}
+            <CVSelectionModal
+                show={showCVModal}
+                onHide={() => setShowCVModal(false)}
+                onSelect={handleCVSelection}
+            />
+
+            {/* PDF Viewer Modal */}
+            <PDFViewerModal
+                show={showPDFModal}
+                onHide={handleClosePDF}
+                cvType={selectedCV}
+            />
         </DivParent>
     );
 }

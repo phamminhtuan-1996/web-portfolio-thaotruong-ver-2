@@ -63,15 +63,20 @@ export default function ModalProject({
         data = {id: 0, img: '', filter: [], content: ''}, 
         handleClose
     }: ModalProjectProps) {
-    const [isImageLoading, setIsImageLoading] = useState(true);
+    const [isImageLoading, setIsImageLoading] = useState(false);
     const loadingRef = useRef<HTMLDivElement>(null);
     const imageRef = useRef<HTMLDivElement>(null);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        if (show) {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (show && isMounted) {
             setIsImageLoading(true);
         }
-    }, [show, data]);
+    }, [show, data, isMounted]);
 
     useEffect(() => {
         if (isImageLoading && loadingRef.current) {
@@ -117,7 +122,7 @@ export default function ModalProject({
                 onHide={() => handleClose(false)}
             >
             <Modal.Body className="p-0">
-            {isImageLoading && (
+            {isMounted && isImageLoading && (
                 <LoadingContainer ref={loadingRef}>
                     <LoadingDot className="loading-dot" />
                     <LoadingDot className="loading-dot" />
@@ -125,7 +130,7 @@ export default function ModalProject({
                 </LoadingContainer>
             )}
             
-            <ImageWrapper ref={imageRef} style={{ display: isImageLoading ? 'none' : 'block' }}>
+            <ImageWrapper ref={imageRef} style={{ display: isImageLoading && isMounted ? 'none' : 'block' }}>
                 {!data?.content && data?.img && (
                     <Image 
                         src={data.img.startsWith('http') ? data.img : (data.img.startsWith('/') ? data.img : '/' + data.img)} 
