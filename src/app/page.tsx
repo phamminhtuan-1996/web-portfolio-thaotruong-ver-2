@@ -229,6 +229,9 @@ const S = {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: 1s;
+    .btn-view-port {
+       transition: 0.5s;
+     }
     .btn-view-port__hire-me {
       width: 76px;
       height: 76px;
@@ -236,11 +239,21 @@ const S = {
       font-size: 14px;
       border-radius: 11px;
       text-align: center;
-      top: -60%;
+      top: -70%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) rotate(270deg);
+      transform-origin: 100% 100%;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      opacity: 0;
+      overflow: hidden;
+      
     }
-
+     .btn-view-port:hover .btn-view-port__hire-me {
+        overflow: unset;
+        transform: translateX(-50%) rotate(350deg);
+        opacity: 1;
+      }
     .skeleton__left {
        width: 7px;
       height: 7px;
