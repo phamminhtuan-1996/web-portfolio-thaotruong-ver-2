@@ -197,17 +197,6 @@ export default function PDFViewer({ cvType, pageNumber, setPageNumber }: PDFView
     const MAX_SCALE = 3.0;
     const SCALE_STEP = 0.25;
     
-    // Preset zoom levels
-    const ZOOM_LEVELS = [
-        { value: 0.5, label: '50%' },
-        { value: 0.75, label: '75%' },
-        { value: 1.0, label: '100%' },
-        { value: 1.25, label: '125%' },
-        { value: 1.5, label: '150%' },
-        { value: 2.0, label: '200%' },
-        { value: 2.5, label: '250%' },
-        { value: 3.0, label: '300%' }
-    ];
 
     const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
         setNumPages(numPages);
@@ -238,7 +227,7 @@ export default function PDFViewer({ cvType, pageNumber, setPageNumber }: PDFView
         setScale(prevScale => {
             const newScale = Math.min(prevScale + SCALE_STEP, MAX_SCALE);
             // Maintain scroll position ratio when zooming
-            maintainScrollPosition(prevScale, newScale);
+            maintainScrollPosition();
             return newScale;
         });
     };
@@ -247,13 +236,13 @@ export default function PDFViewer({ cvType, pageNumber, setPageNumber }: PDFView
         setScale(prevScale => {
             const newScale = Math.max(prevScale - SCALE_STEP, MIN_SCALE);
             // Maintain scroll position ratio when zooming
-            maintainScrollPosition(prevScale, newScale);
+            maintainScrollPosition();
             return newScale;
         });
     };
 
     const resetZoom = () => {
-        maintainScrollPosition(scale, 1.0);
+        maintainScrollPosition();
         setScale(1.0);
     };
     
@@ -270,7 +259,7 @@ export default function PDFViewer({ cvType, pageNumber, setPageNumber }: PDFView
     };
 
     // Maintain scroll position when zooming
-    const maintainScrollPosition = (oldScale: number, newScale: number) => {
+    const maintainScrollPosition = () => {
         const container = document.querySelector('.pdf-container');
         if (container) {
             const scrollRatioX = container.scrollLeft / container.scrollWidth;

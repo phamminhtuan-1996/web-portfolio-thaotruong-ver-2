@@ -2,13 +2,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 
-interface ButtonViewPortProps {
-    href?: string;
-    label?: string;
-    hireText?: string;
-    onClick?: () => void;
-}
-
 const DivParent = styled.div`
      transition: 0.5s;
      .btn-view-port__hire-me {
