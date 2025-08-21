@@ -76,22 +76,6 @@ const CTASection = styled.div`
     }
 `;
 
-const HireBadge = styled.a`
-    background: linear-gradient(45deg, #f59e0b, #f97316);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: transform 0.3s ease;
-    
-    &:hover {
-        transform: scale(1.05);
-        color: white;
-    }
-`;
-
 const FilterTabs = styled.div`
     display: flex;
     justify-content: center;
@@ -295,44 +279,6 @@ type FilterDefaultHarcode = {
     label: string,  
 }
 
-// Project type mappings based on filter
-const getProjectInfo = (filter: string) => {
-    const mappings: Record<string, {title: string, subtitle: string}> = {
-        '#FF6B1A': {
-            title: 'E-commerce Platform',
-            subtitle: 'Modern shopping experience with seamless checkout'
-        },
-        '#E80EFF': {
-            title: 'Supplier Dashboard',
-            subtitle: 'Data visualization and analytics system'
-        },
-        '#12F94C': {
-            title: 'Brand Identity',
-            subtitle: 'Complete visual identity and brand guidelines'
-        },
-        '#FFFD03': {
-            title: 'Design System',
-            subtitle: 'Comprehensive UI guidelines and components'
-        },
-        '#03D5FF': {
-            title: 'Mobile Application',
-            subtitle: 'Native iOS and Android app design'
-        },
-        '#CBFF26': {
-            title: 'Management System',
-            subtitle: 'Enterprise resource planning solution'
-        },
-        '#7D5CF4': {
-            title: '2D Game Design',
-            subtitle: 'Character design and game assets'
-        }
-    };
-    
-    return mappings[filter] || {
-        title: 'Creative Project',
-        subtitle: 'Innovative design solution'
-    };
-};
 
 const IsotopeGrid = styled.div`
     display: flex;
@@ -413,10 +359,6 @@ export default function Portfolio() {
         setShowModalProject(true);
     };
     
-    const handleContactClick = () => {
-        // Scroll to contact section or navigate to contact page
-        window.location.href = '#contact';
-    };
     
     return (
         <DivParent>
@@ -431,7 +373,6 @@ export default function Portfolio() {
                             label="Contact Now" 
                             hireText="Let's talk"
                             href="/about#message"
-                            onClick={handleContactClick}
                         />
                     </CTASection>
                 </div>
@@ -455,7 +396,6 @@ export default function Portfolio() {
             <ProjectsGrid>
                 <IsotopeGrid ref={gridRef}>
                     {listProjectItemDefault.map((item, index) => {
-                        const projectInfo = getProjectInfo(item.filter[0]);
                         const categoryInfo = filterDefaultHarcode.find((items) => items.color === item.filter[0]);
                         
                         return (
@@ -484,7 +424,7 @@ export default function Portfolio() {
                                                 
                                                 {!item.content && (
                                                     <ProjectShield className="project-shield">
-                                                        <span>Oops! I'm still working on it</span>
+                                                        <span>Oops! I&apos;m still working on it</span>
                                                     </ProjectShield>
                                                 )}
                                 </ProjectCard>
