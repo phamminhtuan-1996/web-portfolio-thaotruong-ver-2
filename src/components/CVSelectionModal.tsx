@@ -1,8 +1,9 @@
 "use client";
-import { Modal } from 'react-bootstrap';
-import { DocumentText, Award, Eye, ArrowDown, Star1, ShieldTick, MagicStar, TickCircle } from 'iconsax-react';
-import styled from 'styled-components';
+import { Modal, Button, Badge, Card, Row, Col, Container, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { DocumentText, Award, Eye, MagicStar, ShieldTick, TickCircle } from 'iconsax-react';
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import SVGIcon from './SVGIcon';
 
 interface CVSelectionModalProps {
     show: boolean;
@@ -10,347 +11,259 @@ interface CVSelectionModalProps {
     onSelect: (type: 'normal' | 'ats') => void;
 }
 
-const ModalWrapper = styled.div`
+const StyledModal = styled(Modal)`
     .modal-dialog {
         max-width: 900px;
     }
-    
+
     .modal-content {
         background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
+        border-radius: 1.5rem;
         overflow: hidden;
         box-shadow: 0 25px 100px rgba(0, 0, 0, 0.5);
     }
-    
+
     .modal-header {
-        border: none;
-        padding: 32px 40px 0;
+        padding: 2rem 2.5rem 0;
         background: transparent;
-        
-        .btn-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            opacity: 1;
-            transition: all 0.3s;
-            
-            &:hover {
-                background: rgba(255, 255, 255, 0.2);
-                transform: rotate(90deg);
-            }
+    }
+
+    .btn-close {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        opacity: 1;
+        transition: all 0.3s;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e");
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
         }
     }
-    
-    .modal-body {
-        padding: 20px 40px 40px;
+
+    h2, h3, h4 {
+        color: white;
     }
-    
-    .header {
-        text-align: center;
-        margin-bottom: 40px;
-        
-        h2 {
-            font-size: 32px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        p {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 16px;
-        }
+
+    .text-muted {
+        color: rgba(255, 255, 255, 0.5) !important;
     }
-    
-    .cv-container {
-        display: flex;
-        gap: 24px;
-        
-        .cv-group {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 24px;
-            position: relative;
-            transition: all 0.3s;
-            
-            &:hover {
-                background: rgba(255, 255, 255, 0.05);
-                border-color: rgba(255, 255, 255, 0.15);
-                transform: translateY(-4px);
-                
-                .group-glow {
-                    opacity: 1;
-                }
-            }
-            
-            &.creative {
-                .group-header {
-                    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-                    border-color: rgba(102, 126, 234, 0.3);
-                }
-                
-                .group-icon {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                }
-                
-                .feature-tag {
-                    background: rgba(102, 126, 234, 0.1);
-                    color: #8b9dff;
-                }
-                
-                .view-btn {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    
-                    &:hover {
-                        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-                    }
-                }
-                
-                .group-glow {
-                    background: radial-gradient(circle at center, rgba(102, 126, 234, 0.4) 0%, transparent 70%);
-                }
-            }
-            
-            &.ats {
-                .group-header {
-                    background: linear-gradient(135deg, rgba(72, 187, 120, 0.2) 0%, rgba(56, 178, 172, 0.2) 100%);
-                    border-color: rgba(72, 187, 120, 0.3);
-                }
-                
-                .group-icon {
-                    background: linear-gradient(135deg, #48bb78 0%, #38b2ac 100%);
-                }
-                
-                .feature-tag {
-                    background: rgba(72, 187, 120, 0.1);
-                    color: #6ee7b7;
-                }
-                
-                .view-btn {
-                    background: linear-gradient(135deg, #48bb78 0%, #38b2ac 100%);
-                    
-                    &:hover {
-                        box-shadow: 0 8px 24px rgba(72, 187, 120, 0.4);
-                    }
-                }
-                
-                .group-glow {
-                    background: radial-gradient(circle at center, rgba(72, 187, 120, 0.4) 0%, transparent 70%);
-                }
-            }
-            
-            .group-glow {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 300px;
-                height: 300px;
-                transform: translate(-50%, -50%);
-                opacity: 0;
-                transition: opacity 0.3s;
-                pointer-events: none;
-                filter: blur(80px);
-            }
-            
-            .group-header {
-                padding: 20px;
-                border-radius: 16px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                margin-bottom: 24px;
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                
-                .group-icon {
-                    width: 48px;
-                    height: 48px;
-                    border-radius: 12px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-shrink: 0;
-                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                }
-                
-                .group-info {
-                    flex: 1;
-                    
-                    h3 {
-                        font-size: 20px;
-                        font-weight: 600;
-                        color: white;
-                        margin-bottom: 4px;
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                    }
-                    
-                    .badge {
-                        padding: 3px 8px;
-                        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-                        border-radius: 6px;
-                        font-size: 10px;
-                        font-weight: 700;
-                        color: #000;
-                        text-transform: uppercase;
-                    }
-                    
-                    p {
-                        margin: 0;
-                        font-size: 14px;
-                        color: rgba(255, 255, 255, 0.5);
-                    }
-                }
-            }
-            
-            .group-features {
-                margin-bottom: 24px;
-                
-                .feature-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    margin-bottom: 12px;
-                    
-                    svg {
-                        flex-shrink: 0;
-                    }
-                    
-                    span {
-                        color: rgba(255, 255, 255, 0.7);
-                        font-size: 14px;
-                    }
-                }
-                
-                .feature-tags {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 8px;
-                    margin-top: 16px;
-                    
-                    .feature-tag {
-                        padding: 4px 10px;
-                        border-radius: 6px;
-                        font-size: 12px;
-                        font-weight: 500;
-                    }
-                }
-            }
-            
-            .group-preview {
-                height: 200px;
-                background: rgba(255, 255, 255, 0.02);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-                border-radius: 12px;
-                margin-bottom: 24px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                overflow: hidden;
-                
-                &::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: repeating-linear-gradient(
-                        45deg,
-                        transparent,
-                        transparent 10px,
-                        rgba(255, 255, 255, 0.02) 10px,
-                        rgba(255, 255, 255, 0.02) 20px
-                    );
-                }
-                
-                .preview-content {
-                    text-align: center;
-                    z-index: 1;
-                    
-                    svg {
-                        opacity: 0.3;
-                        margin-bottom: 12px;
-                    }
-                    
-                    p {
-                        color: rgba(255, 255, 255, 0.3);
-                        font-size: 13px;
-                        margin: 0;
-                    }
-                }
-            }
-            
-            .group-action {
-                display: flex;
-                gap: 12px;
-                
-                .view-btn {
-                    flex: 1;
-                    padding: 14px;
-                    border: none;
-                    border-radius: 12px;
-                    color: white;
-                    font-weight: 600;
-                    font-size: 15px;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 8px;
-                    
-                    &:hover {
-                        transform: translateY(-2px);
-                    }
-                }
-                
-                .download-btn {
-                    width: 48px;
-                    height: 48px;
-                    border-radius: 12px;
-                    background: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                    
-                    &:hover {
-                        background: rgba(255, 255, 255, 0.1);
-                        transform: translateY(-2px);
-                    }
-                }
-            }
-        }
+
+    .text-light {
+        color: rgba(255, 255, 255, 0.7) !important;
     }
-    
+
     @media (max-width: 768px) {
         .modal-dialog {
-            margin: 20px;
-            max-width: calc(100% - 40px);
+            margin: 1.25rem;
+            max-width: calc(100% - 2.5rem);
         }
         
-        .cv-container {
-            flex-direction: column;
+        .modal-header {
+            padding: 1.5rem 1.5rem 0;
         }
         
-        .header h2 {
-            font-size: 24px;
+        h2 {
+            font-size: 1.5rem;
         }
+    }
+`;
+
+const TextGradient = styled.h2`
+    background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+`;
+
+const CVCard = styled(Card)<{ variant: 'creative' | 'ats', $isVisible: boolean }>`
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    opacity: ${props => props.$isVisible ? 1 : 0};
+    transform: ${props => props.$isVisible ? 'translateY(0)' : 'translateY(20px)'};
+    animation: ${props => props.$isVisible ? 'fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none'};
+    animation-delay: ${props => props.variant === 'creative' ? '0.1s' : '0.2s'};
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-4px);
+
+        &::before {
+            opacity: 1;
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+        filter: blur(80px);
+        z-index: 0;
+        background: ${props => props.variant === 'creative' 
+            ? 'radial-gradient(circle at center, rgba(102, 126, 234, 0.4) 0%, transparent 70%)'
+            : 'radial-gradient(circle at center, rgba(72, 187, 120, 0.4) 0%, transparent 70%)'
+        };
+    }
+
+    .card-body {
+        position: relative;
+        z-index: 1;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        margin-bottom: 1rem;
+    }
+`;
+
+const CardHeader = styled.div<{ variant: 'creative' | 'ats' }>`
+    position: relative;
+    z-index: 1;
+    background: ${props => props.variant === 'creative'
+        ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)'
+        : 'linear-gradient(135deg, rgba(72, 187, 120, 0.2) 0%, rgba(56, 178, 172, 0.2) 100%)'
+    };
+    border: 1px solid ${props => props.variant === 'creative'
+        ? 'rgba(102, 126, 234, 0.3)'
+        : 'rgba(72, 187, 120, 0.3)'
+    };
+`;
+
+const IconWrapper = styled.div<{ variant: 'creative' | 'ats' }>`
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: ${props => props.variant === 'creative'
+        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+        : 'linear-gradient(135deg, #48bb78 0%, #38b2ac 100%)'
+    };
+`;
+
+const PreviewBox = styled.div`
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 10px,
+            rgba(255, 255, 255, 0.02) 10px,
+            rgba(255, 255, 255, 0.02) 20px
+        );
+        pointer-events: none;
+    }
+`;
+
+const FeatureTag = styled(Badge)<{ variant: 'creative' | 'ats' }>`
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.625rem;
+    background: ${props => props.variant === 'creative'
+        ? 'rgba(102, 126, 234, 0.1) !important'
+        : 'rgba(72, 187, 120, 0.1) !important'
+    };
+    color: ${props => props.variant === 'creative'
+        ? '#8b9dff !important'
+        : '#6ee7b7 !important'
+    };
+    border: 1px solid ${props => props.variant === 'creative'
+        ? 'rgba(102, 126, 234, 0.2)'
+        : 'rgba(72, 187, 120, 0.2)'
+    };
+`;
+
+const BadgePopular = styled(Badge)`
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%) !important;
+    color: #000 !important;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.25rem 0.5rem;
+`;
+
+const ViewButton = styled(Button)<{ variant: 'creative' | 'ats' }>`
+    background: ${props => props.variant === 'creative'
+        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+        : 'linear-gradient(135deg, #48bb78 0%, #38b2ac 100%)'
+    };
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.875rem;
+    transition: all 0.3s;
+
+    &:hover {
+        background: ${props => props.variant === 'creative'
+            ? 'linear-gradient(135deg, #5a6fd6 0%, #6a428e 100%)'
+            : 'linear-gradient(135deg, #3ea968 0%, #2f9e99 100%)'
+        };
+        transform: translateY(-2px);
+        box-shadow: ${props => props.variant === 'creative'
+            ? '0 8px 24px rgba(102, 126, 234, 0.4)'
+            : '0 8px 24px rgba(72, 187, 120, 0.4)'
+        };
+        color: white;
+    }
+`;
+
+const DownloadButton = styled(Button)`
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.2);
     }
 `;
 
@@ -373,160 +286,169 @@ export default function CVSelectionModal({ show, onHide, onSelect }: CVSelection
     };
     
     return (
-        <ModalWrapper>
-            <Modal 
-                show={show} 
-                onHide={onHide}
-                centered
-                className="cv-modal"
-            >
-                <Modal.Header closeButton />
-                <Modal.Body>
-                    <div className="header">
-                        <h2>Choose Your CV Format</h2>
-                        <p>Select the perfect format for your needs</p>
-                    </div>
+        <StyledModal 
+            show={show} 
+            onHide={onHide}
+            centered
+            size="lg"
+        >
+            <Modal.Header closeButton className="border-0 pb-0">
+                <Container fluid className="text-center w-100">
+                    <Modal.Title className="w-100">
+                        <TextGradient className="fw-bold mb-2">Choose Your CV Format</TextGradient>
+                        <p className="text-muted fs-6 fw-normal">Select the perfect format for your needs</p>
+                    </Modal.Title>
+                </Container>
+            </Modal.Header>
+            
+            <Modal.Body className="p-4">
+                <Row className="g-4">
+                    {/* Creative CV */}
+                    <Col lg={6}>
+                        <CVCard variant="creative" $isVisible={isVisible} className="h-100">
+                            <Card.Body className="p-4">
+                                <CardHeader variant="creative" className="mb-4 p-3 rounded-3">
+                                    <div className="d-flex align-items-center gap-3">
+                                        <IconWrapper variant="creative">
+                                            <MagicStar size="24" color="#fff" variant="Bold"/>
+                                        </IconWrapper>
+                                        <div className="flex-grow-1">
+                                            <h4 className="mb-1 d-flex align-items-center gap-2">
+                                                Creative CV
+                                                <BadgePopular>Popular</BadgePopular>
+                                            </h4>
+                                            <p className="text-muted mb-0 small">Stand out with stunning design</p>
+                                        </div>
+                                    </div>
+                                </CardHeader>
+                                
+                                <PreviewBox className="mb-4 rounded-3 p-5 text-center">
+                                    <DocumentText size="48" color="#667eea" variant="Bulk" className="mb-3 opacity-50"/>
+                                    <p className="text-muted small mb-0">Preview available after selection</p>
+                                </PreviewBox>
+                                
+                                <div className="features mb-4">
+                                    <div className="d-flex align-items-start gap-2 mb-3">
+                                        <TickCircle size="20" color="#667eea" variant="Bold" className="flex-shrink-0 mt-1"/>
+                                        <span className="text-light small">Modern & eye-catching design</span>
+                                    </div>
+                                    <div className="d-flex align-items-start gap-2 mb-3">
+                                        <TickCircle size="20" color="#667eea" variant="Bold" className="flex-shrink-0 mt-1"/>
+                                        <span className="text-light small">Perfect for creative industries</span>
+                                    </div>
+                                    <div className="d-flex align-items-start gap-2 mb-3">
+                                        <TickCircle size="20" color="#667eea" variant="Bold" className="flex-shrink-0 mt-1"/>
+                                        <span className="text-light small">Showcases personality & style</span>
+                                    </div>
+                                    
+                                    <div className="d-flex flex-wrap gap-2 mt-3">
+                                        <FeatureTag variant="creative">Visual Impact</FeatureTag>
+                                        <FeatureTag variant="creative">Portfolio Ready</FeatureTag>
+                                        <FeatureTag variant="creative">2 Pages</FeatureTag>
+                                    </div>
+                                </div>
+                                
+                                <div className="d-flex gap-2">
+                                    <ViewButton 
+                                        variant="creative"
+                                        className="flex-grow-1 d-flex align-items-center justify-content-center gap-2"
+                                        onClick={() => onSelect('normal')}
+                                    >
+                                        <Eye size="20" color="#fff" variant="Bold"/>
+                                        View This CV
+                                    </ViewButton>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        overlay={
+                                            <Tooltip id="tooltip-download-creative">
+                                                Quick Download
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <DownloadButton 
+                                            variant="outline-light"
+                                            onClick={() => handleDownload('normal')}
+                                        >
+                                            <SVGIcon name="download-cv" size={20} color="white"/>
+                                        </DownloadButton>
+                                    </OverlayTrigger>
+                                </div>
+                            </Card.Body>
+                        </CVCard>
+                    </Col>
                     
-                    <div className="cv-container">
-                        {/* Creative CV */}
-                        <div 
-                            className="cv-group creative"
-                            style={{
-                                opacity: isVisible ? 1 : 0,
-                                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                                transitionDelay: '0.1s'
-                            }}
-                        >
-                            <div className="group-glow" />
-                            
-                            <div className="group-header">
-                                <div className="group-icon">
-                                    <MagicStar size="24" color="#fff" variant="Bold"/>
+                    {/* ATS CV */}
+                    <Col lg={6}>
+                        <CVCard variant="ats" $isVisible={isVisible} className="h-100">
+                            <Card.Body className="p-4">
+                                <CardHeader variant="ats" className="mb-4 p-3 rounded-3">
+                                    <div className="d-flex align-items-center gap-3">
+                                        <IconWrapper variant="ats">
+                                            <ShieldTick size="24" color="#fff" variant="Bold"/>
+                                        </IconWrapper>
+                                        <div className="flex-grow-1">
+                                            <h4 className="mb-1">ATS-Friendly CV</h4>
+                                            <p className="text-muted mb-0 small">Optimized for tracking systems</p>
+                                        </div>
+                                    </div>
+                                </CardHeader>
+                                
+                                <PreviewBox className="mb-4 rounded-3 p-5 text-center">
+                                    <Award size="48" color="#48bb78" variant="Bulk" className="mb-3 opacity-50"/>
+                                    <p className="text-muted small mb-0">Preview available after selection</p>
+                                </PreviewBox>
+                                
+                                <div className="features mb-4">
+                                    <div className="d-flex align-items-start gap-2 mb-3">
+                                        <TickCircle size="20" color="#48bb78" variant="Bold" className="flex-shrink-0 mt-1"/>
+                                        <span className="text-light small">ATS-compliant formatting</span>
+                                    </div>
+                                    <div className="d-flex align-items-start gap-2 mb-3">
+                                        <TickCircle size="20" color="#48bb78" variant="Bold" className="flex-shrink-0 mt-1"/>
+                                        <span className="text-light small">Keyword optimized structure</span>
+                                    </div>
+                                    <div className="d-flex align-items-start gap-2 mb-3">
+                                        <TickCircle size="20" color="#48bb78" variant="Bold" className="flex-shrink-0 mt-1"/>
+                                        <span className="text-light small">Clean & professional layout</span>
+                                    </div>
+                                    
+                                    <div className="d-flex flex-wrap gap-2 mt-3">
+                                        <FeatureTag variant="ats">ATS Ready</FeatureTag>
+                                        <FeatureTag variant="ats">Clean Format</FeatureTag>
+                                        <FeatureTag variant="ats">2 Pages</FeatureTag>
+                                    </div>
                                 </div>
-                                <div className="group-info">
-                                    <h3>
-                                        Creative CV
-                                        <span className="badge">Popular</span>
-                                    </h3>
-                                    <p>Stand out with stunning design</p>
+                                
+                                <div className="d-flex gap-2">
+                                    <ViewButton 
+                                        variant="ats"
+                                        className="flex-grow-1 d-flex align-items-center justify-content-center gap-2"
+                                        onClick={() => onSelect('ats')}
+                                    >
+                                        <Eye size="20" color="#fff" variant="Bold"/>
+                                        View This CV
+                                    </ViewButton>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        overlay={
+                                            <Tooltip id="tooltip-download-ats">
+                                                Quick Download
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <DownloadButton 
+                                            variant="outline-light"
+                                            onClick={() => handleDownload('ats')}
+                                        >
+                                            <SVGIcon name="download-cv" size={20} color="white"/>
+                                        </DownloadButton>
+                                    </OverlayTrigger>
                                 </div>
-                            </div>
-                            
-                            <div className="group-preview">
-                                <div className="preview-content">
-                                    <DocumentText size="48" color="#fff" variant="Bulk"/>
-                                    <p>Preview available after selection</p>
-                                </div>
-                            </div>
-                            
-                            <div className="group-features">
-                                <div className="feature-item">
-                                    <TickCircle size="20" color="#667eea" variant="Bold"/>
-                                    <span>Modern & eye-catching design</span>
-                                </div>
-                                <div className="feature-item">
-                                    <TickCircle size="20" color="#667eea" variant="Bold"/>
-                                    <span>Perfect for creative industries</span>
-                                </div>
-                                <div className="feature-item">
-                                    <TickCircle size="20" color="#667eea" variant="Bold"/>
-                                    <span>Showcases personality & style</span>
-                                </div>
-                                <div className="feature-tags">
-                                    <span className="feature-tag">Visual Impact</span>
-                                    <span className="feature-tag">Portfolio Ready</span>
-                                    <span className="feature-tag">2 Pages</span>
-                                </div>
-                            </div>
-                            
-                            <div className="group-action">
-                                <button 
-                                    className="view-btn"
-                                    onClick={() => onSelect('normal')}
-                                >
-                                    <Eye size="20" color="#fff" variant="Bold"/>
-                                    View This CV
-                                </button>
-                                <button 
-                                    className="download-btn"
-                                    onClick={() => handleDownload('normal')}
-                                    title="Quick Download"
-                                >
-                                    <ArrowDown size="20" color="#fff"/>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        {/* ATS CV */}
-                        <div 
-                            className="cv-group ats"
-                            style={{
-                                opacity: isVisible ? 1 : 0,
-                                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                                transitionDelay: '0.2s'
-                            }}
-                        >
-                            <div className="group-glow" />
-                            
-                            <div className="group-header">
-                                <div className="group-icon">
-                                    <ShieldTick size="24" color="#fff" variant="Bold"/>
-                                </div>
-                                <div className="group-info">
-                                    <h3>ATS-Friendly CV</h3>
-                                    <p>Optimized for tracking systems</p>
-                                </div>
-                            </div>
-                            
-                            <div className="group-preview">
-                                <div className="preview-content">
-                                    <Award size="48" color="#fff" variant="Bulk"/>
-                                    <p>Preview available after selection</p>
-                                </div>
-                            </div>
-                            
-                            <div className="group-features">
-                                <div className="feature-item">
-                                    <TickCircle size="20" color="#48bb78" variant="Bold"/>
-                                    <span>ATS-compliant formatting</span>
-                                </div>
-                                <div className="feature-item">
-                                    <TickCircle size="20" color="#48bb78" variant="Bold"/>
-                                    <span>Keyword optimized structure</span>
-                                </div>
-                                <div className="feature-item">
-                                    <TickCircle size="20" color="#48bb78" variant="Bold"/>
-                                    <span>Clean & professional layout</span>
-                                </div>
-                                <div className="feature-tags">
-                                    <span className="feature-tag">ATS Ready</span>
-                                    <span className="feature-tag">Clean Format</span>
-                                    <span className="feature-tag">2 Pages</span>
-                                </div>
-                            </div>
-                            
-                            <div className="group-action">
-                                <button 
-                                    className="view-btn"
-                                    onClick={() => onSelect('ats')}
-                                >
-                                    <Eye size="20" color="#fff" variant="Bold"/>
-                                    View This CV
-                                </button>
-                                <button 
-                                    className="download-btn"
-                                    onClick={() => handleDownload('ats')}
-                                    title="Quick Download"
-                                >
-                                    <ArrowDown size="20" color="#fff"/>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
-        </ModalWrapper>
+                            </Card.Body>
+                        </CVCard>
+                    </Col>
+                </Row>
+            </Modal.Body>
+        </StyledModal>
     );
 }
