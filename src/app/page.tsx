@@ -3,7 +3,7 @@ import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-
+import ButtonViewPort from '@/components/ButtonViewPort'
 const Global = createGlobalStyle`
   :root {
     --primary-blue: #4A90E2;
@@ -229,45 +229,6 @@ const S = {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: 1s;
-    .btn-view-port {
-       transition: 0.5s;
-     }
-    .btn-view-port__hire-me {
-      width: 76px;
-      height: 76px;
-      background: white;
-      font-size: 14px;
-      border-radius: 11px;
-      text-align: center;
-      top: -70%;
-      left: 50%;
-      transform: translateX(-50%) rotate(270deg);
-      transform-origin: 100% 100%;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      opacity: 0;
-      overflow: hidden;
-      
-    }
-     .btn-view-port:hover .btn-view-port__hire-me {
-        overflow: unset;
-        transform: translateX(-50%) rotate(350deg);
-        opacity: 1;
-      }
-    .skeleton__left {
-       width: 7px;
-      height: 7px;
-      background: #D9D9D9;
-      margin-right: 4px;
-    }
-    .skeleton__right {
-      width: 46px;
-      height: 7px;
-      background: #D9D9D9;
-    }
-    @media (min-width: 768px) {
-      // margin-top: 6rem;
-    }
   `,
   
   ButtonPrimary: styled(Link)`
@@ -415,27 +376,7 @@ export default function Home() {
             <S.ButtonPrimary href="/about" aria-label="Learn more about me">
               About me
             </S.ButtonPrimary>
-            <div className='btn-view-port position-relative'>
-              <div className="btn-view-port__hire-me position-absolute">
-                <span>Hire me</span>
-                <div className="skeleton d-flex justify-content-center mb-2">
-                  <div className="skeleton__left"></div>
-                  <div className="skeleton__right"></div>
-                </div>
-                <div className="skeleton d-flex justify-content-center mb-2">
-                  <div className="skeleton__left"></div>
-                  <div className="skeleton__right"></div>
-                </div>
-                <div className="skeleton d-flex justify-content-center mb-2">
-                  <div className="skeleton__left"></div>
-                  <div className="skeleton__right"></div>
-                </div>
-              </div>
-              <S.ButtonGradient href="/portfolio" aria-label="View my portfolio">
-                <span>Jump to my works</span>
-                <span>→</span>
-              </S.ButtonGradient>
-            </div>
+            <ButtonViewPort label="Jump to my works" href="/portfolio"/>
           </S.CTASection>
         </S.ContentWrapper>
       </S.HeroSection>

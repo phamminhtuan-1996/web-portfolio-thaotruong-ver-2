@@ -1,172 +1,286 @@
 "use client";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import styled from "styled-components";
-import {Col, Row} from 'react-bootstrap';
 import Image from 'next/image';
 import ModalProject from "@/components/ModalProject";
+import ButtonViewPort from "@/components/ButtonViewPort";
 import catePort from '@/data/cate-port.json';
 import dataContent from '@/data/data-content.json';
-import {isMobileOrSmallScreen} from '@/utils/helper';
+import anime from 'animejs';
+import Isotope from 'isotope-layout';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 const DivParent = styled.div`
-width: 100%;
-min-height: 100vh;
-padding: 44px 40px 0 40px;
-background-color: #090909;
-padding-bottom: 150px;
-.title-port {
-    font-size: 32px;
-    white-space: nowrap;
-}
-.title-port:nth-child(2) {
-    color: transparent;
-    background-clip: text;
-    background-image: linear-gradient(to right,#FAC59F, #6B47AB)!important;
-}
-.title-port-wrap::after {
-    content: "";
-    display: block;
-    width: 60%;
-    height: 1px;
-    background-color: white;
-}
-.title-port-wrap .title-port {
-    margin-right: 32px;
-}
-.list-cate {
-    margin-top: 21px;
-}
-.list-cate .btn {
-    color: white;
-    font-size: 20px;
-    margin-right: 32px;
-
-}
-
-.list-cate .btn:hover {
-    background-color: #6229CC!important;
-}
-
-.project-item {
-    height: 284px;
-    border-radius: 20px;
-    transition: 0.5s;
-}
-.project-item__label--tag {
-    width: 10px;
-    height: 10px;
-    margin-right: 8px;
-}
-.project-item__label {
-    padding: 7.5px 16px;
-    background-color: #00000033;
-    top: 25px;
-    left: 17px;
-    border-radius: 8px;
-}
-.project-item__label--title {
-    font-size: 12px;
-    font-weight: 700;
-}
-.project-item__img {
-    width: 100%!important;
-    height: 100%!important;
-    object-fit: cover;
-}
-.project-item-col {
-    transform: scale(0);
-    transition: 0.5s;
-}
-.off-effect {
-    animation: show-off 0.5s forwards;
-    transform: scale(0);
-    display:block
-}
-.show-effect {
-    animation: show-on 0.5s forwards;
-    transform: scale(1) translate(0, 0);
-}
-.list-project {
-    transition: 0.5s;
-}
-.project-item:hover .project-item__shield {
-    opacity: 1;
-}
-.project-item__shield {
     width: 100%;
-    height: 100%;
-    background-color: #000000a1;
-    opacity: 0;
-    transition: 0.5s;
-}
-.project-item__shield--title {
-    font-size: 16px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    // padding-bottom: 150px;
+    padding: calc(84px + 5rem) 0 0 0;
+`;
+
+const HeroSection = styled.section`
+    text-align: center;
+    padding: 80px 0 60px;
+    background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    
+    @media (max-width: 768px) {
+        padding: 40px 0 30px;
+    }
+`;
+
+const HeroTitle = styled.h1`
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #416EC2, #2067C6, #54B9F4);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    
+    @media (max-width: 768px) {
+        font-size: clamp(2rem, 10vw, 3rem);
+        letter-spacing: -1px;
+    }
+`;
+
+const HeroSubtitle = styled.p`
+    font-size: 1.2rem;
+    color: #9ca3af;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    
+    @media (max-width: 768px) {
+        font-size: 1rem;
+        padding: 0 20px;
+        margin-bottom: 30px;
+    }
+`;
+
+const CTASection = styled.div`
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+    
+    @media (max-width: 768px) {
+        margin-bottom: 40px;
+    }
+`;
+
+const HireBadge = styled.a`
+    background: linear-gradient(45deg, #f59e0b, #f97316);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
     font-weight: 600;
-}
-@keyframes show-off {
-    from {
-        transform: scale(1);
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.05);
+        color: white;
     }
-    to {
-        transform: scale(0);
-        display: none;
+`;
+
+const FilterTabs = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    
+    @media (max-width: 768px) {
+        gap: 8px;
+        margin-bottom: 40px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        padding: 0 16px;
+        -webkit-overflow-scrolling: touch;
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
-  }
-@keyframes show-on {
-    from {
-        transform: scale(0);
+`;
+
+const FilterTab = styled.button<{$isActive: boolean}>`
+    background: ${props => props.$isActive 
+        ? 'rgba(59, 130, 246, 0.2)' 
+        : 'rgba(255, 255, 255, 0.1)'};
+    backdrop-filter: blur(10px);
+    border: 1px solid ${props => props.$isActive 
+        ? 'rgba(59, 130, 246, 0.5)' 
+        : 'rgba(255, 255, 255, 0.2)'};
+    color: ${props => props.$isActive ? '#3b82f6' : '#9ca3af'};
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    white-space: nowrap;
+    
+    &:hover {
+        background: rgba(59, 130, 246, 0.2);
+        color: #3b82f6;
+        border-color: rgba(59, 130, 246, 0.5);
+        transform: translateY(-2px);
     }
-    to {
-        transform: scale(1) translate(0, 0);
-        display: block;
-    }
-  }
-  .img-port-top {
-    width: 50%;
-    height: calc(100% + 190px);
-    object-fit: cover;
-    top: -60%;
-    right: 0;
-  }
-  .img-port-top:first-child {
-    left: 0;
-  }
-  @media (max-width: 990px) {
-    padding: 16px 16px 64px 16px;
-    .project-item {
-        height: 224px;
-    }
-    .title-port {
-        font-size: 16px;
-    }
-    .title-port {
-        margin-right: 16px!important;
-    }
-    .title-port-wrap::after {
-        width: 30%;
-    }
-    .list-cate {
-        max-width: calc(100vw -(16px* 2));
-        overflow: auto;
-        display: flex;
-    }
-    .list-cate .btn {
-        width: auto!important;
+    
+    @media (max-width: 768px) {
+        padding: 8px 16px;
         font-size: 14px;
-        padding: 8px;
-        margin: 0px;
-        white-space: nowrap;
-        margin-right: 1rem;
+        flex-shrink: 0;
     }
-    .list-cate .btn:hover {
-        background-color: #212529!important;
+`;
+
+const ProjectsGrid = styled.div`
+    padding: 0 40px 80px;
+    max-width: 1440px;
+    margin: 0 auto;
+    
+    @media (max-width: 768px) {
+        padding: 0 16px 60px;
     }
-  }
+`;
+
+const ProjectItem = styled.div`
+    width: 33.333333%;
+    padding: 12px;
+    
+    @media (max-width: 990px) {
+        width: 50%;
+    }
+    
+    @media (max-width: 767px) {
+        width: 100%;
+    }
+`;
+
+const ProjectCategory = styled.span<{$color?: string}>`
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #00000033;
+    color: #f4f4f4ff;
+    padding: 6px 12px;
+    border-radius: 7.65px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    z-index: 1;
+    position: relative;
+    width: fit-content;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+`;
+
+const ProjectCard = styled.div`
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    
+    &:hover {
+        transform: translateY(-8px);
+        border-color: rgba(59, 130, 246, 0.5);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        
+        &::before {
+            opacity: 1;
+        }
+        
+        .project-shield {
+            opacity: 1;
+        }
+        
+        ${ProjectCategory} {
+            opacity: 1;
+        }
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, transparent 0%, rgba(59, 130, 246, 0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    @media (max-width: 768px) {
+        height: 240px;
+        padding: 16px;
+    }
+`;
+
+const ProjectImage = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+`;
+
+const ProjectShield = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    
+    span {
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+`;
+const CircleLabel = styled.div`
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
 `
+
+// Keep the original data structure
 type ListProjectItemDefault = {
     id: number;
     img: string;
@@ -174,129 +288,217 @@ type ListProjectItemDefault = {
     content: string | null;
     nameProject?: string;
 }
+
 type FilterDefaultHarcode = {
     color: string, 
     isChecked: boolean, 
     label: string,  
 }
-export default function Portfolio () {
+
+// Project type mappings based on filter
+const getProjectInfo = (filter: string) => {
+    const mappings: Record<string, {title: string, subtitle: string}> = {
+        '#FF6B1A': {
+            title: 'E-commerce Platform',
+            subtitle: 'Modern shopping experience with seamless checkout'
+        },
+        '#E80EFF': {
+            title: 'Supplier Dashboard',
+            subtitle: 'Data visualization and analytics system'
+        },
+        '#12F94C': {
+            title: 'Brand Identity',
+            subtitle: 'Complete visual identity and brand guidelines'
+        },
+        '#FFFD03': {
+            title: 'Design System',
+            subtitle: 'Comprehensive UI guidelines and components'
+        },
+        '#03D5FF': {
+            title: 'Mobile Application',
+            subtitle: 'Native iOS and Android app design'
+        },
+        '#CBFF26': {
+            title: 'Management System',
+            subtitle: 'Enterprise resource planning solution'
+        },
+        '#7D5CF4': {
+            title: '2D Game Design',
+            subtitle: 'Character design and game assets'
+        }
+    };
+    
+    return mappings[filter] || {
+        title: 'Creative Project',
+        subtitle: 'Innovative design solution'
+    };
+};
+
+const IsotopeGrid = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    margin: -12px;
+`;
+
+export default function Portfolio() {
     const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label === 'All'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
-    const [filter, setFilter] = useState<string[]>([]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
     const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>({id: 0, img: '', filter: [], content: ''});
-
+    const isotope = useRef<Isotope | null>(null);
+    const gridRef = useRef<HTMLDivElement>(null);
+    
+    // Keep the original listProjectItemDefault unchanged
     const listProjectItemDefault: ListProjectItemDefault[] = dataContent.map((item) => ({...item, filter: [item.filter]}))
-
-      const handleOnfiler = (index: number) => {
+    
+    // Initialize Isotope
+    useEffect(() => {
+        if (gridRef.current) {
+            isotope.current = new Isotope(gridRef.current, {
+                itemSelector: '.project-item',
+                layoutMode: 'fitRows',
+                transitionDuration: '0.4s',
+                fitRows: {
+                    gutter: 0
+                }
+            });
+            
+            // Animate cards on load
+            anime({
+                targets: '.project-item',
+                translateY: [30, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(100),
+                easing: 'easeOutExpo',
+                duration: 800
+            });
+        }
+        
+        return () => {
+            isotope.current?.destroy();
+        };
+    }, []);
+    
+    // Handle filter with Isotope
+    useEffect(() => {
+        if (isotope.current) {
+            const activeFilter = filtersDefault.find(item => item.isChecked);
+            
+            if (activeFilter?.label === 'All') {
+                isotope.current.arrange({ filter: '*' });
+            } else if (activeFilter) {
+                isotope.current.arrange({ 
+                    filter: `[data-filter="${activeFilter.color}"]` 
+                });
+            }
+        }
+    }, [filtersDefault]);
+    
+    const handleOnFilter = (index: number) => {
         const arrayCustomer = [...filtersDefault.map((item, indexs) => ({...item, isChecked: index === indexs }))];
         setFiltersDefault(arrayCustomer);
-      }
-      const getShowOnItem = (item: ListProjectItemDefault) => {
-        let result = false;
-        if (filter.length === 0) {
-            return 'show-effect';
-        }
-        filter.forEach((items: string) => {
-            if (item.filter.includes(items)) {
-                result = true;
-            }
-        })
-        return result ? "show-effect" : isMobileOrSmallScreen() ? 'd-none' : 'off-effect';
-      }
-
-      const handleShowPopup = (data: ListProjectItemDefault) => {
+        
+        // Animate filter button
+        anime({
+            targets: `.filter-tab-${index}`,
+            scale: [1, 1.1, 1],
+            duration: 300,
+            easing: 'easeInOutQuad'
+        });
+    };
+    
+    
+    const handleShowPopup = (data: ListProjectItemDefault) => {
         setDataPick({...data});
         setShowModalProject(true);
-      }
-
-      useEffect(() => {
-        const customFilter = filtersDefault.filter((item) => item.isChecked).map((item) => item.color);
-        if (customFilter[0] !== 'ALL') {
-            setFilter(customFilter);
-            return;
-        }
-        setFilter([]);
-      }, [filtersDefault])
+    };
+    
+    const handleContactClick = () => {
+        // Scroll to contact section or navigate to contact page
+        window.location.href = '#contact';
+    };
+    
     return (
         <DivParent>
-            <header>
-                
-                    <Row>
-                        <Col md={10}>
-                            <div className="title-port-wrap d-flex align-items-center">
-                                <h1 className="title-port text-white">Design that solve problem</h1>
-                            </div>
-                            <h1 className="title-port">Where creativity meets functionality. </h1>
-                        </Col>
-                        <Col md={2} className="position-relative">
-                            {!isMobileOrSmallScreen() && (
-                                <>
-                                    <Image src="/img/animation-port.gif" alt="Animation port" className="img-port-top position-absolute" width={100} height={100}/>
-                                    <Image src="/img/animation-port.gif" alt="Animation port" className="img-port-top position-absolute" width={100} height={100}/>
-                                </>
-                            )} 
-                        </Col>
-                    </Row>
-                
-            </header>
-          
-                <div className="list-cate">
+            <HeroSection>
+                <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 20px' }}>
+                    <HeroTitle>Projects</HeroTitle>
+                    <HeroSubtitle>
+                        Design that solves problems - where creativity meets functionality
+                    </HeroSubtitle>
+                    <CTASection>
+                        <ButtonViewPort 
+                            label="Contact Now" 
+                            hireText="Let's talk"
+                            href="/about#message"
+                            onClick={handleContactClick}
+                        />
+                    </CTASection>
+                </div>
+            </HeroSection>
+            
+            <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 20px' }}>
+                <FilterTabs>
                     {filtersDefault.map((item, index) => (
-                        <button
-                            className={`btn ${item.isChecked ? "bg-dark" : ""}`}
+                        <FilterTab
                             key={index}
-                            onClick={() => handleOnfiler(index)}
+                            className={`filter-tab-${index}`}
+                            $isActive={item.isChecked}
+                            onClick={() => handleOnFilter(index)}
                         >
                             {item.label}
-                        </button> 
+                        </FilterTab>
                     ))}
-                </div>
-            <div className="list-project mt-4">
-                   <Row>
-                   {listProjectItemDefault.map((item, index) => (
-                        <Col
-                            md="4"
-                            key={index}
-                            className={`project-item-col ${getShowOnItem(item)}`}
-                            onClick={() => handleShowPopup(item)}
-                        >
-                            <div
-                                className="project-item overflow-hidden w-100 position-relative bg-dark mb-4"
-                            >
-                                <div className="project-item__label position-absolute d-flex align-items-center">
-                                    <div
-                                        className="project-item__label--tag rounded-circle"
-                                        style={{ backgroundColor: filterDefaultHarcode.find((items) => items.color === item.filter[0])?.color }}
-                                    ></div>
-                                    <div className="project-item__label--title text-white">
-                                        {filterDefaultHarcode.find((items) => items.color === item.filter[0])?.label}
-                                    </div>
-                                </div>
-                                {!item.content && (
-                                    <div className="project-item__shield position-absolute  d-flex align-items-center justify-content-center">
-                                        <span className="project-item__shield--title text-white"
-                                          // eslint-disable-next-line react/no-unescaped-entities
-                                        >Oops! I'm still working on it</span>
-                                    </div>
-                                )}
-                                <Image
-                                    src={item.img.startsWith('http') ? item.img : (item.img.startsWith('/') ? item.img : '/' + item.img)}
-                                    alt={item.nameProject || "Project image"}
-                                    width={421}
-                                    height={272}
-                                    className="project-item__img"
-                                />
-                            </div>
-                        </Col>
-                    ))}
-                   </Row>
+                </FilterTabs>
             </div>
+            
+            <ProjectsGrid>
+                <IsotopeGrid ref={gridRef}>
+                    {listProjectItemDefault.map((item, index) => {
+                        const projectInfo = getProjectInfo(item.filter[0]);
+                        const categoryInfo = filterDefaultHarcode.find((items) => items.color === item.filter[0]);
+                        
+                        return (
+                            <ProjectItem
+                                key={index}
+                                className="project-item"
+                                data-filter={item.filter[0]}
+                                onClick={() => handleShowPopup(item)}
+                            >
+                                <ProjectCard>
+                                                {item.img && (
+                                                    <ProjectImage>
+                                                        <Image
+                                                            src={item.img.startsWith('http') ? item.img : (item.img.startsWith('/') ? item.img : '/' + item.img)}
+                                                            alt={item.nameProject || "Project image"}
+                                                            width={400}
+                                                            height={280}
+                                                        />
+                                                    </ProjectImage>
+                                                )}
+                                                
+                                                <ProjectCategory $color={item.filter[0]}>
+                                                    <CircleLabel style={{backgroundColor: item.filter[0]}}/>
+                                                    {categoryInfo?.label || 'Project'}
+                                                </ProjectCategory>
+                                                
+                                                {!item.content && (
+                                                    <ProjectShield className="project-shield">
+                                                        <span>Oops! I'm still working on it</span>
+                                                    </ProjectShield>
+                                                )}
+                                </ProjectCard>
+                            </ProjectItem>
+                        );
+                    })}
+                </IsotopeGrid>
+            </ProjectsGrid>
+            
             <ModalProject 
                 show={isShowModalProject} 
-                data={dataPick  as ListProjectItemDefault | null | undefined} 
+                data={dataPick as ListProjectItemDefault | null | undefined} 
                 handleClose={(val) => setShowModalProject(val)}
             />
         </DivParent>
-    )
+    );
 }
