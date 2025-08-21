@@ -25,24 +25,41 @@ const LogoWrapper = styled.div`
   width: 150px;
   height: 150px;
   
+  .logo-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
   svg {
     width: 100%;
     height: 100%;
     filter: drop-shadow(0 0 30px rgba(74, 144, 226, 0.5));
   }
+  
+  .logo-outline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+  
+  .logo-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    
+    path {
+      fill: url(#waterGradient);
+    }
+  }
+  
+  .water-mask {
+    clip-path: url(#logoClip);
+  }
 `;
 
-const LoadingText = styled.p`
-  position: absolute;
-  bottom: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #fff;
-  font-size: 14px;
-  letter-spacing: 3px;
-  opacity: 0;
-  display:none;
-`;
 
 interface LoadingScreenProps {
   onLoadingComplete?: () => void;
@@ -51,15 +68,18 @@ interface LoadingScreenProps {
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ 
   onLoadingComplete, 
-  duration = 2500 
+  duration = 3500 
 }) => {
   const [isLoading, setIsLoading] = React.useState(true);
-  const logoRef = useRef<SVGSVGElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const waterRef = useRef<SVGRectElement>(null);
 
   useEffect(() => {
-    if (!logoRef.current) return;
+    if (!logoRef.current || !waterRef.current) return;
 
+    const outlinePath = logoRef.current.querySelector('.logo-outline path');
+    const fillPath = logoRef.current.querySelector('.logo-fill path');
+    
     // Create timeline for coordinated animations
     const timeline = anime.timeline({
       easing: 'easeInOutQuad',
@@ -71,10 +91,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
       }
     });
 
-    // Animate SVG path drawing effect
+    // Animate logo outline drawing
     timeline
       .add({
-        targets: logoRef.current.querySelector('path'),
+        targets: outlinePath,
         strokeDashoffset: [anime.setDashoffset, 0],
         stroke: '#ffffff',
         fill: 'none',
@@ -82,70 +102,129 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
         duration: 1500,
         easing: 'easeInOutSine',
       })
+      // Animate water filling effect
       .add({
-        targets: logoRef.current.querySelector('path'),
-        fill: '#ffffff',
-        stroke: 'none',
-        duration: 500,
+        targets: waterRef.current,
+        y: [31, 0],
+        duration: 2000,
         easing: 'easeInOutQuad',
-      }, '-=200')
+        begin: () => {
+          // Add wave animation during fill
+          anime({
+            targets: waterRef.current,
+            x: [-2, 2, -2],
+            duration: 300,
+            loop: 6,
+            easing: 'easeInOutSine'
+          });
+        }
+      }, '-=500')
+      // Pulse effect when water is full
       .add({
         targets: logoRef.current,
-        scale: [1, 1.1, 1],
-        rotate: [0, 5, -5, 0],
+        scale: [1, 1.15, 1],
         duration: 600,
         easing: 'easeInOutElastic(1, .6)',
-      }, '-=300')
+      }, '-=200')
+      // Fade out everything
       .add({
-        targets: textRef.current,
-        opacity: [0, 1],
-        translateY: [10, 0],
-        duration: 500,
-        easing: 'easeOutQuad',
-      }, '-=400')
-      .add({
-        targets: [logoRef.current, textRef.current],
+        targets: logoRef.current,
         opacity: [1, 0],
-        scale: [1, 0.8],
+        scale: [1, 0.9],
         duration: 400,
         easing: 'easeInQuad',
-      }, `+=${duration - 2000}`);
+      }, '+=500');
 
-    // Pulse animation while loading
-    anime({
-      targets: logoRef.current,
-      filter: [
-        'drop-shadow(0 0 30px rgba(74, 144, 226, 0.5))',
-        'drop-shadow(0 0 50px rgba(74, 144, 226, 0.8))',
-        'drop-shadow(0 0 30px rgba(74, 144, 226, 0.5))',
-      ],
-      duration: 1500,
+    // Bubble animation while filling
+    const bubbleAnimation = anime({
+      targets: '.bubble',
+      translateY: -35,
+      translateX: () => anime.random(-5, 5),
+      scale: [0, 1, 0],
+      opacity: [0, 0.8, 0],
+      duration: () => anime.random(800, 1200),
+      delay: () => anime.random(0, 1000),
       loop: true,
-      easing: 'easeInOutSine',
+      easing: 'easeOutQuad'
     });
 
     return () => {
+      anime.remove(outlinePath);
+      anime.remove(fillPath);
+      anime.remove(waterRef.current);
       anime.remove(logoRef.current);
-      anime.remove(textRef.current);
+      bubbleAnimation.pause();
     };
   }, [duration, onLoadingComplete]);
 
   return (
     <LoadingContainer $isLoading={isLoading}>
-      <LogoWrapper>
-        <svg 
-          ref={logoRef}
-          width="35" 
-          height="31" 
-          viewBox="0 0 35 31" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path 
-            d="M34.5139 28.082C34.5139 29.6679 33.2301 30.9547 31.6441 30.9583L13.4653 31C4.42361 31 4.611e-07 25.8816 0 15.4034C-3.76095e-07 6.8567 4.18056 2.26947 9.625 2.26947C14.875 2.26947 16.1389 5.93925 16.1389 9.12617L16.6736 9.12617C16.6736 5.93925 17.3056 3.14496e-07 24.5486 0C30.0903 -2.40611e-07 35 4.29751 35 13.9548C35 20.1355 32.2778 24.6745 28.7292 24.6745H28.2917L28.2431 25.2056H31.6375C33.2261 25.2056 34.5139 26.4934 34.5139 28.082ZM19.4444 17.1417H14.3403V15.0654C14.3403 12.9408 13.9028 7.919 10.0625 7.919C7.34028 7.919 5.44444 10.5265 5.44444 15.7414C5.44444 21.9704 7.58333 25.1573 13.4653 25.1573H20.0764C26.4444 25.1573 29.5069 20.715 29.5069 13.9065C29.5069 9.80218 28.1944 5.50467 24.1111 5.50467C19.6389 5.50467 19.4444 10.5748 19.4444 12.9891V17.1417Z" 
-          />
-        </svg>
-        <LoadingText ref={textRef}>LOADING...</LoadingText>
+      <LogoWrapper ref={logoRef}>
+        <div className="logo-container">
+          {/* SVG with gradient and mask definitions */}
+          <svg width="0" height="0" style={{ position: 'absolute' }}>
+            <defs>
+              <clipPath id="logoClip">
+                <path d="M34.5139 28.082C34.5139 29.6679 33.2301 30.9547 31.6441 30.9583L13.4653 31C4.42361 31 4.611e-07 25.8816 0 15.4034C-3.76095e-07 6.8567 4.18056 2.26947 9.625 2.26947C14.875 2.26947 16.1389 5.93925 16.1389 9.12617L16.6736 9.12617C16.6736 5.93925 17.3056 3.14496e-07 24.5486 0C30.0903 -2.40611e-07 35 4.29751 35 13.9548C35 20.1355 32.2778 24.6745 28.7292 24.6745H28.2917L28.2431 25.2056H31.6375C33.2261 25.2056 34.5139 26.4934 34.5139 28.082ZM19.4444 17.1417H14.3403V15.0654C14.3403 12.9408 13.9028 7.919 10.0625 7.919C7.34028 7.919 5.44444 10.5265 5.44444 15.7414C5.44444 21.9704 7.58333 25.1573 13.4653 25.1573H20.0764C26.4444 25.1573 29.5069 20.715 29.5069 13.9065C29.5069 9.80218 28.1944 5.50467 24.1111 5.50467C19.6389 5.50467 19.4444 10.5748 19.4444 12.9891V17.1417Z" />
+              </clipPath>
+              <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#54B9F4" stopOpacity="0.9">
+                  <animate attributeName="stopColor" values="#54B9F4;#416EC2;#2067C6;#54B9F4" dur="3s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="50%" stopColor="#2067C6" stopOpacity="1">
+                  <animate attributeName="stopColor" values="#2067C6;#54B9F4;#416EC2;#2067C6" dur="3s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="100%" stopColor="#416EC2" stopOpacity="1">
+                  <animate attributeName="stopColor" values="#416EC2;#2067C6;#54B9F4;#416EC2" dur="3s" repeatCount="indefinite" />
+                </stop>
+              </linearGradient>
+            </defs>
+          </svg>
+          
+          {/* Water fill layer */}
+          <svg 
+            className="logo-fill"
+            width="35" 
+            height="31" 
+            viewBox="0 0 35 31" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ overflow: 'visible' }}
+          >
+            <g clipPath="url(#logoClip)">
+              <rect 
+                ref={waterRef}
+                x="-5" 
+                y="31" 
+                width="45" 
+                height="35" 
+                fill="url(#waterGradient)"
+              />
+              {/* Bubbles */}
+              <circle className="bubble" cx="10" cy="35" r="1" fill="rgba(255,255,255,0.6)" />
+              <circle className="bubble" cx="20" cy="35" r="1.5" fill="rgba(255,255,255,0.6)" />
+              <circle className="bubble" cx="25" cy="35" r="0.8" fill="rgba(255,255,255,0.6)" />
+              <circle className="bubble" cx="15" cy="35" r="1.2" fill="rgba(255,255,255,0.6)" />
+            </g>
+          </svg>
+          
+          {/* Logo outline */}
+          <svg 
+            className="logo-outline"
+            width="35" 
+            height="31" 
+            viewBox="0 0 35 31" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path 
+              d="M34.5139 28.082C34.5139 29.6679 33.2301 30.9547 31.6441 30.9583L13.4653 31C4.42361 31 4.611e-07 25.8816 0 15.4034C-3.76095e-07 6.8567 4.18056 2.26947 9.625 2.26947C14.875 2.26947 16.1389 5.93925 16.1389 9.12617L16.6736 9.12617C16.6736 5.93925 17.3056 3.14496e-07 24.5486 0C30.0903 -2.40611e-07 35 4.29751 35 13.9548C35 20.1355 32.2778 24.6745 28.7292 24.6745H28.2917L28.2431 25.2056H31.6375C33.2261 25.2056 34.5139 26.4934 34.5139 28.082ZM19.4444 17.1417H14.3403V15.0654C14.3403 12.9408 13.9028 7.919 10.0625 7.919C7.34028 7.919 5.44444 10.5265 5.44444 15.7414C5.44444 21.9704 7.58333 25.1573 13.4653 25.1573H20.0764C26.4444 25.1573 29.5069 20.715 29.5069 13.9065C29.5069 9.80218 28.1944 5.50467 24.1111 5.50467C19.6389 5.50467 19.4444 10.5748 19.4444 12.9891V17.1417Z" 
+              stroke="#ffffff"
+              strokeWidth="1"
+              fill="none"
+            />
+          </svg>
+        </div>
       </LogoWrapper>
     </LoadingContainer>
   );
