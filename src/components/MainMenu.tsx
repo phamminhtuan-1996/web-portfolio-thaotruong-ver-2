@@ -88,7 +88,9 @@ export default function MainMenu() {
     }, [])
 
     const handleCVClick = () => {
-        setShowCVModal(true);
+        // Skip CV selection modal and show Creative CV directly
+        setSelectedCV('normal');
+        setShowPDFModal(true);
     }
 
     const handleCVSelection = (type: 'normal' | 'ats') => {
