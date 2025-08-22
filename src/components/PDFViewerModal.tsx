@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
@@ -95,14 +94,6 @@ const ModalWrapper = styled.div`
 `;
 
 export default function PDFViewerModal({ show, onHide, cvType }: PDFViewerModalProps) {
-    const [pageNumber, setPageNumber] = useState(1);
-
-    // Reset page number when modal opens or cv type changes
-    useEffect(() => {
-        if (show) {
-            setPageNumber(1);
-        }
-    }, [show, cvType]);
 
     return (
         <ModalWrapper>
@@ -121,8 +112,6 @@ export default function PDFViewerModal({ show, onHide, cvType }: PDFViewerModalP
                     {cvType && (
                         <PDFViewer 
                             cvType={cvType}
-                            pageNumber={pageNumber}
-                            setPageNumber={setPageNumber}
                         />
                     )}
                 </Modal.Body>
