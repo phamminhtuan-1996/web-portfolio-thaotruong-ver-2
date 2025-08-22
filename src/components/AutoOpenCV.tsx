@@ -14,33 +14,40 @@ export default function AutoOpenCV() {
     const [cvType, setCvType] = useState<'normal' | 'ats'>('normal');
 
     useEffect(() => {
-        // Check if URL has cv query parameter
-        const cvParam = searchParams.get('cv');
-        
-        if (cvParam) {
-            // Determine CV type based on parameter value
-            if (cvParam === 'normal-cv' || cvParam === 'creative-cv') {
-                setCvType('normal');
-                setShowPDFModal(true);
-            } else if (cvParam === 'ats-cv') {
-                setCvType('ats');
-                setShowPDFModal(true);
+        const checkAndOpenCV = () => {
+            // Check if URL has cv query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const cvParam = urlParams.get('cv');
+            
+            if (cvParam) {
+                // Determine CV type based on parameter value
+                if (cvParam === 'normal-cv' || cvParam === 'creative-cv') {
+                    setCvType('normal');
+                    setShowPDFModal(true);
+                } else if (cvParam === 'ats-cv') {
+                    setCvType('ats');
+                    setShowPDFModal(true);
+                }
+                
+                // Keep the query parameter in URL for sharing
+                // Don't remove it
             }
-            
-            // Remove the query parameter from URL without refreshing page
-            const newSearchParams = new URLSearchParams(searchParams.toString());
-            newSearchParams.delete('cv');
-            const newUrl = newSearchParams.toString() 
-                ? `${pathname}?${newSearchParams.toString()}`
-                : pathname;
-            
-            // Replace URL to remove cv parameter
-            router.replace(newUrl, { scroll: false });
-        }
-    }, [searchParams, router, pathname]);
+        };
+
+        // Check on mount and when searchParams change
+        checkAndOpenCV();
+
+        // Listen for popstate events (when URL changes programmatically)
+        window.addEventListener('popstate', checkAndOpenCV);
+        
+        return () => {
+            window.removeEventListener('popstate', checkAndOpenCV);
+        };
+    }, [searchParams, pathname]);
 
     const handleClosePDF = () => {
         setShowPDFModal(false);
+        // Keep the cv parameter in URL even after closing
     };
 
     if (!showPDFModal) return null;

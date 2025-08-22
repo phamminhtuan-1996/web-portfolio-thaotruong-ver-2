@@ -30,18 +30,28 @@ export default function LoadingProvider({
 
   // Handle initial page load
   useEffect(() => {
+    // Skip loading if CV parameter is present
+    const hasCVParam = searchParams.get('cv') !== null;
+    
     if (isInitialLoad) {
-      setIsLoading(true);
+      if (!hasCVParam) {
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+      }
       const timer = setTimeout(() => {
         setIsInitialLoad(false);
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [isInitialLoad]);
+  }, [isInitialLoad, searchParams]);
 
   // Handle route changes
   useEffect(() => {
-    if (!isInitialLoad) {
+    // Skip loading if only CV parameter changed
+    const hasCVParam = searchParams.get('cv') !== null;
+    
+    if (!isInitialLoad && !hasCVParam) {
       setIsLoading(true);
     }
   }, [pathname, searchParams, isInitialLoad]);

@@ -88,9 +88,13 @@ export default function MainMenu() {
     }, [])
 
     const handleCVClick = () => {
-        // Skip CV selection modal and show Creative CV directly
-        setSelectedCV('normal');
-        setShowPDFModal(true);
+        // Add query parameter to URL to trigger CV popup
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('cv', 'normal-cv');
+        window.history.pushState({}, '', currentUrl.toString());
+        
+        // Trigger a popstate event to notify AutoOpenCV component
+        window.dispatchEvent(new PopStateEvent('popstate'));
     }
 
     const handleCVSelection = (type: 'normal' | 'ats') => {
