@@ -64,13 +64,14 @@ const HeroSubtitle = styled.p`
 `;
 
 const CTASection = styled.div`
+    height: 100px;
     display: flex;
     gap: 16px;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     margin-bottom: 60px;
     flex-wrap: wrap;
-    
+    overflow: hidden;
     @media (max-width: 768px) {
         margin-bottom: 40px;
     }
