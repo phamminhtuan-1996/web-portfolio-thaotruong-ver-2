@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import MainMenu from '@/components/MainMenu';
 import LoadingProviderWrapper from '@/components/LoadingProviderWrapper';
+import AutoOpenCV from '@/components/AutoOpenCV';
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Analytics } from "@vercel/analytics/react"
@@ -44,6 +45,7 @@ export default function RootLayout({
         <LoadingProviderWrapper>
           {children}
           <MainMenu/>
+          <AutoOpenCV/>
         </LoadingProviderWrapper>
       </body>
     </html>
