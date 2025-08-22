@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 // Dynamic import PDFViewerModal
@@ -8,7 +8,6 @@ const PDFViewerModal = dynamic(() => import('./PDFViewerModal'), { ssr: false })
 
 export default function AutoOpenCV() {
     const searchParams = useSearchParams();
-    const router = useRouter();
     const pathname = usePathname();
     const [showPDFModal, setShowPDFModal] = useState(false);
     const [cvType, setCvType] = useState<'normal' | 'ats'>('normal');
