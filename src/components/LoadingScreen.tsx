@@ -108,52 +108,44 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
         y: [31, 0],
         duration: 2000,
         easing: 'easeInOutQuad',
-        begin: () => {
-          // Add wave animation during fill
-          anime({
-            targets: waterRef.current,
-            x: [-2, 2, -2],
-            duration: 300,
-            loop: 6,
-            easing: 'easeInOutSine'
+        complete: () => {
+          // Start bubble animation after water is filled
+          const bubbles = document.querySelectorAll('.bubble');
+          bubbles.forEach((bubble, index) => {
+            anime({
+              targets: bubble,
+              // Rise from bottom (35) to top of logo (0)
+              translateY: [0, -35],
+              // Slight horizontal drift
+              translateX: anime.random(-2, 2),
+              // Fade in and out  
+              opacity: [0, 0.6, 0.6, 0],
+              // Natural bubble growth
+              scale: [0, 1, 1, 0.5],
+              duration: 2000,
+              delay: index * 150,
+              loop: 2,
+              easing: 'linear'
+            });
           });
         }
       }, '-=500')
-      // Pulse effect when water is full
-      .add({
-        targets: logoRef.current,
-        scale: [1, 1.15, 1],
-        duration: 600,
-        easing: 'easeInOutElastic(1, .6)',
-      }, '-=200')
       // Fade out everything
       .add({
         targets: logoRef.current,
         opacity: [1, 0],
-        scale: [1, 0.9],
+        scale: [1, 0.95],
         duration: 400,
         easing: 'easeInQuad',
-      }, '+=500');
+      }, '+=1500');
 
-    // Bubble animation while filling
-    const bubbleAnimation = anime({
-      targets: '.bubble',
-      translateY: -35,
-      translateX: () => anime.random(-5, 5),
-      scale: [0, 1, 0],
-      opacity: [0, 0.8, 0],
-      duration: () => anime.random(800, 1200),
-      delay: () => anime.random(0, 1000),
-      loop: true,
-      easing: 'easeOutQuad'
-    });
 
     return () => {
       anime.remove(outlinePath);
       anime.remove(fillPath);
       anime.remove(waterRef.current);
       anime.remove(logoRef.current);
-      bubbleAnimation.pause();
+      anime.remove('.bubble');
     };
   }, [duration, onLoadingComplete]);
 
@@ -194,17 +186,20 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             <g clipPath="url(#logoClip)">
               <rect 
                 ref={waterRef}
-                x="-5" 
+                x="-20" 
                 y="31" 
-                width="45" 
-                height="35" 
+                width="75" 
+                height="40" 
                 fill="url(#waterGradient)"
               />
-              {/* Bubbles */}
-              <circle className="bubble" cx="10" cy="35" r="1" fill="rgba(255,255,255,0.6)" />
-              <circle className="bubble" cx="20" cy="35" r="1.5" fill="rgba(255,255,255,0.6)" />
-              <circle className="bubble" cx="25" cy="35" r="0.8" fill="rgba(255,255,255,0.6)" />
-              <circle className="bubble" cx="15" cy="35" r="1.2" fill="rgba(255,255,255,0.6)" />
+              {/* Bubbles - inside clip path to stay within logo shape */}
+              <g className="bubble-group">
+                <circle className="bubble" cx="10" cy="35" r="1" fill="rgba(255,255,255,0.6)" />
+                <circle className="bubble" cx="18" cy="35" r="1.3" fill="rgba(255,255,255,0.6)" />
+                <circle className="bubble" cx="25" cy="35" r="0.8" fill="rgba(255,255,255,0.6)" />
+                <circle className="bubble" cx="14" cy="35" r="1.1" fill="rgba(255,255,255,0.6)" />
+                <circle className="bubble" cx="22" cy="35" r="0.9" fill="rgba(255,255,255,0.6)" />
+              </g>
             </g>
           </svg>
           
