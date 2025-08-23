@@ -18,7 +18,6 @@ const Global = createGlobalStyle`
 const S = {
   HeroSection: styled.section`
     min-height: 100vh;
-    background: var(--dark-bg);
     position: relative;
     overflow: hidden;
     
