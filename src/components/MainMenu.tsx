@@ -44,7 +44,7 @@ const DivParent = styled.div`
     width: 610px;
     height: 84px;
     justify-content: space-around;
-    padding: 0 21px;
+    padding: 0 10px 0 21px;
     
     /* Smooth transitions */
     transition: all 0.3s ease;
@@ -103,6 +103,7 @@ const DivParent = styled.div`
     cursor: pointer;
     transition: all 0.3s ease;
     color: #141212;
+    font-size: 16px;
     &:hover {
         background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
         transform: translateY(-1px);

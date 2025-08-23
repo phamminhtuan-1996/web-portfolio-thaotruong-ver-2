@@ -301,7 +301,6 @@ const S = {
 };
 
 export default function Home() {
-  
   return (
     <>
       <Global />
