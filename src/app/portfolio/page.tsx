@@ -15,8 +15,6 @@ import "slick-carousel/slick/slick-theme.css";
 const DivParent = styled.div`
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-    // padding-bottom: 150px;
     padding: calc(84px + 1rem) 0 0 0;
 `;
 
