@@ -22,7 +22,7 @@ const DivParent = styled.div`
 
 const HeroSection = styled.section`
     text-align: center;
-    padding: 80px 0 60px;
+    padding: 32px 0 60px;
     background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
     
     @media (max-width: 768px) {
