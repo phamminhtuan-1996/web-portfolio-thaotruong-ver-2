@@ -27,6 +27,7 @@ export default function LoadingProvider({
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [previousPathname, setPreviousPathname] = useState(pathname);
 
   // Handle initial page load
   useEffect(() => {
@@ -48,13 +49,19 @@ export default function LoadingProvider({
 
   // Handle route changes
   useEffect(() => {
-    // Skip loading if only CV parameter changed
+    // Skip loading if only CV parameter changed or if only portfolio parameter changed on same page
     const hasCVParam = searchParams.get('cv') !== null;
+    const portfolioChanged = pathname === previousPathname && pathname === '/portfolio';
     
-    if (!isInitialLoad && !hasCVParam) {
+    if (!isInitialLoad && !hasCVParam && !portfolioChanged) {
       setIsLoading(true);
     }
-  }, [pathname, searchParams, isInitialLoad]);
+    
+    // Update previous pathname
+    if (pathname !== previousPathname) {
+      setPreviousPathname(pathname);
+    }
+  }, [pathname, searchParams, isInitialLoad, previousPathname]);
 
   // Handle page refresh (F5)
   useEffect(() => {

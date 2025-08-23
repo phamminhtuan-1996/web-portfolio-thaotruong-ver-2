@@ -326,6 +326,20 @@ export default function Portfolio() {
         };
     }, []);
     
+    // Check URL for portfolio ID on load
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const portfolioId = urlParams.get('id');
+        
+        if (portfolioId) {
+            const portfolioItem = listProjectItemDefault.find(item => item.id.toString() === portfolioId);
+            if (portfolioItem) {
+                handleShowPopup(portfolioItem);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
     // Handle filter with Isotope
     useEffect(() => {
         if (isotope.current) {
@@ -354,10 +368,25 @@ export default function Portfolio() {
         });
     };
     
-    
     const handleShowPopup = (data: ListProjectItemDefault) => {
         setDataPick({...data});
         setShowModalProject(true);
+        
+        // Add portfolio ID to URL
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('id', data.id.toString());
+        window.history.pushState({}, '', currentUrl.toString());
+    };
+    
+    const handleCloseModal = (val: boolean) => {
+        setShowModalProject(val);
+        
+        // Remove portfolio ID from URL when closing modal
+        if (!val) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.delete('id');
+            window.history.pushState({}, '', currentUrl.toString());
+        }
     };
     
     
@@ -438,7 +467,7 @@ export default function Portfolio() {
             <ModalProject 
                 show={isShowModalProject} 
                 data={dataPick as ListProjectItemDefault | null | undefined} 
-                handleClose={(val) => setShowModalProject(val)}
+                handleClose={handleCloseModal}
             />
         </DivParent>
     );
