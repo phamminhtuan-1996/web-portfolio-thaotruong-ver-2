@@ -22,13 +22,19 @@ const LoadingContainer = styled.div<{ $isLoading: boolean }>`
 
 const LogoWrapper = styled.div`
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 175px;
+  height: 155px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   .logo-container {
     position: relative;
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   svg {
@@ -178,7 +184,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             className="logo-fill"
             width="35" 
             height="31" 
-            viewBox="0 0 35 31" 
+            viewBox="-2 -2 39 35" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
             style={{ overflow: 'visible' }}
@@ -208,7 +214,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             className="logo-outline"
             width="35" 
             height="31" 
-            viewBox="0 0 35 31" 
+            viewBox="-2 -2 39 35" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
           >

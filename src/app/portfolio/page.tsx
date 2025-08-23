@@ -17,7 +17,7 @@ const DivParent = styled.div`
     min-height: 100vh;
     background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
     // padding-bottom: 150px;
-    padding: calc(84px + 5rem) 0 0 0;
+    padding: calc(84px + 1rem) 0 0 0;
 `;
 
 const HeroSection = styled.section`
