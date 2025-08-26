@@ -535,7 +535,7 @@ useEffect(() => {
               ))}
               
             </Col>
-            <Col md={3} className="wrap-cv d-flex justify-content-end">
+            <Col md={3} className="wrap-cv d-flex d-none justify-content-end">
               <Image
                 src="/img/right-carousel-cv.svg"
                 alt="right-carousel-cv"
