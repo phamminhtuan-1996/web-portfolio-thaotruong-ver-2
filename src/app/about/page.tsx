@@ -662,7 +662,7 @@ useEffect(() => {
                 <Button type="submit" className="d-block h-100">Send</Button>
               </div>
             </form>
-            <div className="message-contact mx-auto mt-4 d-flex justify-content-between">
+            <div className="message-contac d-none mx-auto mt-4 d-flex justify-content-between">
               <div className="message-contact__item">
                 <Call size={isMobile ? 24 : 32} color="#FFF"/>
                 <span className="text-white ms-3 text-decoration-none">038 679 8487</span>
