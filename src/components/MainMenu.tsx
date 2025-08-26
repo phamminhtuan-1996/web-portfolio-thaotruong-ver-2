@@ -1,6 +1,5 @@
 "use client";
 import {useState, useEffect} from 'react';
-import {linkCv} from '@/utils/constants';
 import { usePathname } from "next/navigation";
 import styled from 'styled-components';
 import Link from "next/link";
