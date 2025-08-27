@@ -658,7 +658,7 @@ useEffect(() => {
         <div className="header__content">
           <div className="left-content">
             <p className="about-paragraph">
-              Hi there, I'm Thao, also known as Menaul. As a UI/UX designer with 4+ years of experience and a background in marketing, 
+              Hi there, I&apos;m Thao, also known as Menaul. As a UI/UX designer with 4+ years of experience and a background in marketing, 
               I channel my creativity and emotions into crafting impactful designs. My expertise lies in creating intuitive user 
               experiences that resonate deeply with users while leveraging marketing insights to drive engagement and conversions.
             </p>
@@ -666,8 +666,8 @@ useEffect(() => {
             <h2 className="design-title">Design, to me, is more than aesthetics</h2>
             
             <p className="design-description">
-              It's about solving problems, telling stories, and creating products that fascinate and inspire. 
-              I believe in a user-centered approach, where understanding the end user's needs and desires is 
+              It&apos;s about solving problems, telling stories, and creating products that fascinate and inspire. 
+              I believe in a user-centered approach, where understanding the end user&apos;s needs and desires is 
               the foundation of every design decision.
             </p>
           </div>
@@ -801,8 +801,8 @@ useEffect(() => {
             </Row>
           </div>
           </div>
-          <div className="list-client ">
-            <div className="list-client__title container">
+          <div className="list-client container">
+            <div className="list-client__title">
               <span className="creative-field">Creative Field</span>
               <h1 className="text-uppercase text-white mb-4">I WORK WITH</h1>
             </div>
