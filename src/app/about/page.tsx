@@ -268,20 +268,12 @@ const DivParent = styled.div`
     font-size: 32px;
     color: transparent;
     background-clip: text;
-    background-image: linear-gradient(to right,#FAC59F, #6B47AB)!important;
+    background-image: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%)!important;
 }
 .footer__title--down h1 {
   white-space: nowrap;
   font-size: 32px;
 }
-  .footer__title--wrap::after {
-    content: "";
-    display: block;
-    width: 438px;
-    height: 1px;
-    background-color: white;
-}
-
 .list-skill {
   padding-top: 59px;
   padding-bottom: 86px;
@@ -809,10 +801,10 @@ useEffect(() => {
             </Row>
           </div>
           </div>
-          <div className="list-client">
-            <div className="list-client__title d-flex flex-column justify-content-center align-items-center">
-              <Image src="/img/clients.svg" alt="lets-discuss" width={263} height={36} className="mb-3 d-block"/>
-              <h1 className="text-uppercase text-center text-white mb-4">I WORK WITH</h1>
+          <div className="list-client ">
+            <div className="list-client__title container">
+              <span className="creative-field">Creative Field</span>
+              <h1 className="text-uppercase text-white mb-4">I WORK WITH</h1>
             </div>
             <TrainClientV2 data={listClients}/>
           </div>
