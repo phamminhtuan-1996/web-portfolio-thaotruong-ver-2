@@ -184,7 +184,7 @@ export default function MainMenu() {
                 <Link href="/about" className={`btn  ${getActive('about')}`} onClick={() => { setActive('about'); }}>
                     About
                 </Link>
-                <Link href="/about#message" className={`btn  ${getActive('contact')}`} onClick={() => { setActive('contact'); }}>
+                <Link href="/contact" className={`btn  ${getActive('contact')}`} onClick={() => { setActive('contact'); }}>
                     Contact
                 </Link>
                 <div className="btn btn-download-cv p-2 border" onClick={handleCVClick}>
@@ -192,7 +192,6 @@ export default function MainMenu() {
                     <span>My CV</span>
                 </div>
             </nav>
-
             {/* CV Selection Modal */}
             <CVSelectionModal
                 show={showCVModal}
