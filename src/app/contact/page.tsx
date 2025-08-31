@@ -1,8 +1,7 @@
 "use client";
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { Row, Col, Button, Container, Card, Form } from "react-bootstrap";
-import {TickCircle, Sms, Call, SmsTracking, Crown1} from 'iconsax-react';
-import Image from "next/image";
+import { Sms, Call } from 'iconsax-react';
 import styled from "styled-components";
 
 const DivParent = styled.div`
@@ -136,8 +135,8 @@ export default function Contact() {
                         <h1 className="contact-title text-uppercase text-center">Contact</h1>
                     </Col>
                     <Col xs={12} ms={6} md={6}>
-                        <h1 className='text-white contact-title__left text-uppercase'>Have an Awsome Project Idea? Let's Discuss</h1>
-                        <p className='text-white'>I'm always excited to collaborate and exchange ideas! If you're passionate about design and eager to connect, feel free to reach out.Let's create, innovate, and inspire together!</p>
+                        <h1 className='text-white contact-title__left text-uppercase'>Have an Awsome Project Idea? Let&apos;s Discuss</h1>
+                        <p className='text-white'>I&apos;m always excited to collaborate and exchange ideas! If you&apos;re passionate about design and eager to connect, feel free to reach out.Let&apos;s create, innovate, and inspire together!</p>
                         <div className='d-flex flex-column'>
                             <span className='contact-info d-block mb-4'><Call size={24}  color="#7CA3EE"/> 038 679 8487</span> 
                             <span className='contact-info'><Sms size={24}  color="#7CA3EE"/> thaotruongdesign@gmail.com</span>
