@@ -33,26 +33,6 @@ const DivParent = styled.div`
     margin-bottom: 3rem;
   }
   
-  .header__content {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    gap: 4rem;
-  }
-  
-  .left-content {
-    flex: 0 0 65%;
-  }
-  
-  .right-content {
-    flex: 0 0 35%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
   .about-paragraph {
     font-family: Poppins;
     font-weight: 400;
@@ -85,15 +65,17 @@ const DivParent = styled.div`
   
   .character-wrapper {
     position: relative;
-    width: 300px;
-    height: 400px;
+    width: 100%;
+    max-width: 400px;
+    height: 500px;
+    margin: 0 auto;
   }
   
   .character-image {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
     z-index: 1;
   }
   .experience {
@@ -432,18 +414,29 @@ const DivParent = styled.div`
   display: none;
 }
  @media (max-width: 990px) {
-    .header__content .row {
-      margin: 0;
-      padding: 0;
-    }
-    .header__content {
-      width: calc(100vw - 32px);
-      height: auto;
-    }
     .header {
-        height: auto;
-        position: relative;
-        padding-bottom: 186px;
+        padding: 80px 0 60px;
+    }
+    .about-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .about-paragraph {
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 1.5rem;
+    }
+    .design-title {
+      font-size: 24px;
+      line-height: 36px;
+    }
+    .design-description {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .character-wrapper {
+      height: 400px;
+      margin-top: 2rem;
     }
     .slogan-mobile {
       display: block;
@@ -455,17 +448,6 @@ const DivParent = styled.div`
     .content-about {
       font-size: 12px;
       margin: 0;
-    }
-    .header__content .col-md-5 {
-      order: 2;
-      display: flex;
-    }
-    .header__content .col-md-5 img {
-      width: 50%;
-      height: 100%;
-    }
-    .header .col-md-7 {
-      padding: 0 3rem;
     }
     .apostrophe-left {
       top: 0;
@@ -654,44 +636,46 @@ useEffect(() => {
   return (
     <DivParent>
       <div className="header">
-        <h1 className="about-title">ABOUT ME</h1>
-        <div className="header__content">
-          <div className="left-content">
-            <p className="about-paragraph">
-              Hi there, I&apos;m Thao, also known as Menaul. As a UI/UX designer with 4+ years of experience and a background in marketing, 
-              I channel my creativity and emotions into crafting impactful designs. My expertise lies in creating intuitive user 
-              experiences that resonate deeply with users while leveraging marketing insights to drive engagement and conversions.
-            </p>
+        <div className="container">
+          <h1 className="about-title">ABOUT ME</h1>
+          <Row className="align-items-center">
+            <Col xs={12} md={7} lg={8}>
+              <p className="about-paragraph">
+                Hi there, I&apos;m Thao, also known as Menaul. As a UI/UX designer with 4+ years of experience and a background in marketing, 
+                I channel my creativity and emotions into crafting impactful designs. My expertise lies in creating intuitive user 
+                experiences that resonate deeply with users while leveraging marketing insights to drive engagement and conversions.
+              </p>
+              
+              <h2 className="design-title">Design, to me, is more than aesthetics</h2>
+              
+              <p className="design-description">
+                It&apos;s about solving problems, telling stories, and creating products that fascinate and inspire. 
+                I believe in a user-centered approach, where understanding the end user&apos;s needs and desires is 
+                the foundation of every design decision.
+              </p>
+            </Col>
             
-            <h2 className="design-title">Design, to me, is more than aesthetics</h2>
-            
-            <p className="design-description">
-              It&apos;s about solving problems, telling stories, and creating products that fascinate and inspire. 
-              I believe in a user-centered approach, where understanding the end user&apos;s needs and desires is 
-              the foundation of every design decision.
-            </p>
-          </div>
-          
-          <div className="right-content">
-            <div className="character-wrapper">
-              <Image
-                src="/img/avt-thaotruong.png"
-                alt="Character"
-                width={200}
-                height={250}
-                className="character-image"
-              />
-              {/* Reuse DragDropTitleAbout for stat boxes - matches the design */}
-              {listTitleAboutDragDrop.map((item, index) => (
-                <DragDropTitleAbout 
-                  key={index} 
-                  {...item}
-                  x={index === 0 ? -150 : index === 1 ? 150 : index === 2 ? -150 : 150}
-                  y={index === 0 ? -180 : index === 1 ? -180 : index === 2 ? 180 : 180}
+            <Col xs={12} md={5} lg={4}>
+              <div className="character-wrapper">
+                <Image
+                  src="/img/ava_about.png"
+                  alt="Character"
+                  width={300}
+                  height={375}
+                  className="character-image d-block mx-auto"
                 />
-              ))}
-            </div>
-          </div>
+                {/* Reuse DragDropTitleAbout for stat boxes - matches the design */}
+                {listTitleAboutDragDrop.map((item, index) => (
+                  <DragDropTitleAbout 
+                    key={index} 
+                    {...item}
+                    x={index === 0 ? -150 : index === 1 ? 150 : index === 2 ? -150 : 150}
+                    y={index === 0 ? -180 : index === 1 ? -180 : index === 2 ? 180 : 180}
+                  />
+                ))}
+              </div>
+            </Col>
+          </Row>
         </div>
       </div>
   
