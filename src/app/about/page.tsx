@@ -644,17 +644,13 @@ useEffect(() => {
           <Row className="align-items-center">
             <Col xs={12} md={7} lg={8}>
               <p className="about-paragraph">
-                Hi there, I&apos;m Thao, also known as Menaul. As a UI/UX designer with 4+ years of experience and a background in marketing, 
-                I channel my creativity and emotions into crafting impactful designs. My expertise lies in creating intuitive user 
-                experiences that resonate deeply with users while leveraging marketing insights to drive engagement and conversions.
+                Hi there, I’m Thao, also known as Minzie! As a UX/UI designer with 4+ years of experience and a background in marketing, I channel my creativity and emotions into crafting impactful designs. My expertise lies in creating intuitive user experiences that resonate deeply with users while leveraging marketing insights to drive measurable results
               </p>
               
               <h2 className="design-title">Design, to me, is more than aesthetics</h2>
               
               <p className="design-description">
-                It&apos;s about solving problems, telling stories, and creating products that fascinate and inspire. 
-                I believe in a user-centered approach, where understanding the end user&apos;s needs and desires is 
-                the foundation of every design decision.
+It’s about solving problems, telling stories, and creating products that bewitch and inspire. I believe in a user-centered approach, where understanding the end-user’s needs and desires is the foundation of every project.
               </p>
             </Col>
             
