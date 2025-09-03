@@ -10,12 +10,11 @@ import {TickCircle, Sms, Call, SmsTracking, Crown1} from 'iconsax-react';
 import { isMobileOrSmallScreen } from '../../utils/helper';
 import TrainClientV2 from '@/components/TrainClientV2';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
+import ContactForm from '@/components/ContactForm';
 const DivParent = styled.div`
-  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
   min-height: 100vh;
   
   .header {
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
     padding: 120px 0 80px;
     position: relative;
     overflow: visible;
@@ -413,6 +412,10 @@ const DivParent = styled.div`
 .message__input--wrap textarea {
   display: none;
 }
+
+.wrap-contact {
+background: #2A2A2A;}
+
  @media (max-width: 990px) {
     .header {
         padding: 80px 0 60px;
@@ -594,10 +597,10 @@ export default function About() {
   ];
 
   const listTitleAboutDragDrop: ListTitleAboutDragDrop[] = [
-    { titleBig: '2000+', title: 'screens', x: -390, y: 485, xMobile: 28, yMobile: 3},
-    { titleBig: 'ထ', title: 'ideas', x: -171, y: 520, xMobile: 5, yMobile: 10 },
-    { titleBig: '4+', title: 'years experience', x: -657, y: -550, xMobile: 52, yMobile: 10 },
-    { titleBig: '10+', title: 'projects', x: -488, y: -472, xMobile: 76, yMobile: 5 },
+    { titleBig: '2000+', title: 'screens', x: -410, y: -48, xMobile: 28, yMobile: 3},
+    { titleBig: 'ထ', title: 'ideas', x: -82, y: -99, xMobile: 5, yMobile: 10 },
+    { titleBig: '4+', title: 'years experience', x: -651, y: 304, xMobile: 52, yMobile: 10 },
+    { titleBig: '10+', title: 'projects', x: -374, y: 329, xMobile: 76, yMobile: 5 },
   ]
 
   const listHardSkill: string[] = [
@@ -669,8 +672,8 @@ useEffect(() => {
                   <DragDropTitleAbout 
                     key={index} 
                     {...item}
-                    x={index === 0 ? -150 : index === 1 ? 150 : index === 2 ? -150 : 150}
-                    y={index === 0 ? -180 : index === 1 ? -180 : index === 2 ? 180 : 180}
+                    x={item.x}
+                    y={item.y}
                   />
                 ))}
               </div>
@@ -792,45 +795,12 @@ useEffect(() => {
             </div>
             <TrainClientV2 data={listClients}/>
           </div>
-          <div className="container">
-          <div className="message" id="message">
-            <div className="message__title  d-flex flex-column align-items-center justify-content-center">
-              <h1 className="text-uppercase text-center text-white mb-4">Have an Awesome Project Idea?</h1>
-              <Image src="/img/lets-discuss.svg" alt="lets-discuss" width={263} height={36}/>
+          <div className="wrap-contact py-4">
+            <div className="container">
+
+            <span className="creative-field">Contact</span>
             </div>
-            <form
-              action="https://docs.google.com/forms/d/e/1FAIpQLSd5UeS35O2bRd9JyTZH6PR4Cj3pH7ehq_4bhUPmucl16HL-uQ/formResponse"
-              className="message__input mx-auto d-flex justify-content-between"
-              method="POST"
-              target="_blank"
-            >
-              <div className="message__input--wrap">
-                {!isMobile && (
-                  <Sms size="32" color="#6229CC"/>
-                )}
-                <input type="text" name="entry.604871011" placeholder="Message here"/>
-                <textarea name="entry.604871011" cols={50} rows={8} placeholder="Message here"></textarea>
-              </div>
-              <div className="message__input--wrap-right d-flex justify-content-center align-items-center">
-                <Button type="submit" className="d-block h-100">Send</Button>
-              </div>
-            </form>
-            <div className="message-contact mx-auto mt-4 d-flex justify-content-between">
-              <div className="message-contact__item">
-                <Call size={isMobile ? 24 : 32} color="#FFF"/>
-                <span className="text-white ms-3 text-decoration-none">038 679 8487</span>
-              </div>
-              <div className="message-contact__item">
-                <SmsTracking size={isMobile ? 24 : 32}  color="#FFF"/>
-                <span className="text-white ms-3 text-decoration-none">thaotruongdesign@gmail.com</span>
-              </div>
-              <div className="message-contact__item">
-                <Crown1 size={isMobile ? 24 : 32}  color="#FFF"/>
-                <span className="text-white ms-3">Certified Product Designer</span>
-              </div>
-            </div>
-          </div>
-          
+          <ContactForm/>
         </div>
         
       </div>
