@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import styled from "styled-components";
 const DivParent = styled.div`
     background: #1E1E1E;

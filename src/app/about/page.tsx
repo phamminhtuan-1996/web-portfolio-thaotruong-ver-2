@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import {linkCv} from '@/utils/constants';
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 import ExpItem from "@/components/ExpItem";
-import {TickCircle, Sms, Call, SmsTracking, Crown1} from 'iconsax-react';
+import {TickCircle} from 'iconsax-react';
 import { isMobileOrSmallScreen } from '../../utils/helper';
 import TrainClientV2 from '@/components/TrainClientV2';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
@@ -582,7 +582,7 @@ type ListTitleAboutDragDrop = {
 
 
 export default function About() {
-  const [isMobile, setMobile] = useState<boolean>(false);
+  const [, setMobile] = useState<boolean>(false);
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
