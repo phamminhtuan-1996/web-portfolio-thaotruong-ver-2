@@ -147,10 +147,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
 
 
     return () => {
+      const waterElement = waterRef.current;
+      const logoElement = logoRef.current;
       anime.remove(outlinePath);
       anime.remove(fillPath);
-      anime.remove(waterRef.current);
-      anime.remove(logoRef.current);
+      if (waterElement) anime.remove(waterElement);
+      if (logoElement) anime.remove(logoElement);
       anime.remove('.bubble');
     };
   }, [duration, onLoadingComplete]);

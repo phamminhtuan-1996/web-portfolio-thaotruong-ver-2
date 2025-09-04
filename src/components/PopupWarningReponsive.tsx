@@ -30,10 +30,12 @@ export default function PopupWarningReponsive() {
     useEffect(() => {
         console.log('pathname useEffect', pathname);
         checkMobileAndPage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname])
     useEffect(() => {
         console.log('usePathname', pathname);
         checkMobileAndPage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <>

@@ -350,6 +350,7 @@ export default function Portfolio() {
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
     const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>({id: 0, img: '', filter: [], content: ''});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const isotope = useRef<any>(null);
     const gridRef = useRef<HTMLDivElement>(null);
     const filterTabsRef = useRef<HTMLDivElement | null>(null);
@@ -395,6 +396,7 @@ export default function Portfolio() {
     }, []);
     
     // Handle scroll event
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleScroll = (event: any) => {
         // Use the stored initial position instead of current offsetTop
         const positionScroll = event.target.scrollTop || 0;
