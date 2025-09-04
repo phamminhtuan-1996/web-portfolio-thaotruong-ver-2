@@ -7,7 +7,6 @@ import ButtonViewPort from "@/components/ButtonViewPort";
 import catePort from '@/data/cate-port.json';
 import dataContent from '@/data/data-content.json';
 import anime from 'animejs';
-import Isotope from 'isotope-layout';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -290,37 +289,64 @@ export default function Portfolio() {
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
     const [dataPick, setDataPick] = useState<ListProjectItemDefault | null>({id: 0, img: '', filter: [], content: ''});
-    const isotope = useRef<Isotope | null>(null);
+    const isotope = useRef<any>(null);
     const gridRef = useRef<HTMLDivElement>(null);
+    const filterTabsRef = useRef<HTMLDivElement | null>(null);
+    const [passedFilterTabs, setPassedFilterTabs] = useState(false);
     
     // Keep the original listProjectItemDefault unchanged
     const listProjectItemDefault: ListProjectItemDefault[] = dataContent.map((item) => ({...item, filter: [item.filter]}))
     
     // Initialize Isotope
     useEffect(() => {
-        if (gridRef.current) {
-            isotope.current = new Isotope(gridRef.current, {
-                itemSelector: '.project-item',
-                layoutMode: 'fitRows',
-                transitionDuration: '0.4s',
-                fitRows: {
-                    gutter: 0
-                }
-            });
-            
-            // Animate cards on load
-            anime({
-                targets: '.project-item',
-                translateY: [30, 0],
-                opacity: [0, 1],
-                delay: anime.stagger(100),
-                easing: 'easeOutExpo',
-                duration: 800
-            });
-        }
+        // Dynamic import Isotope only on client side
+        const initIsotope = async () => {
+            if (typeof window !== 'undefined' && gridRef.current) {
+                const Isotope = (await import('isotope-layout')).default;
+                
+                isotope.current = new Isotope(gridRef.current, {
+                    itemSelector: '.project-item',
+                    layoutMode: 'fitRows',
+                    transitionDuration: '0.4s',
+                    fitRows: {
+                        gutter: 0
+                    }
+                });
+                
+                // Animate cards on load
+                anime({
+                    targets: '.project-item',
+                    translateY: [30, 0],
+                    opacity: [0, 1],
+                    delay: anime.stagger(100),
+                    easing: 'easeOutExpo',
+                    duration: 800
+                });
+            }
+        };
+        
+        initIsotope();
         
         return () => {
             isotope.current?.destroy();
+        };
+    }, []);
+    
+    // Handle scroll event
+    const handleScroll = (event: any) => {
+         const elementTop = filterTabsRef.current?.offsetTop || 0;
+         const positionScroll = event.target.scrollTop || 0;
+        setPassedFilterTabs(positionScroll >= (elementTop - 48));
+    };
+    
+    // Add scroll event listener
+    useEffect(() => {
+        const bodyElement = document.body;
+        bodyElement.addEventListener('scroll', handleScroll);
+        
+        // Cleanup function to remove event listener
+        return () => {
+            bodyElement.removeEventListener('scroll', handleScroll);
         };
     }, []);
     
@@ -386,7 +412,14 @@ export default function Portfolio() {
             window.history.pushState({}, '', currentUrl.toString());
         }
     };
-    
+    useEffect(() => {
+        const mainMenu = document.querySelector('.main-menu');
+        if (passedFilterTabs) {
+            mainMenu?.classList.add('d-none');
+        } else {
+            mainMenu?.classList.remove('d-none');
+        }
+    }, [passedFilterTabs]);
     
     return (
         <DivParent>
@@ -407,7 +440,7 @@ export default function Portfolio() {
             </HeroSection>
             
             <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 20px' }}>
-                <FilterTabs>
+                <FilterTabs ref={filterTabsRef}>
                     {filtersDefault.map((item, index) => (
                         <FilterTab
                             key={index}
