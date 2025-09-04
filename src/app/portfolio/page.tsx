@@ -74,13 +74,54 @@ const CTASection = styled.div`
     }
 `;
 
-const FilterTabs = styled.div`
+const FilterTabs = styled.div<{$isSticky?: boolean}>`
     display: flex;
     justify-content: center;
     gap: 16px;
     margin-bottom: 60px;
     flex-wrap: wrap;
     padding: 0 20px;
+    transition: all 0.3s ease;
+    
+    ${props => props.$isSticky ? `
+        position: fixed;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        
+        /* Liquid glass effect - same as MainMenu */
+        background: rgba(26, 26, 26, 0.4);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        
+        /* Multiple layered shadows for depth */
+        box-shadow: 
+            0 0 40px rgba(255, 255, 255, 0.05),
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            inset 0 2px 3px rgba(255, 255, 255, 0.2),
+            inset 0 -2px 3px rgba(0, 0, 0, 0.2),
+            inset 0 0 20px rgba(255, 255, 255, 0.05);
+        
+        /* Glass border effect */
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        
+        border-radius: 1000px;
+        padding: 16px 24px;
+        margin-bottom: 0;
+        width: auto;
+        height: auto;
+        
+        &:hover {
+            background: rgba(26, 26, 26, 0.5);
+            box-shadow: 
+                0 0 50px rgba(255, 255, 255, 0.08),
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.25),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.25),
+                inset 0 0 25px rgba(255, 255, 255, 0.08);
+        }
+    ` : ''}
     
     @media (max-width: 768px) {
         gap: 8px;
@@ -90,6 +131,18 @@ const FilterTabs = styled.div`
         flex-wrap: nowrap;
         padding: 0 16px;
         -webkit-overflow-scrolling: touch;
+        
+        ${props => props.$isSticky && `
+            position: fixed;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transform: none;
+            border-radius: 0;
+            width: 100%;
+            padding: 12px 16px;
+        `}
         
         &::-webkit-scrollbar {
             display: none;
@@ -284,6 +337,14 @@ const IsotopeGrid = styled.div`
     margin: -12px;
 `;
 
+const FilterTabsPlaceholder = styled.div<{$isSticky: boolean}>`
+    height: ${props => props.$isSticky ? '60px' : '0'};
+    transition: height 0.3s ease;
+    @media (max-width: 768px) {
+        height: ${props => props.$isSticky ? '48px' : '0'};
+    }
+`;
+
 export default function Portfolio() {
     const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label === 'All'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
@@ -293,6 +354,7 @@ export default function Portfolio() {
     const gridRef = useRef<HTMLDivElement>(null);
     const filterTabsRef = useRef<HTMLDivElement | null>(null);
     const [passedFilterTabs, setPassedFilterTabs] = useState(false);
+    const filterTabsInitialTop = useRef<number>(0);
     
     // Keep the original listProjectItemDefault unchanged
     const listProjectItemDefault: ListProjectItemDefault[] = dataContent.map((item) => ({...item, filter: [item.filter]}))
@@ -334,13 +396,18 @@ export default function Portfolio() {
     
     // Handle scroll event
     const handleScroll = (event: any) => {
-         const elementTop = filterTabsRef.current?.offsetTop || 0;
-         const positionScroll = event.target.scrollTop || 0;
-        setPassedFilterTabs(positionScroll >= (elementTop - 48));
+        // Use the stored initial position instead of current offsetTop
+        const positionScroll = event.target.scrollTop || 0;
+        setPassedFilterTabs(positionScroll >= (filterTabsInitialTop.current - 48));
     };
     
-    // Add scroll event listener
+    // Add scroll event listener and store initial position
     useEffect(() => {
+        // Store the initial position of FilterTabs when component mounts
+        if (filterTabsRef.current && filterTabsInitialTop.current === 0) {
+            filterTabsInitialTop.current = filterTabsRef.current.offsetTop;
+        }
+        
         const bodyElement = document.body;
         bodyElement.addEventListener('scroll', handleScroll);
         
@@ -439,8 +506,9 @@ export default function Portfolio() {
                 </div>
             </HeroSection>
             
-            <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 20px' }}>
-                <FilterTabs ref={filterTabsRef}>
+            <FilterTabsPlaceholder $isSticky={passedFilterTabs} />
+            <div style={{ maxWidth: passedFilterTabs ? '100%' : '1320px', margin: '0 auto', padding: passedFilterTabs ? '0' : '0 20px' }}>
+                <FilterTabs ref={filterTabsRef} $isSticky={passedFilterTabs}>
                     {filtersDefault.map((item, index) => (
                         <FilterTab
                             key={index}
