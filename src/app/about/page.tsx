@@ -11,6 +11,7 @@ import { isMobileOrSmallScreen } from '../../utils/helper';
 import TrainClientV2 from '@/components/TrainClientV2';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
 import ContactForm from '@/components/ContactForm';
+import ListSkillCircle from '@/components/ListSkillCircle';
 const DivParent = styled.div`
   min-height: 100vh;
   
@@ -266,84 +267,6 @@ const DivParent = styled.div`
   margin-bottom: 30px;
   display: block;
 }
-
-.circle-skill__parent {
-  width: 300px;
-  height: 300px;
-  border: 1px solid #FFFFFF52;
-  border-radius: 50%;
-  transition: 0.5s;
-  // animation: circle 15s linear infinite;
-}
-
-.circle-skill__parent--child {
-  width: 210px;
-  height: 210px;
-  border: 1px solid #FFFFFF52;
-  border-radius: 50%;
-  // animation: circle 15s infinite;
-}
-
-.satellite {
-  position: absolute;
-  transform: rotate(360deg);
-  // animation: circle-reverse 16s infinite;
-}
-
-.satellite-child {
-  position: absolute;
-  transform: rotate(360deg);
-  // animation: circle-reverse 16s infinite;
-}
-
-.satellite:nth-child(1) { 
-  top:0;
-  right:0;
-}
-.satellite:nth-child(2) { 
-  top:0;
-  left:0;
-}
-.satellite:nth-child(3) { 
-  bottom:0;
-  left:0;
-}
-.satellite:nth-child(4) { 
-  bottom:0;
-  right:0;
-}
-
-.satellite-child:nth-child(1) {
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.satellite-child:nth-child(2) { 
-  bottom: -15px;
-  right: 50%;
-  transform: translateX(-50%);
-}
-
-@keyframes circle {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
- }
-@keyframes circle-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
- }
-
-
-
 
  .message {
   padding-top: 76px;
@@ -745,22 +668,8 @@ It’s about solving problems, telling stories, and creating products that bewit
             <Row>
               <Col md={4}>
                 <span className="list-skill__title text-white">Tools</span>
-                <div className="circle-skill d-none">
-                  <div className="circle-skill__parent position-relative d-flex justify-content-center align-items-center">
-                  <Image src="/img/skill/Adobe_Illustrator_CC_icon.png" alt="Adobe Illustrator" className="satellite" width={50} height={50}/>
-                    <Image src="/img/skill/Tool icon-1.png" alt="Tool icon" className="satellite" width={50} height={50}/>
-                    <Image src="/img/skill/Tool icon.png" alt="Tool icon" className="satellite" width={50} height={50}/>
-                    <Image src="/img/skill/Wordpress.png" alt="Wordpress"  className="satellite" width={50} height={50}/>
-                    <div className="circle-skill__parent--child position-relative d-flex justify-content-center align-items-center">
-                     <Image src="/img/skill/AdobeXD.png" alt="Adobe XD" className="satellite-child" width={40} height={40}/>
-                     <Image src="/img/skill/Tool icon-2.png" alt="Tool icon" className="satellite-child" width={40} height={40}/>
-                      <div className="child-core">
-                        <Image src="/img/skill/figma.png" alt="Figma" width={60} height={60}/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <Image src="/img/tools_details.png" alt="tools_details" width={300} height={300} style={{width: '80%', height: 'auto', display: 'block', margin: 'auto'}}/>
+                <ListSkillCircle/>
+                {/* <Image src="/img/tools_details.png" alt="tools_details" width={300} height={300} style={{width: '80%', height: 'auto', display: 'block', margin: 'auto'}}/> */}
               </Col>
               <Col md={4}>
                 <span className="list-skill__title text-start text-white">Skills</span>
