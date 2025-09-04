@@ -23,11 +23,21 @@ const DivParent = styled.div`
         text-align: center;
         margin-bottom: 3rem;
     }
-        .img-contact-wrap {
-            filter: grayscale(100%);
-            transition: all 0.3s ease-in-out;
-            &:hover {
-                filter: grayscale(0%);
+    .img-contact-wrap {
+        filter: grayscale(100%);
+        transition: all 0.3s ease-in-out;
+        &:hover {
+            filter: grayscale(0%);
+        }
+    }
+        @media (max-width: 990px) {
+            .img-contact-wrap {
+             margin-bottom: 1rem;
+            img {
+                width: 100%;
+            }
+           
+            }
         }
 `
 

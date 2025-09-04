@@ -38,6 +38,10 @@ const S = {
     z-index: 10;
     min-height: 100vh;    
     padding: calc(84px + 5rem) 0 0 0;
+    
+    @media (max-width: 768px) {
+      padding: calc(84px + 2rem) 1rem 2rem 1rem;
+    }
   `,
   
   GreetingText: styled.p`
@@ -47,6 +51,12 @@ const S = {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: 0.2s;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
     
     @keyframes fadeInUp {
       to {
@@ -65,6 +75,11 @@ const S = {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: 0.4s;
+    
+    @media (max-width: 768px) {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
   `,
   
   TitleProduct: styled.span`
@@ -74,6 +89,10 @@ const S = {
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.02em;
+    
+    @media (max-width: 768px) {
+      font-size: clamp(2.5rem, 10vw, 4rem);
+    }
   `,
   
   TitleDesigner: styled.span`
@@ -83,6 +102,10 @@ const S = {
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    
+    @media (max-width: 768px) {
+      font-size: clamp(2.5rem, 10vw, 4rem);
+    }
   `,
   
   TagsContainer: styled.div`
@@ -92,6 +115,11 @@ const S = {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: 0.6s;
+    
+    @media (max-width: 768px) {
+      justify-content: center;
+      gap: 0.5rem;
+    }
   `,
   
   Tag: styled.span`
@@ -101,6 +129,11 @@ const S = {
     color: var(--text-light);
     font-size: 0.875rem;
     transition: all 0.3s ease;
+    
+    @media (max-width: 768px) {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+    }
     
     &:hover {
       border-color: var(--primary-blue);
@@ -118,6 +151,11 @@ const S = {
     opacity: 0;
     animation: scaleIn 0.8s ease forwards;
     animation-delay: 0.5s;
+    
+    @media (max-width: 480px) {
+      max-width: 280px;
+      height: 350px;
+    }
     
     @keyframes scaleIn {
       to {
@@ -181,6 +219,10 @@ const S = {
       right: 0!important;
       left: unset!important;
     }
+    
+    @media (max-width: 768px) {
+      display: none;
+    }
     @keyframes float {
       0%, 100% {
         transform: translateY(0);
@@ -200,12 +242,20 @@ const S = {
     @media (min-width: 992px) {
       text-align: right;
     }
+    
+    @media (max-width: 768px) {
+      margin-bottom: 1.5rem;
+    }
   `,
   
   SloganTitle: styled.h2`
     font-size: 20px;
     font-weight: 700;
     line-height: 1.3;
+    
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
   `,
   
   SloganHighlight: styled.span`
@@ -228,6 +278,14 @@ const S = {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: 1s;
+    
+    @media (max-width: 768px) {
+      margin-top: 2rem;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 0 1rem;
+    }
   `,
   
   ButtonPrimary: styled(Link)`
@@ -242,6 +300,12 @@ const S = {
     border-radius: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
+    
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+    }
     
     &:hover {
       background: rgba(255, 255, 255, 0.05);

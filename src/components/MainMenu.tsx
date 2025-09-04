@@ -118,11 +118,140 @@ const DivParent = styled.div`
     color: #416EC2;
 }
 
+/* Mobile menu toggle */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    bottom: 70px;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 20px;
+    z-index: 1001;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.1);
+    }
+    
+    @media (max-width: 990px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 @media (max-width: 990px) {
     .main-menu {
-        width: 100%;
+        position: fixed;
         bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 60px;
         border-radius: 0;
+        padding: 0 10px;
+        transform: translateX(0);
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.3s ease;
+        
+        &.mobile-open {
+            height: auto;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            gap: 10px;
+        }
+    }
+    
+    .btn {
+        padding: 8px 4px;
+        font-size: 13px;
+        justify-content: center;
+        border-radius: 8px;
+        flex: 1;
+        
+        .mobile-open & {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+        }
+    }
+    
+    .btn-download-cv {
+        width: auto;
+        height: 45px;
+        padding: 6px 10px;
+        font-size: 13px;
+        margin: 0;
+        
+        .mobile-open & {
+            width: 100%;
+            height: 52px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        
+        span {
+            .mobile-open & {
+                display: inline;
+            }
+        }
+    }
+    
+    /* Hide logo on mobile bottom bar, show in expanded menu */
+    > a:first-child {
+        display: none;
+        
+        .mobile-open & {
+            display: flex;
+        }
+    }
+}
+
+@media (max-width: 990px) {
+    .main-menu {
+        height: 55px;
+        padding: 0 8px;
+        visibility: hidden;
+        &.mobile-open {
+            height: auto;
+            padding: 15px;
+            visibility: visible;
+        }
+    }
+    
+    .btn {
+        width: 100%;
+        font-size: 12px;
+        padding: 6px 2px;
+        
+        .mobile-open & {
+            font-size: 14px;
+            padding: 10px;
+        }
+    }
+    
+    .btn-download-cv {
+        height: 40px;
+        font-size: 12px;
+        padding: 4px 8px;
+        
+        .mobile-open & {
+            height: 48px;
+            font-size: 14px;
+            padding: 10px;
+        }
     }
 }
 `
@@ -133,6 +262,7 @@ export default function MainMenu() {
     const [showCVModal, setShowCVModal] = useState(false);
     const [showPDFModal, setShowPDFModal] = useState(false);
     const [selectedCV, setSelectedCV] = useState<'normal' | 'ats' | null>(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const getActive = (value: string) => {
         return isActive.search(value) > -1 ? "active" : '';
@@ -171,23 +301,32 @@ export default function MainMenu() {
 
     return (
         <DivParent>
-            <nav className="main-menu d-flex align-items-center fixed-bottom">
-                <Link href="/" onClick={() => { setActive('home'); }}>
+            {/* Mobile menu toggle button */}
+            <button 
+                className="mobile-menu-toggle"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle menu"
+            >
+                {mobileMenuOpen ? '✕' : '☰'}
+            </button>
+            
+            <nav className={`main-menu d-flex align-items-center fixed-bottom ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+                <Link href="/" onClick={() => { setActive('home'); setMobileMenuOpen(false); }}>
                     <Image src="/img/logo.svg" alt="Logo" width={24} height={24} />
                 </Link>
-                <Link href="/" className={`btn  ${getActive('home')}`} onClick={() => { setActive('home'); }}>
+                <Link href="/" className={`btn  ${getActive('home')}`} onClick={() => { setActive('home'); setMobileMenuOpen(false); }}>
                     Home
                 </Link>
-                <Link href="/portfolio" className={`btn  ${getActive('portfolio')}`} onClick={() => { setActive('portfolio'); }}>
+                <Link href="/portfolio" className={`btn  ${getActive('portfolio')}`} onClick={() => { setActive('portfolio'); setMobileMenuOpen(false); }}>
                     Portfolio
                 </Link>
-                <Link href="/about" className={`btn  ${getActive('about')}`} onClick={() => { setActive('about'); }}>
+                <Link href="/about" className={`btn  ${getActive('about')}`} onClick={() => { setActive('about'); setMobileMenuOpen(false); }}>
                     About
                 </Link>
-                <Link href="/contact" className={`btn  ${getActive('contact')}`} onClick={() => { setActive('contact'); }}>
+                <Link href="/contact" className={`btn  ${getActive('contact')}`} onClick={() => { setActive('contact'); setMobileMenuOpen(false); }}>
                     Contact
                 </Link>
-                <div className="btn btn-download-cv p-2 border" onClick={handleCVClick}>
+                <div className="btn btn-download-cv p-2 border" onClick={() => {handleCVClick(); setMobileMenuOpen(false);}}>
                     <ImportCurve size="24" color="#141212" className="me-2" /> 
                     <span>My CV</span>
                 </div>
