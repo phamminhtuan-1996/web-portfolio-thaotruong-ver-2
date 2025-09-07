@@ -250,23 +250,23 @@ export default function ListSkillCircle() {
     return (
         <DivParent>
             <div className="circle-skill__parent position-relative d-flex justify-content-center align-items-center">
-                <Image src="/img/skill/Adobe_Illustrator_CC_icon.png" alt="Adobe Illustrator" className="satellite" width={50} height={50} style={{width: "auto", height: "auto"}} />
-                <Image src="/img/skill/Tool icon-1.png" alt="Tool icon" className="satellite" width={50} height={50} style={{width: "auto", height: "auto"}} />
-                <Image src="/img/skill/Tool icon.png" alt="Tool icon" className="satellite" width={50} height={50} style={{width: "auto", height: "auto"}} />
-                <Image src="/img/skill/ChatGPT.png" alt="ChatGPT" className="satellite" width={50} height={50} style={{width: "auto", height: "auto"}} />
+                <Image src="/img/skill/Adobe_Illustrator_CC_icon.png" alt="Adobe Illustrator" className="satellite" width={50} height={50}  />
+                <Image src="/img/skill/Tool icon-1.png" alt="Tool icon" className="satellite" width={50} height={50}  />
+                <Image src="/img/skill/Tool icon.png" alt="Tool icon" className="satellite" width={50} height={50}  />
+                <Image src="/img/skill/ChatGPT.png" alt="ChatGPT" className="satellite" width={50} height={50}  />
                 
             </div>
             <div className="circle-skill__parent--child__wrap">
                 <div className="circle-skill__parent--child position-relative d-flex justify-content-center align-items-center">
-                    <Image src="/img/skill/AdobeXD.png" alt="Adobe XD" className="satellite-child" width={40} height={40} style={{width: "auto", height: "auto"}} />
-                    <Image src="/img/skill/Tool icon-2.png" alt="Tool icon" className="satellite-child" width={40} height={40} style={{width: "auto", height: "auto"}} />
+                    <Image src="/img/skill/AdobeXD.png" alt="Adobe XD" className="satellite-child" width={40} height={40}  />
+                    <Image src="/img/skill/Tool icon-2.png" alt="Tool icon" className="satellite-child" width={40} height={40}  />
                     <div className="child-core">
                         
                     </div>
                 </div>
             </div>
             
-             <Image src="/img/skill/figma.png" alt="Figma" className="figma" width={60} height={60} style={{width: "auto", height: "auto"}} />
+             <Image src="/img/skill/figma.png" alt="Figma" className="figma" width={60} height={60}  />
         </DivParent>
     )
 }
