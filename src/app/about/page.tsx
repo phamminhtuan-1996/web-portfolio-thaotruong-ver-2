@@ -535,7 +535,7 @@ useEffect(() => {
               ))}
               
             </Col>
-            <Col md={3} className="wrap-cv d-flex d-none justify-content-end">
+            <Col md={3} className="wrap-cv d-flex justify-content-end">
               <Image
                 src="/img/right-carousel-cv.svg"
                 alt="right-carousel-cv"
@@ -662,7 +662,7 @@ useEffect(() => {
                 <Button type="submit" className="d-block h-100">Send</Button>
               </div>
             </form>
-            <div className="message-contac d-none mx-auto mt-4 d-flex justify-content-between">
+            <div className="message-contac mx-auto mt-4 d-flex justify-content-between">
               <div className="message-contact__item">
                 <Call size={isMobile ? 24 : 32} color="#FFF"/>
                 <span className="text-white ms-3 text-decoration-none">038 679 8487</span>
