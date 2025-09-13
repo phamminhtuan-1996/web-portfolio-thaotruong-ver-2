@@ -12,6 +12,8 @@ import TrainClientV2 from '@/components/TrainClientV2';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
 import ContactForm from '@/components/ContactForm';
 import ListSkillCircle from '@/components/ListSkillCircle';
+import anime from 'animejs';
+import { useLoading } from '@/components/LoadingProvider';
 const DivParent = styled.div`
   min-height: 100vh;
   
@@ -19,6 +21,7 @@ const DivParent = styled.div`
     padding: 120px 0 80px;
     position: relative;
     overflow: visible;
+    opacity: 0;
   }
   
   .about-title {
@@ -31,6 +34,7 @@ const DivParent = styled.div`
     background-clip: text;
     text-align: center;
     margin-bottom: 3rem;
+    opacity: 0;
   }
   
   .about-paragraph {
@@ -41,6 +45,7 @@ const DivParent = styled.div`
     color: #9ca3af;
     margin-bottom: 2rem;
     vertical-align: middle;
+    opacity: 0;
   }
   
   .design-title {
@@ -52,6 +57,7 @@ const DivParent = styled.div`
     text-transform: uppercase;
     vertical-align: middle;
     margin-bottom: 1rem;
+    opacity: 0;
   }
   
   .design-description {
@@ -61,6 +67,7 @@ const DivParent = styled.div`
     line-height: 28px;
     color: #9ca3af;
     vertical-align: middle;
+    opacity: 0;
   }
   
   .character-wrapper {
@@ -69,6 +76,7 @@ const DivParent = styled.div`
     max-width: 400px;
     height: 500px;
     margin: 0 auto;
+    opacity: 0;
   }
   
   .character-image {
@@ -513,6 +521,7 @@ type ListTitleAboutDragDrop = {
 
 export default function About() {
   const [, setMobile] = useState<boolean>(false);
+  const { isLoading } = useLoading();
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
@@ -565,6 +574,142 @@ export default function About() {
 useEffect(() => {
     setMobile(isMobileOrSmallScreen());
 }, [])
+
+  useEffect(() => {
+    // Only run animation after loading is complete
+    if (!isLoading) {
+      // Small delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        // Anime.js animation for header
+        anime.timeline({loop: false})
+          .add({
+            targets: '.header',
+            opacity: [0, 1],
+            translateY: [-50, 0],
+            duration: 1200,
+            easing: 'easeOutExpo'
+          })
+          .add({
+            targets: '.about-title',
+            opacity: [0, 1],
+            scale: [0.85, 1],
+            duration: 1000,
+            easing: 'easeOutExpo'
+          }, '-=800')
+          .add({
+            targets: '.about-paragraph',
+            opacity: [0, 1],
+            translateX: [-40, 0],
+            duration: 900,
+            easing: 'easeOutExpo'
+          }, '-=600')
+          .add({
+            targets: '.design-title',
+            opacity: [0, 1],
+            translateX: [-40, 0],
+            duration: 900,
+            easing: 'easeOutExpo'
+          }, '-=700')
+          .add({
+            targets: '.design-description',
+            opacity: [0, 1],
+            translateX: [-40, 0],
+            duration: 900,
+            easing: 'easeOutExpo'
+          }, '-=700')
+          .add({
+            targets: '.character-wrapper',
+            opacity: [0, 1],
+            scale: [0.7, 1],
+            rotate: [10, 0],
+            duration: 1400,
+            easing: 'easeOutElastic(1, .5)'
+          }, '-=1000');
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    // Wait a bit after loading completes to ensure DOM is ready
+    if (!isLoading) {
+      const initTimer = setTimeout(() => {
+        let experienceAnimated = false;
+        
+        const handleScroll = () => {
+          const experienceSection = document.querySelector('.experience');
+          if (!experienceSection || experienceAnimated) return;
+          
+          const rect = experienceSection.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          
+          // Simpler trigger: when top of section reaches middle of viewport
+          if (rect.top < windowHeight * 0.5) {
+            experienceAnimated = true;
+            console.log('Triggering experience animation');
+            
+            // First, ensure elements are hidden
+            const creativeField = document.querySelector('.experience .creative-field');
+            const expTitle = document.querySelector('.experience .experience__title');
+            const linkCv = document.querySelector('.experience .link-cv');
+            const expItems = document.querySelectorAll('.experience .exp-item');
+            
+            // Set initial state if not already set
+            if (creativeField) creativeField.style.opacity = '0';
+            if (expTitle) expTitle.style.opacity = '0';
+            if (linkCv) linkCv.style.opacity = '0';
+            expItems.forEach(item => item.style.opacity = '0');
+            
+            // Animate experience section elements
+            anime.timeline({loop: false})
+              .add({
+                targets: '.experience .creative-field',
+                opacity: [0, 1],
+                translateX: [-50, 0],
+                duration: 1000,
+                easing: 'easeOutExpo'
+              })
+              .add({
+                targets: '.experience .experience__title',
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+              }, '-=700')
+              .add({
+                targets: '.experience .link-cv',
+                opacity: [0, 1],
+                translateX: [50, 0],
+                duration: 900,
+                easing: 'easeOutExpo'
+              }, '-=800')
+              .add({
+                targets: '.experience .exp-item',
+                opacity: [0, 1],
+                translateY: [40, 0],
+                duration: 900,
+                delay: anime.stagger(120),
+                easing: 'easeOutExpo'
+              }, '-=600');
+          }
+        };
+        
+        // Check immediately
+        handleScroll();
+        
+        // Add scroll listener
+        window.addEventListener('scroll', handleScroll);
+        
+        // Cleanup
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, 500); // Wait 500ms after loading completes
+      
+      return () => clearTimeout(initTimer);
+    }
+  }, [isLoading])
 
   return (
     <DivParent>
@@ -621,7 +766,9 @@ It’s about solving problems, telling stories, and creating products that bewit
           </div>
           <div style={{marginTop: '2rem'}}>
             {listExp.map((item, index) => (
-              <ExpItem {...item} key={index}/>
+              <div key={index} className="exp-item">
+                <ExpItem {...item}/>
+              </div>
             ))}
           </div>
         </div>
