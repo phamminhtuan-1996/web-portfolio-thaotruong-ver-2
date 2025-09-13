@@ -97,7 +97,7 @@ const S = {
   
   TitleDesigner: styled.span`
     display: block;
-    color: var(--text-gray);
+    color: #FFFFFF;
     font-size: clamp(3rem, 8vw, 5.5rem);
     font-weight: 800;
     line-height: 1.1;
@@ -124,10 +124,12 @@ const S = {
   
   Tag: styled.span`
     padding: 0.5rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 999px;
-    color: var(--text-light);
+    background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-size: 0.875rem;
+    font-weight: 600;
     transition: all 0.3s ease;
     
     @media (max-width: 768px) {
@@ -136,9 +138,8 @@ const S = {
     }
     
     &:hover {
-      border-color: var(--primary-blue);
-      color: var(--primary-blue);
       transform: translateY(-2px);
+      filter: brightness(1.2);
     }
   `,
   
@@ -278,7 +279,12 @@ const S = {
     opacity: 0;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: 1s;
-    
+    height: 100px;
+    overflow: hidden;
+    align-items: flex-end;
+    .btn-about {
+      height: 56px;
+    }
     @media (max-width: 768px) {
       margin-top: 2rem;
       flex-direction: column;
@@ -360,6 +366,10 @@ const S = {
       position: relative;
       z-index: 1;
     }
+  `,
+  WrapBtn: styled.div`
+    height: 100px;
+
   `
 };
 
@@ -377,7 +387,6 @@ export default function Home() {
               <S.MainTitle>
                 <S.TitleProduct>PRODUCT</S.TitleProduct>
               </S.MainTitle>
-              
               <S.TagsContainer>
                 <S.Tag>#UXUI</S.Tag>
                 <S.Tag>#2DArtist</S.Tag>
@@ -435,7 +444,7 @@ export default function Home() {
           
           {/* CTA Buttons */}
           <S.CTASection>
-            <S.ButtonPrimary href="/about" aria-label="Learn more about me">
+            <S.ButtonPrimary className='btn-about' href="/about" aria-label="Learn more about me">
               About me
             </S.ButtonPrimary>
             <ButtonViewPort label="Jump to my works" href="/portfolio"/>
