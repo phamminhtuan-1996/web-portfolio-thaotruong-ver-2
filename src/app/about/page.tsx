@@ -195,7 +195,15 @@ const DivParent = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+    &__wrap-img {
+      width: 76px;
+      height: 76px;
+      background-color: #ffff;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     &:hover {
       transform: translateY(-8px);
       border-color: #3b82f6;
@@ -213,10 +221,9 @@ const DivParent = styled.div`
     }
     
     img {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       object-fit: contain;
-      margin-bottom: 1rem;
     }
   }
   
@@ -627,12 +634,15 @@ It’s about solving problems, telling stories, and creating products that bewit
               {/* First 4 education items from existing data */}
               {listEducation.map((item, index) => (
                 <div key={index} className="education-card">
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.name}
-                    width={80}
-                    height={80}
-                  />
+                  <div className="education-card__wrap-img">
+                    <Image
+                      src={item.thumbnail}
+                      alt={item.name}
+                      width={60}
+                      height={60}
+                    />
+                  </div>
+                  
                   <h3 className="title-school">{item.name}</h3>
                   <p className="title-major">{item.major}</p>
                 </div>
