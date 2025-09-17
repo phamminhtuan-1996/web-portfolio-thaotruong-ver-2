@@ -146,9 +146,11 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
       }, '+=1500');
 
 
+    // Store refs in variables to avoid stale closure issues
+    const waterElement = waterRef.current;
+    const logoElement = logoRef.current;
+    
     return () => {
-      const waterElement = waterRef.current;
-      const logoElement = logoRef.current;
       anime.remove(outlinePath);
       anime.remove(fillPath);
       if (waterElement) anime.remove(waterElement);

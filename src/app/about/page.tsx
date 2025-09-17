@@ -602,9 +602,10 @@ export default function About() {
       linkCv.style.opacity = '0';
       linkCv.style.transform = 'translateX(50px)';
     }
-    expItems.forEach((item: any) => {
-      item.style.opacity = '0';
-      item.style.transform = 'translateY(40px)';
+    expItems.forEach((item) => {
+      const el = item as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(40px)';
     });
   };
 
@@ -649,9 +650,10 @@ export default function About() {
     const eduClients = document.querySelectorAll('.education .education-client-item');
     const eduImage = document.querySelector('.education .education-image') as HTMLElement;
     
-    eduCards.forEach((card: any) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(30px)';
+    eduCards.forEach((card) => {
+      const el = card as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
     });
     
     if (eduClientTitle) {
@@ -659,9 +661,10 @@ export default function About() {
       eduClientTitle.style.transform = 'scale(0.9)';
     }
     
-    eduClients.forEach((client: any) => {
-      client.style.opacity = '0';
-      client.style.transform = 'scale(0.8)';
+    eduClients.forEach((client) => {
+      const el = client as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'scale(0.8)';
     });
     
     if (eduImage) {
@@ -678,14 +681,16 @@ export default function About() {
     const skillCircleChild = document.querySelector('.circle-skill__parent--child') as HTMLElement;
     const skillItems = document.querySelectorAll('.list-skill .skill-item');
     
-    footerTitle.forEach((title: any) => {
-      title.style.opacity = '0';
-      title.style.transform = 'translateY(30px)';
+    footerTitle.forEach((title) => {
+      const el = title as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
     });
     
-    skillTitles.forEach((title: any) => {
-      title.style.opacity = '0';
-      title.style.transform = 'translateX(-30px)';
+    skillTitles.forEach((title) => {
+      const el = title as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-30px)';
     });
     
     if (skillCircleParent) {
@@ -698,9 +703,10 @@ export default function About() {
       skillCircleChild.style.transform = 'scale(0)';
     }
     
-    skillItems.forEach((item: any) => {
-      item.style.opacity = '0';
-      item.style.transform = 'translateY(20px)';
+    skillItems.forEach((item) => {
+      const el = item as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
     });
   };
 
@@ -768,9 +774,10 @@ export default function About() {
       contactCard.style.transform = 'translateY(50px)';
     }
     
-    contactInfo.forEach((info: any) => {
-      info.style.opacity = '0';
-      info.style.transform = 'translateX(-30px)';
+    contactInfo.forEach((info) => {
+      const el = info as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-30px)';
     });
   };
 
@@ -889,8 +896,9 @@ export default function About() {
     hideContactElements();
 
     const bodyElement = document.body;
-    const scrollHandler = function(event: any) {
-      const positionScroll = event.target.scrollTop || 0;
+    const scrollHandler = function(event: Event) {
+      const target = event.target as HTMLElement;
+      const positionScroll = target.scrollTop || 0;
       const windowHeight = window.innerHeight;
       
       // Calculate trigger points - when element is 70% visible in viewport
@@ -1069,6 +1077,7 @@ useEffect(() => {
     
     // Cleanup when component unmounts
     return cleanup;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
