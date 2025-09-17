@@ -257,19 +257,28 @@ const DivParent = styled.div`
     padding-bottom: 150px;
     padding-top: 89px;
   }
+  .footer__title {
+    text-align: center;
+  }
+  .footer__title--wrap {
+    justify-content: center;
+  }
   .footer__title--wrap h1 {
     font-size: 32px;
-    margin-right: 68px;
+    text-align: center;
   }
   .footer__title--down {
     font-size: 32px;
-    color: transparent;
-    background-clip: text;
-    background-image: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%)!important;
+    text-align: center;
 }
 .footer__title--down h1 {
   white-space: nowrap;
   font-size: 32px;
+  background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
 }
 .list-skill {
   padding-top: 59px;
@@ -459,11 +468,11 @@ background: #2A2A2A;}
   }
   .footer__title--wrap h1 {
     font-size: 16px;
-    margin-right: 1rem;
+    margin-right: 0;
   }
   .footer__title--down h1 {
     font-size: 16px;
-    white-space: wrap!important;
+    white-space: normal!important;
   }
   .footer__title--wrap::after {
     width: 50%;
@@ -675,7 +684,9 @@ export default function About() {
 
   // Hide skill elements
   const hideSkillElements = () => {
-    const footerTitle = document.querySelectorAll('.footer .footer__title h1');
+    const footerTitleWrap = document.querySelectorAll('.footer .footer__title--wrap h1');
+    const footerTitleDown = document.querySelectorAll('.footer .footer__title--down h1');
+    const footerTitle = [...footerTitleWrap, ...footerTitleDown];
     const skillTitles = document.querySelectorAll('.list-skill .list-skill__title');
     const skillCircleParent = document.querySelector('.circle-skill__parent') as HTMLElement;
     const skillCircleChild = document.querySelector('.circle-skill__parent--child') as HTMLElement;
@@ -812,13 +823,19 @@ export default function About() {
   const animateSkill = () => {
     anime.timeline({loop: false})
       .add({
-        targets: '.footer .footer__title h1',
+        targets: '.footer .footer__title--wrap h1',
         opacity: [0, 1],
         translateY: [30, 0],
         duration: 1000,
-        delay: anime.stagger(200),
         easing: 'easeOutExpo'
       })
+      .add({
+        targets: '.footer .footer__title--down h1',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=700')
       .add({
         targets: '.list-skill .list-skill__title',
         opacity: [0, 1],
@@ -1183,7 +1200,7 @@ It’s about solving problems, telling stories, and creating products that bewit
       <div className="footer overflow-hidden">
         <div className="container">
           <div className="footer__title">
-            <div className="footer__title--wrap d-flex align-items-center">
+            <div className="footer__title--wrap d-flex align-items-center justify-content-center">
               <h1 className="text-white">Learning is a journey</h1>
             </div>
             <div className="footer__title--down">
