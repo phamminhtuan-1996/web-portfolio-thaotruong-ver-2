@@ -524,6 +524,7 @@ export default function About() {
   const { isLoading } = useLoading();
   const experienceDom = useRef<HTMLDivElement | null>(null);
   const educationDom = useRef<HTMLDivElement | null>(null);
+  const skillDom = useRef<HTMLDivElement | null>(null);
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
@@ -576,6 +577,7 @@ export default function About() {
 
   let experienceAnimated = false;
   let educationAnimated = false;
+  let skillAnimated = false;
 
   // Hide experience elements
   const hideExperienceElements = () => {
@@ -664,6 +666,70 @@ export default function About() {
     }
   };
 
+  // Hide skill elements
+  const hideSkillElements = () => {
+    const footerTitle = document.querySelectorAll('.footer .footer__title h1');
+    const skillTitles = document.querySelectorAll('.list-skill .list-skill__title');
+    const skillCircles = document.querySelector('.list-skill .list-skill__circle') as HTMLElement;
+    const skillItems = document.querySelectorAll('.list-skill .skill-item');
+    
+    footerTitle.forEach((title: any) => {
+      title.style.opacity = '0';
+      title.style.transform = 'translateY(30px)';
+    });
+    
+    skillTitles.forEach((title: any) => {
+      title.style.opacity = '0';
+      title.style.transform = 'translateX(-30px)';
+    });
+    
+    if (skillCircles) {
+      skillCircles.style.opacity = '0';
+      skillCircles.style.transform = 'scale(0.9)';
+    }
+    
+    skillItems.forEach((item: any) => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(20px)';
+    });
+  };
+
+  // Skill animation function
+  const animateSkill = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.footer .footer__title h1',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 1000,
+        delay: anime.stagger(200),
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.list-skill .list-skill__title',
+        opacity: [0, 1],
+        translateX: [-30, 0],
+        duration: 900,
+        delay: anime.stagger(150),
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.list-skill .list-skill__circle',
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.list-skill .skill-item',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 800,
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo'
+      }, '-=600');
+  };
+
   // Education animation function
   const animateEducation = () => {
     anime.timeline({loop: false})
@@ -704,6 +770,7 @@ export default function About() {
     // Hide elements initially
     hideExperienceElements();
     hideEducationElements();
+    hideSkillElements();
 
     const bodyElement = document.body;
     const scrollHandler = function(event: any) {
@@ -712,6 +779,8 @@ export default function About() {
       const positionOfExp = numberPositionExp / 2;
       const numberPositionEdu = educationDom.current?.offsetTop || 0;
       const positionOfEdu = numberPositionEdu / 2 + 100;
+      const numberPositionSkill = skillDom.current?.offsetTop || 0;
+      const positionOfSkill = numberPositionSkill / 2 + 200;
       
       // Check if scrolled to experience section
       if (positionScroll >= positionOfExp) {
@@ -741,6 +810,20 @@ export default function About() {
           hideEducationElements();
         }
       }
+      // Check if scrolled to skill section
+      if (positionScroll >= positionOfSkill) {
+        if (!skillAnimated) {
+          skillAnimated = true;
+          // Call skill animation function
+          animateSkill();
+        }
+      } else {
+        // Reset when scrolling up away from skill section
+        if (skillAnimated) {
+          skillAnimated = false;
+          hideSkillElements();
+        }
+      }
     };
     
     bodyElement.addEventListener('scroll', scrollHandler);
@@ -751,6 +834,7 @@ export default function About() {
       // Reset animation flags
       experienceAnimated = false;
       educationAnimated = false;
+      skillAnimated = false;
     };
   }
 useEffect(() => {
@@ -935,12 +1019,11 @@ It’s about solving problems, telling stories, and creating products that bewit
               <h1>Each step shapes who we are and leads us closer to our potential.</h1>
             </div>
           </div>
-          <div className="list-skill">
+          <div className="list-skill" ref={skillDom}>
             <Row>
               <Col md={4}>
                 <span className="list-skill__title text-white">Tools</span>
-                <ListSkillCircle/>
-                {/* <Image src="/img/tools_details.png" alt="tools_details" width={300} height={300} style={{width: '80%', height: 'auto', display: 'block', margin: 'auto'}}/> */}
+                <ListSkillCircle />
               </Col>
               <Col md={4}>
                 <span className="list-skill__title text-start text-white">Skills</span>
