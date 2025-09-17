@@ -580,6 +580,8 @@ export default function About() {
   let experienceAnimated = false;
   let educationAnimated = false;
   let skillAnimated = false;
+  let listClientAnimated = false;
+  let contactAnimated = false;
 
   // Hide experience elements
   const hideExperienceElements = () => {
@@ -702,6 +704,103 @@ export default function About() {
     });
   };
 
+  // Hide listClient elements
+  const hideListClientElements = () => {
+    const clientCreativeField = document.querySelector('.list-client .creative-field') as HTMLElement;
+    const clientTitle = document.querySelector('.list-client .list-client__title h1') as HTMLElement;
+    const sliderTrack = document.querySelector('.list-client .slider-track') as HTMLElement;
+    
+    if (clientCreativeField) {
+      clientCreativeField.style.opacity = '0';
+      clientCreativeField.style.transform = 'translateX(-40px)';
+    }
+    
+    if (clientTitle) {
+      clientTitle.style.opacity = '0';
+      clientTitle.style.transform = 'scale(0.9)';
+    }
+    
+    if (sliderTrack) {
+      sliderTrack.style.opacity = '0';
+      sliderTrack.style.transform = 'translateX(100px)';
+    }
+  };
+
+  // ListClient animation function  
+  const animateListClient = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.list-client .creative-field',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.list-client .list-client__title h1',
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.list-client .slider-track',
+        opacity: [0, 1],
+        translateX: [100, 0],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      }, '-=600');
+  };
+
+  // Hide contact elements
+  const hideContactElements = () => {
+    const contactCreativeField = document.querySelector('.wrap-contact .creative-field') as HTMLElement;
+    const contactCard = document.querySelector('.wrap-contact .contact-card') as HTMLElement;
+    const contactInfo = document.querySelectorAll('.wrap-contact .contact-info');
+    
+    if (contactCreativeField) {
+      contactCreativeField.style.opacity = '0';
+      contactCreativeField.style.transform = 'translateY(-30px)';
+    }
+    
+    if (contactCard) {
+      contactCard.style.opacity = '0';
+      contactCard.style.transform = 'translateY(50px)';
+    }
+    
+    contactInfo.forEach((info: any) => {
+      info.style.opacity = '0';
+      info.style.transform = 'translateX(-30px)';
+    });
+  };
+
+  // Contact animation function
+  const animateContact = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.wrap-contact .creative-field',
+        opacity: [0, 1],
+        translateY: [-30, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.wrap-contact .contact-card',
+        opacity: [0, 1],
+        translateY: [50, 0],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.wrap-contact .contact-info',
+        opacity: [0, 1],
+        translateX: [-30, 0],
+        duration: 900,
+        delay: anime.stagger(150),
+        easing: 'easeOutExpo'
+      }, '-=500');
+  };
+
   // Skill animation function
   const animateSkill = () => {
     anime.timeline({loop: false})
@@ -786,16 +885,34 @@ export default function About() {
     hideExperienceElements();
     hideEducationElements();
     hideSkillElements();
+    hideListClientElements();
+    hideContactElements();
 
     const bodyElement = document.body;
     const scrollHandler = function(event: any) {
       const positionScroll = event.target.scrollTop || 0;
+      const windowHeight = window.innerHeight;
+      
+      // Calculate trigger points - when element is 70% visible in viewport
+      const triggerOffset = windowHeight * 0.7;
+      
       const numberPositionExp = experienceDom.current?.offsetTop || 0;
-      const positionOfExp = numberPositionExp / 2;
+      const positionOfExp = numberPositionExp - triggerOffset;
+      
       const numberPositionEdu = educationDom.current?.offsetTop || 0;
-      const positionOfEdu = numberPositionEdu / 2 + 100;
+      const positionOfEdu = numberPositionEdu - triggerOffset;
+      
       const numberPositionSkill = skillDom.current?.offsetTop || 0;
-      const positionOfSkill = numberPositionSkill / 2 + 200;
+      const positionOfSkill = numberPositionSkill - triggerOffset;
+      
+      const numberPositionClient = listClientDom.current?.offsetTop || 0;
+      const positionOfClient = numberPositionClient - triggerOffset;
+      
+      const numberPositionContact = contactDom.current?.offsetTop || 0;
+      const positionOfContact = numberPositionContact - triggerOffset;
+      
+      // Debug log
+      console.log('Scroll:', positionScroll, 'Exp:', positionOfExp, 'Edu:', positionOfEdu, 'Skill:', positionOfSkill);
       
       // Check if scrolled to experience section
       if (positionScroll >= positionOfExp) {
@@ -839,6 +956,34 @@ export default function About() {
           hideSkillElements();
         }
       }
+      // Check if scrolled to listClient section
+      if (positionScroll >= positionOfClient) {
+        if (!listClientAnimated) {
+          listClientAnimated = true;
+          // Call listClient animation function
+          animateListClient();
+        }
+      } else {
+        // Reset when scrolling up away from listClient section
+        if (listClientAnimated) {
+          listClientAnimated = false;
+          hideListClientElements();
+        }
+      }
+      // Check if scrolled to contact section
+      if (positionScroll >= positionOfContact) {
+        if (!contactAnimated) {
+          contactAnimated = true;
+          // Call contact animation function
+          animateContact();
+        }
+      } else {
+        // Reset when scrolling up away from contact section
+        if (contactAnimated) {
+          contactAnimated = false;
+          hideContactElements();
+        }
+      }
     };
     
     bodyElement.addEventListener('scroll', scrollHandler);
@@ -850,6 +995,8 @@ export default function About() {
       experienceAnimated = false;
       educationAnimated = false;
       skillAnimated = false;
+      listClientAnimated = false;
+      contactAnimated = false;
     };
   }
 useEffect(() => {
