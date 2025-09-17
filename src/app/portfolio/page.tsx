@@ -88,7 +88,7 @@ const FilterTabs = styled.div<{$isSticky?: boolean}>`
         position: fixed;
         top: 1rem;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translateX(-50%)!important;
         z-index: 1000;
         
         /* Liquid glass effect - same as MainMenu */
@@ -426,7 +426,8 @@ export default function Portfolio() {
         const elements = [
             '.hero-title',
             '.hero-subtitle',
-            '.cta-section'
+            '.cta-section',
+            '.filter-tabs'
         ];
         
         elements.forEach(selector => {
@@ -458,7 +459,14 @@ export default function Portfolio() {
                 translateY: [30, 0],
                 duration: 1000,
                 easing: 'easeOutExpo'
-            }, '-=600');
+            }, '-=600')
+            .add({
+                targets: '.filter-tabs',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 900,
+                easing: 'easeOutExpo'
+            }, '-=500');
     };
 
     // Animation on load
@@ -570,7 +578,7 @@ export default function Portfolio() {
             
             <FilterTabsPlaceholder $isSticky={passedFilterTabs} />
             <div style={{ maxWidth: passedFilterTabs ? '100%' : '1320px', margin: '0 auto', padding: passedFilterTabs ? '0' : '0 20px' }}>
-                <FilterTabs ref={filterTabsRef} $isSticky={passedFilterTabs}>
+                <FilterTabs ref={filterTabsRef} $isSticky={passedFilterTabs} className="filter-tabs">
                     {filtersDefault.map((item, index) => (
                         <FilterTab
                             key={index}
