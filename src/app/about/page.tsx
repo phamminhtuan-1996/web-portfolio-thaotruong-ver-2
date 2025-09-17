@@ -573,15 +573,58 @@ export default function About() {
     '/img/list-clients/zo-skin.png',
   ];
 
+  let experienceAnimated = false;
+
   const handleScrollAnimate = () => {
+    // Hide experience elements initially
+    const creativeField = document.querySelector('.experience .creative-field') as HTMLElement;
+    const expTitle = document.querySelector('.experience .experience__title') as HTMLElement;
+    const linkCv = document.querySelector('.experience .link-cv') as HTMLElement;
+    const expItems = document.querySelectorAll('.experience .exp-item');
+    
+    if (creativeField) creativeField.style.opacity = '0';
+    if (expTitle) expTitle.style.opacity = '0';
+    if (linkCv) linkCv.style.opacity = '0';
+    expItems.forEach((item: any) => item.style.opacity = '0');
+
     const bodyElement = document.body;
         bodyElement.addEventListener('scroll', function(event: any) {
           const positionScroll = event.target.scrollTop || 0;
           const numberPositionExp = experienceDom.current?.offsetTop || 0;
           const positionOfExp = numberPositionExp / 2;
-          console.log('positionOfExp', positionOfExp);
-          if (positionScroll >= positionOfExp) {
-            console.log('đã đến experience');
+          if (positionScroll >= positionOfExp && !experienceAnimated) {
+            experienceAnimated = true;
+            // Animate experience section
+            anime.timeline({loop: false})
+              .add({
+                targets: '.experience .creative-field',
+                opacity: [0, 1],
+                translateX: [-50, 0],
+                duration: 1000,
+                easing: 'easeOutExpo'
+              })
+              .add({
+                targets: '.experience .experience__title',
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+              }, '-=700')
+              .add({
+                targets: '.experience .link-cv',
+                opacity: [0, 1],
+                translateX: [50, 0],
+                duration: 900,
+                easing: 'easeOutExpo'
+              }, '-=800')
+              .add({
+                targets: '.experience .exp-item',
+                opacity: [0, 1],
+                translateY: [40, 0],
+                duration: 900,
+                delay: anime.stagger(120),
+                easing: 'easeOutExpo'
+              }, '-=600');
           }
         });
   }
