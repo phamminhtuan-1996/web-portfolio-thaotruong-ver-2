@@ -670,7 +670,8 @@ export default function About() {
   const hideSkillElements = () => {
     const footerTitle = document.querySelectorAll('.footer .footer__title h1');
     const skillTitles = document.querySelectorAll('.list-skill .list-skill__title');
-    const skillCircles = document.querySelector('.list-skill .list-skill__circle') as HTMLElement;
+    const skillCircleParent = document.querySelector('.circle-skill__parent') as HTMLElement;
+    const skillCircleChild = document.querySelector('.circle-skill__parent--child') as HTMLElement;
     const skillItems = document.querySelectorAll('.list-skill .skill-item');
     
     footerTitle.forEach((title: any) => {
@@ -683,9 +684,14 @@ export default function About() {
       title.style.transform = 'translateX(-30px)';
     });
     
-    if (skillCircles) {
-      skillCircles.style.opacity = '0';
-      skillCircles.style.transform = 'scale(0.9)';
+    if (skillCircleParent) {
+      skillCircleParent.style.opacity = '0';
+      skillCircleParent.style.transform = 'scale(0.8) rotate(-45deg)';
+    }
+    
+    if (skillCircleChild) {
+      skillCircleChild.style.opacity = '0';
+      skillCircleChild.style.transform = 'scale(0.7)';
     }
     
     skillItems.forEach((item: any) => {
@@ -714,12 +720,20 @@ export default function About() {
         easing: 'easeOutExpo'
       }, '-=600')
       .add({
-        targets: '.list-skill .list-skill__circle',
+        targets: '.circle-skill__parent',
         opacity: [0, 1],
-        scale: [0.9, 1],
-        duration: 1000,
+        scale: [0.8, 1],
+        rotate: [-45, 0],
+        duration: 1200,
         easing: 'easeOutExpo'
       }, '-=700')
+      .add({
+        targets: '.circle-skill__parent--child',
+        opacity: [0, 1],
+        scale: [0.7, 1],
+        duration: 1000,
+        easing: 'easeOutElastic(1, .5)'
+      }, '-=800')
       .add({
         targets: '.list-skill .skill-item',
         opacity: [0, 1],
@@ -1060,7 +1074,8 @@ It’s about solving problems, telling stories, and creating products that bewit
             <span className="creative-field">Contact</span>
             </div>
           <ContactForm/>
-        </div>
+        </div> 
+
         
       </div>
     </DivParent>  
