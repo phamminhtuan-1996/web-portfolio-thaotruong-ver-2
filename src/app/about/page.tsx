@@ -525,6 +525,8 @@ export default function About() {
   const experienceDom = useRef<HTMLDivElement | null>(null);
   const educationDom = useRef<HTMLDivElement | null>(null);
   const skillDom = useRef<HTMLDivElement | null>(null);
+  const listClientDom = useRef<HTMLDivElement | null>(null);
+  const contactDom = useRef<HTMLDivElement | null>(null);
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
@@ -686,12 +688,12 @@ export default function About() {
     
     if (skillCircleParent) {
       skillCircleParent.style.opacity = '0';
-      skillCircleParent.style.transform = 'scale(0.8) rotate(-45deg)';
+      skillCircleParent.style.transform = 'scale(0)';
     }
     
     if (skillCircleChild) {
       skillCircleChild.style.opacity = '0';
-      skillCircleChild.style.transform = 'scale(0.7)';
+      skillCircleChild.style.transform = 'scale(0)';
     }
     
     skillItems.forEach((item: any) => {
@@ -722,18 +724,17 @@ export default function About() {
       .add({
         targets: '.circle-skill__parent',
         opacity: [0, 1],
-        scale: [0.8, 1],
-        rotate: [-45, 0],
-        duration: 1200,
-        easing: 'easeOutExpo'
+        scale: [0, 1],
+        duration: 1400,
+        easing: 'easeOutElastic(1, .5)'
       }, '-=700')
       .add({
         targets: '.circle-skill__parent--child',
         opacity: [0, 1],
-        scale: [0.7, 1],
-        duration: 1000,
-        easing: 'easeOutElastic(1, .5)'
-      }, '-=800')
+        scale: [0, 1],
+        duration: 1200,
+        easing: 'easeOutElastic(1, .8)'
+      }, '-=1000')
       .add({
         targets: '.list-skill .skill-item',
         opacity: [0, 1],
@@ -1061,14 +1062,14 @@ It’s about solving problems, telling stories, and creating products that bewit
             </Row>
           </div>
           </div>
-          <div className="list-client container">
+          <div className="list-client container" ref={listClientDom}>
             <div className="list-client__title">
               <span className="creative-field">Creative Field</span>
               <h1 className="text-uppercase text-white mb-4">I WORK WITH</h1>
             </div>
             <TrainClientV2 data={listClients}/>
           </div>
-          <div className="wrap-contact py-4">
+          <div className="wrap-contact py-4" ref={contactDom}>
             <div className="container">
 
             <span className="creative-field">Contact</span>
