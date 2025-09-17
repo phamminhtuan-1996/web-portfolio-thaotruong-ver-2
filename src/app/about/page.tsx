@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Row, Col } from "react-bootstrap";
 import {linkCv} from '@/utils/constants';
 import Link from "next/link";
@@ -522,6 +522,7 @@ type ListTitleAboutDragDrop = {
 export default function About() {
   const [, setMobile] = useState<boolean>(false);
   const { isLoading } = useLoading();
+  const experienceDom = useRef<HTMLDivElement | null>(null);
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
@@ -571,60 +572,78 @@ export default function About() {
     '/img/list-clients/tarocha.png',
     '/img/list-clients/zo-skin.png',
   ];
+
+  const handleScrollAnimate = () => {
+    const bodyElement = document.body;
+        bodyElement.addEventListener('scroll', function(event: any) {
+          const positionScroll = event.target.scrollTop || 0;
+          const numberPositionExp = experienceDom.current?.offsetTop || 0;
+          const positionOfExp = numberPositionExp / 2;
+          console.log('positionOfExp', positionOfExp);
+          if (positionScroll >= positionOfExp) {
+            console.log('đã đến experience');
+          }
+        });
+  }
 useEffect(() => {
     setMobile(isMobileOrSmallScreen());
 }, [])
+
+  // Header animation function
+  const animateHeader = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.header',
+        opacity: [0, 1],
+        translateY: [-50, 0],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.about-title',
+        opacity: [0, 1],
+        scale: [0.85, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=800')
+      .add({
+        targets: '.about-paragraph',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.design-title',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.design-description',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.character-wrapper',
+        opacity: [0, 1],
+        scale: [0.7, 1],
+        rotate: [10, 0],
+        duration: 1400,
+        easing: 'easeOutElastic(1, .5)'
+      }, '-=1000');
+  };
 
   useEffect(() => {
     // Only run animation after loading is complete
     if (!isLoading) {
       // Small delay to ensure DOM is ready
       const timer = setTimeout(() => {
-        // Anime.js animation for header
-        anime.timeline({loop: false})
-          .add({
-            targets: '.header',
-            opacity: [0, 1],
-            translateY: [-50, 0],
-            duration: 1200,
-            easing: 'easeOutExpo'
-          })
-          .add({
-            targets: '.about-title',
-            opacity: [0, 1],
-            scale: [0.85, 1],
-            duration: 1000,
-            easing: 'easeOutExpo'
-          }, '-=800')
-          .add({
-            targets: '.about-paragraph',
-            opacity: [0, 1],
-            translateX: [-40, 0],
-            duration: 900,
-            easing: 'easeOutExpo'
-          }, '-=600')
-          .add({
-            targets: '.design-title',
-            opacity: [0, 1],
-            translateX: [-40, 0],
-            duration: 900,
-            easing: 'easeOutExpo'
-          }, '-=700')
-          .add({
-            targets: '.design-description',
-            opacity: [0, 1],
-            translateX: [-40, 0],
-            duration: 900,
-            easing: 'easeOutExpo'
-          }, '-=700')
-          .add({
-            targets: '.character-wrapper',
-            opacity: [0, 1],
-            scale: [0.7, 1],
-            rotate: [10, 0],
-            duration: 1400,
-            easing: 'easeOutElastic(1, .5)'
-          }, '-=1000');
+        // Call header animation function
+        animateHeader();
       }, 100);
       
       return () => clearTimeout(timer);
@@ -632,84 +651,8 @@ useEffect(() => {
   }, [isLoading])
 
   useEffect(() => {
-    // Wait a bit after loading completes to ensure DOM is ready
-    if (!isLoading) {
-      const initTimer = setTimeout(() => {
-        let experienceAnimated = false;
-        
-        const handleScroll = () => {
-          const experienceSection = document.querySelector('.experience');
-          if (!experienceSection || experienceAnimated) return;
-          
-          const rect = experienceSection.getBoundingClientRect();
-          const windowHeight = window.innerHeight;
-          
-          // Simpler trigger: when top of section reaches middle of viewport
-          if (rect.top < windowHeight * 0.5) {
-            experienceAnimated = true;
-            console.log('Triggering experience animation');
-            
-            // First, ensure elements are hidden
-            const creativeField = document.querySelector('.experience .creative-field');
-            const expTitle = document.querySelector('.experience .experience__title');
-            const linkCv = document.querySelector('.experience .link-cv');
-            const expItems = document.querySelectorAll('.experience .exp-item');
-            
-            // Set initial state if not already set
-            if (creativeField) creativeField.style.opacity = '0';
-            if (expTitle) expTitle.style.opacity = '0';
-            if (linkCv) linkCv.style.opacity = '0';
-            expItems.forEach(item => item.style.opacity = '0');
-            
-            // Animate experience section elements
-            anime.timeline({loop: false})
-              .add({
-                targets: '.experience .creative-field',
-                opacity: [0, 1],
-                translateX: [-50, 0],
-                duration: 1000,
-                easing: 'easeOutExpo'
-              })
-              .add({
-                targets: '.experience .experience__title',
-                opacity: [0, 1],
-                scale: [0.8, 1],
-                duration: 1000,
-                easing: 'easeOutExpo'
-              }, '-=700')
-              .add({
-                targets: '.experience .link-cv',
-                opacity: [0, 1],
-                translateX: [50, 0],
-                duration: 900,
-                easing: 'easeOutExpo'
-              }, '-=800')
-              .add({
-                targets: '.experience .exp-item',
-                opacity: [0, 1],
-                translateY: [40, 0],
-                duration: 900,
-                delay: anime.stagger(120),
-                easing: 'easeOutExpo'
-              }, '-=600');
-          }
-        };
-        
-        // Check immediately
-        handleScroll();
-        
-        // Add scroll listener
-        window.addEventListener('scroll', handleScroll);
-        
-        // Cleanup
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
-      }, 500); // Wait 500ms after loading completes
-      
-      return () => clearTimeout(initTimer);
-    }
-  }, [isLoading])
+    handleScrollAnimate();
+  }, []);
 
   return (
     <DivParent>
@@ -753,7 +696,7 @@ It’s about solving problems, telling stories, and creating products that bewit
         </div>
       </div>
   
-      <div className="experience">
+      <div className="experience" ref={experienceDom}>
         <div className="container">
           <div>
             <span className="creative-field">Creative Field</span>
