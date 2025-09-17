@@ -20,7 +20,7 @@ const S = {
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-    
+    padding: 0 0 2rem 0;
     &::before {
       content: '';
       position: absolute;
