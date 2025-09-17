@@ -575,6 +575,40 @@ export default function About() {
 
   let experienceAnimated = false;
 
+  // Experience animation function
+  const animateExperience = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.experience .creative-field',
+        opacity: [0, 1],
+        translateX: [-50, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.experience .experience__title',
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.experience .link-cv',
+        opacity: [0, 1],
+        translateX: [50, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=800')
+      .add({
+        targets: '.experience .exp-item',
+        opacity: [0, 1],
+        translateY: [40, 0],
+        duration: 900,
+        delay: anime.stagger(120),
+        easing: 'easeOutExpo'
+      }, '-=600');
+  };
+
   const handleScrollAnimate = () => {
     // Hide experience elements initially
     const creativeField = document.querySelector('.experience .creative-field') as HTMLElement;
@@ -594,37 +628,8 @@ export default function About() {
           const positionOfExp = numberPositionExp / 2;
           if (positionScroll >= positionOfExp && !experienceAnimated) {
             experienceAnimated = true;
-            // Animate experience section
-            anime.timeline({loop: false})
-              .add({
-                targets: '.experience .creative-field',
-                opacity: [0, 1],
-                translateX: [-50, 0],
-                duration: 1000,
-                easing: 'easeOutExpo'
-              })
-              .add({
-                targets: '.experience .experience__title',
-                opacity: [0, 1],
-                scale: [0.8, 1],
-                duration: 1000,
-                easing: 'easeOutExpo'
-              }, '-=700')
-              .add({
-                targets: '.experience .link-cv',
-                opacity: [0, 1],
-                translateX: [50, 0],
-                duration: 900,
-                easing: 'easeOutExpo'
-              }, '-=800')
-              .add({
-                targets: '.experience .exp-item',
-                opacity: [0, 1],
-                translateY: [40, 0],
-                duration: 900,
-                delay: anime.stagger(120),
-                easing: 'easeOutExpo'
-              }, '-=600');
+            // Call experience animation function
+            animateExperience();
           }
         });
   }
