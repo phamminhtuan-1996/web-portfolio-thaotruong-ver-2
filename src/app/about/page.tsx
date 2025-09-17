@@ -523,6 +523,7 @@ export default function About() {
   const [, setMobile] = useState<boolean>(false);
   const { isLoading } = useLoading();
   const experienceDom = useRef<HTMLDivElement | null>(null);
+  const educationDom = useRef<HTMLDivElement | null>(null);
   const listExp: ListExp[] = [
     {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
@@ -574,6 +575,32 @@ export default function About() {
   ];
 
   let experienceAnimated = false;
+  let educationAnimated = false;
+
+  // Hide experience elements
+  const hideExperienceElements = () => {
+    const creativeField = document.querySelector('.experience .creative-field') as HTMLElement;
+    const expTitle = document.querySelector('.experience .experience__title') as HTMLElement;
+    const linkCv = document.querySelector('.experience .link-cv') as HTMLElement;
+    const expItems = document.querySelectorAll('.experience .exp-item');
+    
+    if (creativeField) {
+      creativeField.style.opacity = '0';
+      creativeField.style.transform = 'translateX(-50px)';
+    }
+    if (expTitle) {
+      expTitle.style.opacity = '0';
+      expTitle.style.transform = 'scale(0.8)';
+    }
+    if (linkCv) {
+      linkCv.style.opacity = '0';
+      linkCv.style.transform = 'translateX(50px)';
+    }
+    expItems.forEach((item: any) => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(40px)';
+    });
+  };
 
   // Experience animation function
   const animateExperience = () => {
@@ -609,27 +636,98 @@ export default function About() {
       }, '-=600');
   };
 
-  const handleScrollAnimate = () => {
-    // Hide experience elements initially
-    const creativeField = document.querySelector('.experience .creative-field') as HTMLElement;
-    const expTitle = document.querySelector('.experience .experience__title') as HTMLElement;
-    const linkCv = document.querySelector('.experience .link-cv') as HTMLElement;
-    const expItems = document.querySelectorAll('.experience .exp-item');
+  // Hide education elements
+  const hideEducationElements = () => {
+    const eduCards = document.querySelectorAll('.education .education-card');
+    const eduClientTitle = document.querySelector('.education .education-client-title') as HTMLElement;
+    const eduClients = document.querySelectorAll('.education .education-client-item');
     
-    if (creativeField) creativeField.style.opacity = '0';
-    if (expTitle) expTitle.style.opacity = '0';
-    if (linkCv) linkCv.style.opacity = '0';
-    expItems.forEach((item: any) => item.style.opacity = '0');
+    eduCards.forEach((card: any) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+    });
+    
+    if (eduClientTitle) {
+      eduClientTitle.style.opacity = '0';
+      eduClientTitle.style.transform = 'scale(0.9)';
+    }
+    
+    eduClients.forEach((client: any) => {
+      client.style.opacity = '0';
+      client.style.transform = 'scale(0.8)';
+    });
+  };
+
+  // Education animation function
+  const animateEducation = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.education .education-card',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 900,
+        delay: anime.stagger(150),
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.education .education-client-title',
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.education .education-client-item',
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        duration: 800,
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo'
+      }, '-=500');
+  };
+
+  const handleScrollAnimate = () => {
+    // Hide elements initially
+    hideExperienceElements();
+    hideEducationElements();
 
     const bodyElement = document.body;
         bodyElement.addEventListener('scroll', function(event: any) {
           const positionScroll = event.target.scrollTop || 0;
           const numberPositionExp = experienceDom.current?.offsetTop || 0;
           const positionOfExp = numberPositionExp / 2;
-          if (positionScroll >= positionOfExp && !experienceAnimated) {
-            experienceAnimated = true;
-            // Call experience animation function
-            animateExperience();
+          const numberPositionEdu = educationDom.current?.offsetTop || 0;
+          const positionOfEdu = numberPositionEdu / 2 + 80;
+          
+          // Check if scrolled to experience section
+          if (positionScroll >= positionOfExp) {
+            if (!experienceAnimated) {
+              experienceAnimated = true;
+              // Call experience animation function
+              animateExperience();
+            }
+          } else {
+            // Reset when scrolling up away from experience section
+            if (experienceAnimated) {
+              experienceAnimated = false;
+              hideExperienceElements();
+            }
+          }
+          console.log('positionScroll', positionScroll, 'numberPositionEdu', numberPositionEdu);
+          // Check if scrolled to education section
+          if (positionScroll >= positionOfEdu) {
+            console.log('đã scroll đến education')
+            if (!educationAnimated) {
+              educationAnimated = true;
+              // Call education animation function
+              animateEducation();
+            }
+          } else {
+            // Reset when scrolling up away from education section
+            if (educationAnimated) {
+              educationAnimated = false;
+              hideEducationElements();
+            }
           }
         });
   }
@@ -765,7 +863,7 @@ It’s about solving problems, telling stories, and creating products that bewit
         </div>
       </div>
       
-      <div className="education">
+      <div className="education" ref={educationDom}>
         <div className="container">
           <div className="education-content">
             <div className="education-left">
