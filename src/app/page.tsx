@@ -1,9 +1,11 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
 import ButtonViewPort from '@/components/ButtonViewPort'
+import anime from 'animejs';
+import { useLoading } from '@/components/LoadingProvider';
 const Global = createGlobalStyle`
   :root {
     --primary-blue: #4A90E2;
@@ -48,9 +50,6 @@ const S = {
     color: var(--text-light);
     font-size: 1.125rem;
     margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.2s;
     
     @media (max-width: 768px) {
       font-size: 1rem;
@@ -72,9 +71,6 @@ const S = {
   
   MainTitle: styled.h1`
     margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.4s;
     
     @media (max-width: 768px) {
       margin-bottom: 1.5rem;
@@ -112,9 +108,6 @@ const S = {
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.6s;
     
     @media (max-width: 768px) {
       justify-content: center;
@@ -149,9 +142,6 @@ const S = {
     max-width: 360px;
     height: 450px;
     margin: 0 auto;
-    opacity: 0;
-    animation: scaleIn 0.8s ease forwards;
-    animation-delay: 0.5s;
     
     @media (max-width: 480px) {
       max-width: 280px;
@@ -236,9 +226,6 @@ const S = {
   
   SloganSection: styled.div`
     text-align: center;
-    opacity: 0;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.8s;
     
     @media (min-width: 992px) {
       text-align: right;
@@ -276,9 +263,6 @@ const S = {
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 1s;
     height: 100px;
     overflow: hidden;
     align-items: flex-end;
@@ -374,6 +358,98 @@ const S = {
 };
 
 export default function Home() {
+  const { isLoading } = useLoading();
+
+  // Hide elements initially for animation
+  const hideElements = () => {
+    const elements = [
+      '.greeting-text',
+      '.title-product', 
+      '.tags-container',
+      '.character-placeholder',
+      '.slogan-section',
+      '.title-designer',
+      '.cta-section'
+    ];
+    
+    elements.forEach(selector => {
+      const el = document.querySelector(selector) as HTMLElement;
+      if (el) el.style.opacity = '0';
+    });
+  };
+
+  // Header animation function similar to About page
+  const animateHeader = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.greeting-text',
+        opacity: [0, 1],
+        translateY: [-30, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.title-product',
+        opacity: [0, 1],
+        scale: [0.85, 1],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.tags-container',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.character-placeholder',
+        opacity: [0, 1],
+        scale: [0.7, 1],
+        rotate: [10, 0],
+        duration: 1400,
+        easing: 'easeOutElastic(1, .5)'
+      }, '-=800')
+      .add({
+        targets: '.slogan-section',
+        opacity: [0, 1],
+        translateX: [40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.title-designer',
+        opacity: [0, 1],
+        scale: [0.85, 1],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.cta-section',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=600');
+  };
+
+  useEffect(() => {
+    // Hide elements on mount
+    hideElements();
+    
+    // Only run animation after loading is complete
+    if (!isLoading) {
+      // Small delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        // Call header animation function
+        animateHeader();
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
+
   return (
     <>
       <Global />
@@ -382,12 +458,12 @@ export default function Home() {
           <div className="row align-items-center">
             {/* Left Column - Main Text */}
             <div className="col-12 col-lg-4 mb-5 mb-lg-0">
-              <S.GreetingText>Hello, I&apos;m Thao Truong</S.GreetingText>
+              <S.GreetingText className="greeting-text">Hello, I&apos;m Thao Truong</S.GreetingText>
               
               <S.MainTitle>
-                <S.TitleProduct>PRODUCT</S.TitleProduct>
+                <S.TitleProduct className="title-product">PRODUCT</S.TitleProduct>
               </S.MainTitle>
-              <S.TagsContainer>
+              <S.TagsContainer className="tags-container">
                 <S.Tag>#UXUI</S.Tag>
                 <S.Tag>#2DArtist</S.Tag>
                 <S.Tag>#4+yrsExp</S.Tag>
@@ -396,7 +472,7 @@ export default function Home() {
             
             {/* Center - Character Placeholder */}
             <div className="col-12 col-lg-4 mb-5 mb-lg-0">
-              <S.CharacterPlaceholder>
+              <S.CharacterPlaceholder className="character-placeholder">
                 <S.PlaceholderBox>
                   <Image 
                     src="/img/avt-owner-port.png" 
@@ -430,20 +506,20 @@ export default function Home() {
             
             {/* Right Column - Slogan */}
             <div className="col-12 col-lg-4">
-              <S.SloganSection>
+              <S.SloganSection className="slogan-section">
                 <S.SloganTitle>
                   <S.SloganHighlight>I Design Products</S.SloganHighlight>
                   <S.SloganNormal>That Bewitch And Inspire People.</S.SloganNormal>
                 </S.SloganTitle>
               </S.SloganSection>
                <S.MainTitle>
-                <S.TitleDesigner>DESIGNER</S.TitleDesigner>
+                <S.TitleDesigner className="title-designer">DESIGNER</S.TitleDesigner>
               </S.MainTitle>
             </div>
           </div>
           
           {/* CTA Buttons */}
-          <S.CTASection>
+          <S.CTASection className="cta-section">
             <S.ButtonPrimary className='btn-about' href="/about" aria-label="Learn more about me">
               About me
             </S.ButtonPrimary>

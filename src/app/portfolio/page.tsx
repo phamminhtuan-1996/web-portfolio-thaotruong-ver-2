@@ -7,6 +7,7 @@ import ButtonViewPort from "@/components/ButtonViewPort";
 import catePort from '@/data/cate-port.json';
 import dataContent from '@/data/data-content.json';
 import anime from 'animejs';
+import { useLoading } from '@/components/LoadingProvider';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -346,6 +347,7 @@ const FilterTabsPlaceholder = styled.div<{$isSticky: boolean}>`
 `;
 
 export default function Portfolio() {
+    const { isLoading } = useLoading();
     const filterDefaultHarcode: FilterDefaultHarcode[] = catePort.map((item) => ({...item, isChecked: item.label === 'All'}))
     const [filtersDefault, setFiltersDefault] = useState<FilterDefaultHarcode[]>([...filterDefaultHarcode]);
     const [isShowModalProject, setShowModalProject] = useState<boolean>(false);
@@ -419,6 +421,64 @@ export default function Portfolio() {
         };
     }, []);
     
+    // Hide elements initially for animation
+    const hideHeroElements = () => {
+        const elements = [
+            '.hero-title',
+            '.hero-subtitle',
+            '.cta-section'
+        ];
+        
+        elements.forEach(selector => {
+            const el = document.querySelector(selector) as HTMLElement;
+            if (el) el.style.opacity = '0';
+        });
+    };
+
+    // Hero animation function
+    const animateHero = () => {
+        anime.timeline({loop: false})
+            .add({
+                targets: '.hero-title',
+                opacity: [0, 1],
+                scale: [0.9, 1],
+                duration: 1200,
+                easing: 'easeOutExpo'
+            })
+            .add({
+                targets: '.hero-subtitle',
+                opacity: [0, 1],
+                translateY: [-20, 0],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            }, '-=800')
+            .add({
+                targets: '.cta-section',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            }, '-=600');
+    };
+
+    // Animation on load
+    useEffect(() => {
+        // Hide elements on mount
+        hideHeroElements();
+        
+        // Only run animation after loading is complete
+        if (!isLoading) {
+            // Small delay to ensure DOM is ready
+            const timer = setTimeout(() => {
+                // Call hero animation function
+                animateHero();
+            }, 100);
+            
+            return () => clearTimeout(timer);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoading]);
+
     // Check URL for portfolio ID on load
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -494,11 +554,11 @@ export default function Portfolio() {
         <DivParent>
             <HeroSection>
                 <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 20px' }}>
-                    <HeroTitle>Projects</HeroTitle>
-                    <HeroSubtitle>
+                    <HeroTitle className="hero-title">Projects</HeroTitle>
+                    <HeroSubtitle className="hero-subtitle">
                         Design that solves problems - where creativity meets functionality
                     </HeroSubtitle>
-                    <CTASection>
+                    <CTASection className="cta-section">
                         <ButtonViewPort 
                             label="Contact Now" 
                             hireText="Let's talk"
