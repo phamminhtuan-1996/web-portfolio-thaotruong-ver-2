@@ -641,6 +641,7 @@ export default function About() {
     const eduCards = document.querySelectorAll('.education .education-card');
     const eduClientTitle = document.querySelector('.education .education-client-title') as HTMLElement;
     const eduClients = document.querySelectorAll('.education .education-client-item');
+    const eduImage = document.querySelector('.education .education-image') as HTMLElement;
     
     eduCards.forEach((card: any) => {
       card.style.opacity = '0';
@@ -656,6 +657,11 @@ export default function About() {
       client.style.opacity = '0';
       client.style.transform = 'scale(0.8)';
     });
+    
+    if (eduImage) {
+      eduImage.style.opacity = '0';
+      eduImage.style.transform = 'rotate(-5deg) scale(0.95)';
+    }
   };
 
   // Education animation function
@@ -669,6 +675,14 @@ export default function About() {
         delay: anime.stagger(150),
         easing: 'easeOutExpo'
       })
+      .add({
+        targets: '.education .education-image',
+        opacity: [0, 1],
+        rotate: [-5, 0],
+        scale: [0.95, 1],
+        duration: 1200,
+        easing: 'easeOutElastic(1, .5)'
+      }, '-=700')
       .add({
         targets: '.education .education-client-title',
         opacity: [0, 1],
@@ -692,44 +706,52 @@ export default function About() {
     hideEducationElements();
 
     const bodyElement = document.body;
-        bodyElement.addEventListener('scroll', function(event: any) {
-          const positionScroll = event.target.scrollTop || 0;
-          const numberPositionExp = experienceDom.current?.offsetTop || 0;
-          const positionOfExp = numberPositionExp / 2;
-          const numberPositionEdu = educationDom.current?.offsetTop || 0;
-          const positionOfEdu = numberPositionEdu / 2 + 80;
-          
-          // Check if scrolled to experience section
-          if (positionScroll >= positionOfExp) {
-            if (!experienceAnimated) {
-              experienceAnimated = true;
-              // Call experience animation function
-              animateExperience();
-            }
-          } else {
-            // Reset when scrolling up away from experience section
-            if (experienceAnimated) {
-              experienceAnimated = false;
-              hideExperienceElements();
-            }
-          }
-          console.log('positionScroll', positionScroll, 'numberPositionEdu', numberPositionEdu);
-          // Check if scrolled to education section
-          if (positionScroll >= positionOfEdu) {
-            console.log('đã scroll đến education')
-            if (!educationAnimated) {
-              educationAnimated = true;
-              // Call education animation function
-              animateEducation();
-            }
-          } else {
-            // Reset when scrolling up away from education section
-            if (educationAnimated) {
-              educationAnimated = false;
-              hideEducationElements();
-            }
-          }
-        });
+    const scrollHandler = function(event: any) {
+      const positionScroll = event.target.scrollTop || 0;
+      const numberPositionExp = experienceDom.current?.offsetTop || 0;
+      const positionOfExp = numberPositionExp / 2;
+      const numberPositionEdu = educationDom.current?.offsetTop || 0;
+      const positionOfEdu = numberPositionEdu / 2 + 100;
+      
+      // Check if scrolled to experience section
+      if (positionScroll >= positionOfExp) {
+        if (!experienceAnimated) {
+          experienceAnimated = true;
+          // Call experience animation function
+          animateExperience();
+        }
+      } else {
+        // Reset when scrolling up away from experience section
+        if (experienceAnimated) {
+          experienceAnimated = false;
+          hideExperienceElements();
+        }
+      }
+      // Check if scrolled to education section
+      if (positionScroll >= positionOfEdu) {
+        if (!educationAnimated) {
+          educationAnimated = true;
+          // Call education animation function
+          animateEducation();
+        }
+      } else {
+        // Reset when scrolling up away from education section
+        if (educationAnimated) {
+          educationAnimated = false;
+          hideEducationElements();
+        }
+      }
+    };
+    
+    bodyElement.addEventListener('scroll', scrollHandler);
+    
+    // Return cleanup function
+    return () => {
+      bodyElement.removeEventListener('scroll', scrollHandler);
+      // Reset animation flags
+      experienceAnimated = false;
+      educationAnimated = false;
+    };
   }
 useEffect(() => {
     setMobile(isMobileOrSmallScreen());
@@ -797,7 +819,10 @@ useEffect(() => {
   }, [isLoading])
 
   useEffect(() => {
-    handleScrollAnimate();
+    const cleanup = handleScrollAnimate();
+    
+    // Cleanup when component unmounts
+    return cleanup;
   }, []);
 
   return (
