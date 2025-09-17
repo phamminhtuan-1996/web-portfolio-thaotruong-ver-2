@@ -1,8 +1,9 @@
 "use client";
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import { Row, Col, Button, Container, Card, Form } from "react-bootstrap";
 import { Sms, Call } from 'iconsax-react';
 import styled from "styled-components";
+import anime from 'animejs';
 
 const ContactSection = styled.div`
     // padding: 120px 0 80px;
@@ -123,6 +124,43 @@ export default function ContactForm() {
         message: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    useEffect(() => {
+        // Hide elements initially
+        const leftContent = document.querySelector('.contact-form-left') as HTMLElement;
+        const rightCard = document.querySelector('.contact-form-right') as HTMLElement;
+        if (leftContent) leftContent.style.opacity = '0';
+        if (rightCard) rightCard.style.opacity = '0';
+        
+        // Animate ContactForm content
+        const timer = setTimeout(() => {
+            anime.timeline({loop: false})
+                .add({
+                    targets: '.contact-form-left',
+                    opacity: [0, 1],
+                    translateX: [-50, 0],
+                    duration: 1000,
+                    easing: 'easeOutExpo'
+                })
+                .add({
+                    targets: '.contact-form-right',
+                    opacity: [0, 1],
+                    translateX: [50, 0],
+                    duration: 1000,
+                    easing: 'easeOutExpo'
+                }, '-=700')
+                .add({
+                    targets: '.contact-form-right .form-group',
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 800,
+                    delay: anime.stagger(100),
+                    easing: 'easeOutExpo'
+                }, '-=500');
+        }, 300);
+        
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -171,7 +209,7 @@ export default function ContactForm() {
                     {/* <Col xs={12}>
                         <h1 className="contact-title text-uppercase text-center">Contact</h1>
                     </Col> */}
-                    <Col xs={12} md={6}>
+                    <Col xs={12} md={6} className='contact-form-left'>
                         <h2 className='text-white contact-title__left text-uppercase'>
                             Have an Awesome Project Idea? Let&apos;s Discuss
                         </h2>
@@ -191,11 +229,11 @@ export default function ContactForm() {
                             </span>
                         </div>
                     </Col>
-                    <Col xs={12} md={6}>
+                    <Col xs={12} md={6} className='contact-form-right'>
                         <Card className="contact-card bg-dark" bg="Dark" text="light">
                             <Card.Body>
                                 <Form onSubmit={handleSubmit}>
-                                    <Form.Group className="mb-3">
+                                    <Form.Group className="mb-3 form-group">
                                         <Form.Label>Full Name</Form.Label>
                                         <Form.Control
                                             type="text"
@@ -207,7 +245,7 @@ export default function ContactForm() {
                                         />
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3">
+                                    <Form.Group className="mb-3 form-group">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control
                                             type="email"
@@ -219,7 +257,7 @@ export default function ContactForm() {
                                         />
                                     </Form.Group>
 
-                                    <Form.Group className="mb-4">
+                                    <Form.Group className="mb-4 form-group">
                                         <Form.Label>Message</Form.Label>
                                         <Form.Control
                                             as="textarea"
