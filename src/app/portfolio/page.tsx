@@ -378,15 +378,7 @@ export default function Portfolio() {
                     }
                 });
                 
-                // Animate cards on load
-                anime({
-                    targets: '.project-item',
-                    translateY: [30, 0],
-                    opacity: [0, 1],
-                    delay: anime.stagger(100),
-                    easing: 'easeOutExpo',
-                    duration: 800
-                });
+                // Don't animate here - will be handled by hero animation
             }
         };
         
@@ -427,12 +419,21 @@ export default function Portfolio() {
             '.hero-title',
             '.hero-subtitle',
             '.cta-section',
-            '.filter-tabs'
+            '.filter-tabs',
+            '.portfolio-grid'
         ];
         
         elements.forEach(selector => {
             const el = document.querySelector(selector) as HTMLElement;
             if (el) el.style.opacity = '0';
+        });
+        
+        // Also hide project items
+        const projectItems = document.querySelectorAll('.project-item');
+        projectItems.forEach((item) => {
+            const el = item as HTMLElement;
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
         });
     };
 
@@ -466,7 +467,21 @@ export default function Portfolio() {
                 translateY: [20, 0],
                 duration: 900,
                 easing: 'easeOutExpo'
-            }, '-=500');
+            }, '-=500')
+            .add({
+                targets: '.portfolio-grid',
+                opacity: [0, 1],
+                duration: 1200,
+                easing: 'easeOutExpo'
+            }, '-=400')
+            .add({
+                targets: '.project-item',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 800,
+                delay: anime.stagger(100),
+                easing: 'easeOutExpo'
+            }, '-=800');
     };
 
     // Animation on load
@@ -593,7 +608,7 @@ export default function Portfolio() {
             </div>
             
             <ProjectsGrid>
-                <IsotopeGrid ref={gridRef}>
+                <IsotopeGrid ref={gridRef} className="portfolio-grid">
                     {listProjectItemDefault.map((item, index) => {
                         const categoryInfo = filterDefaultHarcode.find((items) => items.color === item.filter[0]);
                         
