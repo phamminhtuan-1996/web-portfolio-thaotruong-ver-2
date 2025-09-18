@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
 import { Row, Col } from "react-bootstrap";
-import {linkCv} from '@/utils/constants';
-import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 import ExpItem from "@/components/ExpItem";
@@ -14,6 +12,8 @@ import ContactForm from '@/components/ContactForm';
 import ListSkillCircle from '@/components/ListSkillCircle';
 import anime from 'animejs';
 import { useLoading } from '@/components/LoadingProvider';
+import CVSelectionModal from '@/components/CVSelectionModal';
+import PDFViewerModal from '@/components/PDFViewerModal';
 const DivParent = styled.div`
   min-height: 100vh;
   
@@ -131,6 +131,7 @@ const DivParent = styled.div`
     align-items: center;
     gap: 0.5rem;
     transition: all 0.3s ease;
+    cursor: pointer;
     
     &:hover {
       color: #8b5cf6;
@@ -531,6 +532,9 @@ type ListTitleAboutDragDrop = {
 export default function About() {
   const [, setMobile] = useState<boolean>(false);
   const { isLoading } = useLoading();
+  const [showCVModal, setShowCVModal] = useState(false);
+  const [showPDFModal, setShowPDFModal] = useState(false);
+  const [selectedCV, setSelectedCV] = useState<'normal' | 'ats' | null>(null);
   const experienceDom = useRef<HTMLDivElement | null>(null);
   const educationDom = useRef<HTMLDivElement | null>(null);
   const skillDom = useRef<HTMLDivElement | null>(null);
@@ -585,6 +589,28 @@ export default function About() {
     '/img/list-clients/tarocha.png',
     '/img/list-clients/zo-skin.png',
   ];
+  
+  const handleCVClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Add query parameter to URL to trigger CV popup
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set("cv", "normal-cv");
+    window.history.pushState({}, "", currentUrl.toString());
+    
+    // Trigger a popstate event to notify AutoOpenCV component
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
+  
+  const handleCVSelection = (type: "normal" | "ats") => {
+    setSelectedCV(type);
+    setShowCVModal(false);
+    setShowPDFModal(true);
+  };
+  
+  const handleClosePDF = () => {
+    setShowPDFModal(false);
+    setSelectedCV(null);
+  };
 
   let experienceAnimated = false;
   let educationAnimated = false;
@@ -1145,9 +1171,9 @@ It’s about solving problems, telling stories, and creating products that bewit
             <span className="creative-field">Creative Field</span>
             <div className="experience-header">
               <h1 className="experience__title">Experiences</h1>
-              <Link href={linkCv} className="link-cv" target="_blank">
+              <a href="#" className="link-cv" onClick={handleCVClick}>
                 See more in my CV →
-              </Link>
+              </a>
             </div>
           </div>
           <div style={{marginTop: '2rem'}}>
@@ -1252,6 +1278,20 @@ It’s about solving problems, telling stories, and creating products that bewit
 
         
       </div>
+      
+      {/* CV Selection Modal */}
+      <CVSelectionModal
+        show={showCVModal}
+        onHide={() => setShowCVModal(false)}
+        onSelect={handleCVSelection}
+      />
+      
+      {/* PDF Viewer Modal */}
+      <PDFViewerModal
+        show={showPDFModal}
+        onHide={handleClosePDF}
+        cvType={selectedCV}
+      />
     </DivParent>  
   ); 
 }
