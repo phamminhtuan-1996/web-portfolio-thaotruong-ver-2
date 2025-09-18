@@ -548,8 +548,9 @@ export default function Portfolio() {
         setDataPick({...data});
         setShowModalProject(true);
         
-        // Add portfolio ID to URL
+        // Update URL with portfolio ID and remove cv param if present
         const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.delete('cv'); // Remove cv query param if it exists
         currentUrl.searchParams.set('id', data.id.toString());
         window.history.pushState({}, '', currentUrl.toString());
     };
