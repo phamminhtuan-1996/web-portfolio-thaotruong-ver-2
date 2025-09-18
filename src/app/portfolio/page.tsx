@@ -20,7 +20,7 @@ const DivParent = styled.div`
 
 const HeroSection = styled.section`
     text-align: center;
-    padding: 32px 0 60px;
+    padding: 32px 0 0;
     background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
     
     @media (max-width: 768px) {
@@ -39,6 +39,7 @@ const HeroTitle = styled.h1`
     letter-spacing: -2px;
     text-transform: uppercase;
     line-height: 1.1;
+    font-size: 64px;
     
     @media (max-width: 768px) {
         font-size: clamp(2rem, 10vw, 3rem);
@@ -49,7 +50,7 @@ const HeroTitle = styled.h1`
 const HeroSubtitle = styled.p`
     font-size: 1.2rem;
     color: #9ca3af;
-    margin-bottom: 40px;
+    margin-bottom: 8px;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.6;
@@ -586,7 +587,7 @@ export default function Portfolio() {
                         <ButtonViewPort 
                             label="Contact Now" 
                             hireText="Let's talk"
-                            href="/about#message"
+                            href="/contact"
                         />
                     </CTASection>
                 </div>

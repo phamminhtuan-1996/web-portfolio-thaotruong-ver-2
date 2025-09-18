@@ -98,6 +98,9 @@ const S = {
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    position:relative;
+        z-index: -1;
     
     @media (max-width: 768px) {
       font-size: clamp(2.5rem, 10vw, 4rem);
@@ -174,7 +177,6 @@ const S = {
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
     
     &::before {
       content: '';
@@ -206,8 +208,8 @@ const S = {
     animation: float 3s ease-in-out infinite;
     animation-delay: ${props => props.$delay || '0s'};
     &.cursor-floating-icon {
-      top: 50%!important;
-      right: 0!important;
+      top: 65%!important;
+      right: 5%!important;
       left: unset!important;
     }
     
@@ -457,7 +459,7 @@ export default function Home() {
         <S.ContentWrapper className="container">
           <div className="row align-items-center">
             {/* Left Column - Main Text */}
-            <div className="col-12 col-lg-4 mb-5 mb-lg-0">
+            <div className="col-12 col-lg-4 mb-5 mb-lg-0 d-flex justify-content-center flex-column">
               <S.GreetingText className="greeting-text">Hello, I&apos;m Thao Truong</S.GreetingText>
               
               <S.MainTitle>
@@ -477,11 +479,9 @@ export default function Home() {
                   <Image 
                     src="/img/avt-owner-port.png" 
                     alt="Thao Truong - Product Designer" 
-                    width={320}
-                    height={400}
+                    width={1000}
+                    height={1000}
                     style={{ 
-                      width: '100%', 
-                      height: '100%', 
                       objectFit: 'contain',
                       filter: 'drop-shadow(0 20px 40px rgba(74, 144, 226, 0.2))'
                     }}
@@ -490,11 +490,11 @@ export default function Home() {
                 </S.PlaceholderBox>
                 
                 {/* Floating Icons */}
-                <S.FloatingIcon style={{ top: '-20px', left: '-20px' }} $delay="0s">
+                <S.FloatingIcon style={{ top: '50px', left: '-20px' }} $delay="0s">
                   <Image src="/img/skill/figma.png" alt="Figma" width={73} height={73} />
                 </S.FloatingIcon>
                 
-                <S.FloatingIcon style={{ top: '-20px', right: '-20px', background: 'white' }} $rounded $size="40px" $delay="0.5s">
+                <S.FloatingIcon style={{ top: '50px', right: '-20px', background: 'white' }} $rounded $size="40px" $delay="0.5s">
                   <Image src="/img/plus.png" alt="Figma" width={58} height={58} />
                 </S.FloatingIcon>
                 
@@ -505,7 +505,7 @@ export default function Home() {
             </div>
             
             {/* Right Column - Slogan */}
-            <div className="col-12 col-lg-4">
+            <div className="col-12 col-lg-4 d-flex justify-content-center flex-column">
               <S.SloganSection className="slogan-section">
                 <S.SloganTitle>
                   <S.SloganHighlight>I Design Products</S.SloganHighlight>
