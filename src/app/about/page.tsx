@@ -612,11 +612,14 @@ export default function About() {
     setSelectedCV(null);
   };
 
-  let experienceAnimated = false;
-  let educationAnimated = false;
-  let skillAnimated = false;
-  let listClientAnimated = false;
-  let contactAnimated = false;
+  // Animation state tracking
+  const animationStates = useRef({
+    experience: false,
+    education: false,
+    skill: false,
+    listClient: false,
+    contact: false
+  });
 
   // Hide experience elements
   const hideExperienceElements = () => {
@@ -931,110 +934,68 @@ export default function About() {
   };
 
   const handleScrollAnimate = () => {
-    // Hide elements initially
-    hideExperienceElements();
-    hideEducationElements();
-    hideSkillElements();
-    hideListClientElements();
-    hideContactElements();
+    // Section configurations
+    const sections = [
+      {
+        name: 'experience',
+        ref: experienceDom,
+        hide: hideExperienceElements,
+        animate: animateExperience
+      },
+      {
+        name: 'education',
+        ref: educationDom,
+        hide: hideEducationElements,
+        animate: animateEducation
+      },
+      {
+        name: 'skill',
+        ref: skillDom,
+        hide: hideSkillElements,
+        animate: animateSkill
+      },
+      {
+        name: 'listClient',
+        ref: listClientDom,
+        hide: hideListClientElements,
+        animate: animateListClient
+      },
+      {
+        name: 'contact',
+        ref: contactDom,
+        hide: hideContactElements,
+        animate: animateContact
+      }
+    ];
+    
+    // Hide all sections initially
+    sections.forEach(section => section.hide());
 
     const bodyElement = document.body;
     const scrollHandler = function(event: Event) {
       const target = event.target as HTMLElement;
       const positionScroll = target.scrollTop || 0;
       const windowHeight = window.innerHeight;
-      
-      // Calculate trigger points - when element is 70% visible in viewport
       const triggerOffset = windowHeight * 0.7;
       
-      const numberPositionExp = experienceDom.current?.offsetTop || 0;
-      const positionOfExp = numberPositionExp - triggerOffset;
-      
-      const numberPositionEdu = educationDom.current?.offsetTop || 0;
-      const positionOfEdu = numberPositionEdu - triggerOffset;
-      
-      const numberPositionSkill = skillDom.current?.offsetTop || 0;
-      const positionOfSkill = numberPositionSkill - triggerOffset;
-      
-      const numberPositionClient = listClientDom.current?.offsetTop || 0;
-      const positionOfClient = numberPositionClient - triggerOffset;
-      
-      const numberPositionContact = contactDom.current?.offsetTop || 0;
-      const positionOfContact = numberPositionContact - triggerOffset;
-      
-      // Debug log
-      console.log('Scroll:', positionScroll, 'Exp:', positionOfExp, 'Edu:', positionOfEdu, 'Skill:', positionOfSkill);
-      
-      // Check if scrolled to experience section
-      if (positionScroll >= positionOfExp) {
-        if (!experienceAnimated) {
-          experienceAnimated = true;
-          // Call experience animation function
-          animateExperience();
+      // Process each section
+      sections.forEach(section => {
+        const sectionTop = section.ref.current?.offsetTop || 0;
+        const triggerPoint = sectionTop - triggerOffset;
+        const isAnimated = animationStates.current[section.name as keyof typeof animationStates.current];
+        
+        if (positionScroll >= triggerPoint) {
+          if (!isAnimated) {
+            animationStates.current[section.name as keyof typeof animationStates.current] = true;
+            section.animate();
+          }
+        } else {
+          if (isAnimated) {
+            animationStates.current[section.name as keyof typeof animationStates.current] = false;
+            section.hide();
+          }
         }
-      } else {
-        // Reset when scrolling up away from experience section
-        if (experienceAnimated) {
-          experienceAnimated = false;
-          hideExperienceElements();
-        }
-      }
-      // Check if scrolled to education section
-      if (positionScroll >= positionOfEdu) {
-        if (!educationAnimated) {
-          educationAnimated = true;
-          // Call education animation function
-          animateEducation();
-        }
-      } else {
-        // Reset when scrolling up away from education section
-        if (educationAnimated) {
-          educationAnimated = false;
-          hideEducationElements();
-        }
-      }
-      // Check if scrolled to skill section
-      if (positionScroll >= positionOfSkill) {
-        if (!skillAnimated) {
-          skillAnimated = true;
-          // Call skill animation function
-          animateSkill();
-        }
-      } else {
-        // Reset when scrolling up away from skill section
-        if (skillAnimated) {
-          skillAnimated = false;
-          hideSkillElements();
-        }
-      }
-      // Check if scrolled to listClient section
-      if (positionScroll >= positionOfClient) {
-        if (!listClientAnimated) {
-          listClientAnimated = true;
-          // Call listClient animation function
-          animateListClient();
-        }
-      } else {
-        // Reset when scrolling up away from listClient section
-        if (listClientAnimated) {
-          listClientAnimated = false;
-          hideListClientElements();
-        }
-      }
-      // Check if scrolled to contact section
-      if (positionScroll >= positionOfContact) {
-        if (!contactAnimated) {
-          contactAnimated = true;
-          // Call contact animation function
-          animateContact();
-        }
-      } else {
-        // Reset when scrolling up away from contact section
-        if (contactAnimated) {
-          contactAnimated = false;
-          hideContactElements();
-        }
-      }
+      });
     };
     
     bodyElement.addEventListener('scroll', scrollHandler);
@@ -1042,12 +1003,10 @@ export default function About() {
     // Return cleanup function
     return () => {
       bodyElement.removeEventListener('scroll', scrollHandler);
-      // Reset animation flags
-      experienceAnimated = false;
-      educationAnimated = false;
-      skillAnimated = false;
-      listClientAnimated = false;
-      contactAnimated = false;
+      // Reset all animation states
+      Object.keys(animationStates.current).forEach(key => {
+        animationStates.current[key as keyof typeof animationStates.current] = false;
+      });
     };
   }
 useEffect(() => {
