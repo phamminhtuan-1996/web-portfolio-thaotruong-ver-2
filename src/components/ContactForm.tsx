@@ -209,7 +209,7 @@ export default function ContactForm() {
                     {/* <Col xs={12}>
                         <h1 className="contact-title text-uppercase text-center">Contact</h1>
                     </Col> */}
-                    <Col xs={12} md={6} className='contact-form-left'>
+                    <Col xs={12} md={5} className='contact-form-left'>
                         <h2 className='text-white contact-title__left text-uppercase'>
                             Have an Awesome Project Idea? Let&apos;s Discuss
                         </h2>
@@ -229,7 +229,7 @@ export default function ContactForm() {
                             </span>
                         </div>
                     </Col>
-                    <Col xs={12} md={6} className='contact-form-right'>
+                    <Col xs={12} md={7} className='contact-form-right'>
                         <Card className="contact-card bg-dark" bg="Dark" text="light">
                             <Card.Body>
                                 <Form onSubmit={handleSubmit}>

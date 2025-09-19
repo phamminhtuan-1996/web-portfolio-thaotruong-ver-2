@@ -196,7 +196,7 @@ const DivParent = styled.div`
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1rem;
     text-align: center;
     transition: all 0.3s ease;
     min-height: 180px;
@@ -240,13 +240,15 @@ const DivParent = styled.div`
     width: 100%;
     height: auto;
     max-width: 500px;
+    bottom: 0;
+    right: 0;
   }
   
   .title-school {
     font-size: 1.1rem;
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 0.5rem;
+    margin: 0.625rem 0;
   }
   
   .title-major {
@@ -255,7 +257,6 @@ const DivParent = styled.div`
   }
   .footer {
     background-color: #0A0A0A;
-    padding-bottom: 150px;
     padding-top: 89px;
   }
   .footer__title {
@@ -1088,7 +1089,7 @@ useEffect(() => {
         <div className="container">
           <h1 className="about-title">ABOUT ME</h1>
           <Row className="align-items-center">
-            <Col xs={12} md={7} lg={8}>
+            <Col xs={12} md={6} >
               <p className="about-paragraph">
                 Hi there, I’m Thao, also known as Minzie! As a UX/UI designer with 4+ years of experience and a background in marketing, I channel my creativity and emotions into crafting impactful designs. My expertise lies in creating intuitive user experiences that resonate deeply with users while leveraging marketing insights to drive measurable results
               </p>
@@ -1100,7 +1101,7 @@ It’s about solving problems, telling stories, and creating products that bewit
               </p>
             </Col>
             
-            <Col xs={12} md={5} lg={4}>
+            <Col xs={12} md={6} >
               <div className="character-wrapper">
                 <Image
                   src="/img/ava_about.png"
@@ -1145,7 +1146,7 @@ It’s about solving problems, telling stories, and creating products that bewit
         </div>
       </div>
       
-      <div className="education" ref={educationDom}>
+      <div className="education position-relative" ref={educationDom}>
         <div className="container">
           <div className="education-content">
             <div className="education-left">
@@ -1166,7 +1167,7 @@ It’s about solving problems, telling stories, and creating products that bewit
                 </div>
               ))}
             </div>
-            <div className="education-right">
+            <div className="education-right position-relatvie">
               <div className="education-header">
                 <span className="proudly-text">Proudly</span>
                 <h1 className="education__title">Education</h1>
@@ -1176,7 +1177,7 @@ It’s about solving problems, telling stories, and creating products that bewit
                 alt="Education achievements"
                 width={500}
                 height={400}
-                className="education-image"
+                className="education-image position-absolute"
               />
             </div>
           </div>
