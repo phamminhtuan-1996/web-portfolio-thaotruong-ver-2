@@ -185,6 +185,7 @@ const DivParent = styled.div`
   
   .education-right {
     flex: 1;
+    height: 500px;
   }
   
   .education-header {
@@ -240,7 +241,7 @@ const DivParent = styled.div`
     width: 100%;
     height: auto;
     max-width: 500px;
-    bottom: 0;
+    bottom: -80px;;
     right: 0;
   }
   
@@ -1167,7 +1168,7 @@ It’s about solving problems, telling stories, and creating products that bewit
                 </div>
               ))}
             </div>
-            <div className="education-right position-relatvie">
+            <div className="education-right position-relative">
               <div className="education-header">
                 <span className="proudly-text">Proudly</span>
                 <h1 className="education__title">Education</h1>
