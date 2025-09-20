@@ -214,9 +214,7 @@ export default function ContactForm() {
                             Have an Awesome Project Idea? Let&apos;s Discuss
                         </h2>
                         <p className='text-white'>
-                            I&apos;m always excited to collaborate and exchange ideas! 
-                            If you&apos;re passionate about design and eager to connect, 
-                            feel free to reach out. Let&apos;s create, innovate, and inspire together!
+                            I’m eager to bring my design skills into a collaborative team where ideas turn into impactful products. If you value creativity and problem-solving, I’d love to contribute and grow with you!
                         </p>
                         <div className='d-flex flex-column'>
                             <span className='contact-info mb-4'>
