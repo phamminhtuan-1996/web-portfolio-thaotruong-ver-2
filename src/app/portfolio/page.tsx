@@ -127,7 +127,7 @@ const FilterTabs = styled.div<{$isSticky?: boolean}>`
     
     @media (max-width: 768px) {
         gap: 8px;
-        margin-bottom: 40px;
+        // margin-bottom: 40px;
         overflow-x: auto;
         justify-content: flex-start;
         flex-wrap: nowrap;
@@ -144,6 +144,7 @@ const FilterTabs = styled.div<{$isSticky?: boolean}>`
             border-radius: 0;
             width: 100%;
             padding: 12px 16px;
+            transform: unset!important;
         `}
         
         &::-webkit-scrollbar {

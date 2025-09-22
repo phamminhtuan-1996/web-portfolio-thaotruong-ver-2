@@ -100,10 +100,17 @@ const S = {
     letter-spacing: -0.02em;
     margin-bottom: 2rem;
     position:relative;
-        z-index: -1;
-    
+    z-index: -1;
+    &.mobile {
+      display: none;
+    }
     @media (max-width: 768px) {
       font-size: clamp(2.5rem, 10vw, 4rem);
+      display: none;
+      &.mobile {
+        display: block;
+      }
+      
     }
   `,
   
@@ -273,8 +280,9 @@ const S = {
     }
     @media (max-width: 768px) {
       margin-top: 2rem;
-      flex-direction: column;
+      // flex-direction: column;
       align-items: center;
+      overflow: unset;
       width: 100%;
       padding: 0 1rem;
     }
@@ -464,6 +472,7 @@ export default function Home() {
               
               <S.MainTitle>
                 <S.TitleProduct className="title-product">PRODUCT</S.TitleProduct>
+                <S.TitleDesigner className="title-designer mobile">DESIGNER</S.TitleDesigner>
               </S.MainTitle>
               <S.TagsContainer className="tags-container">
                 <S.Tag>#UXUI</S.Tag>
