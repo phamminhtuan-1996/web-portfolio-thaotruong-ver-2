@@ -184,13 +184,26 @@ const S = {
     align-items: center;
     justify-content: center;
     position: relative;
-    
+    .img-desktop {
+       display: block;
+    }
+    .img-mobile {
+      display: none;
+    }
     &::before {
       content: '';
       position: absolute;
       inset: 0;
       background: radial-gradient(circle at center, rgba(74, 144, 226, 0.15) 0%, transparent 70%);
       z-index: -1;
+    }
+    @media (max-width: 990px) {
+      .img-desktop {
+       display: none;
+      }
+      .img-mobile {
+       display: block;
+      }
     }
   `,
   
@@ -494,6 +507,19 @@ export default function Home() {
                       objectFit: 'contain',
                       filter: 'drop-shadow(0 20px 40px rgba(74, 144, 226, 0.2))'
                     }}
+                    className='img-desktop'
+                    priority
+                  />
+                  <Image 
+                    src="/img/avt-owner-port-mobile.png" 
+                    alt="Thao Truong - Product Designer" 
+                    width={700}
+                    height={700}
+                    style={{ 
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 20px 40px rgba(74, 144, 226, 0.2))'
+                    }}
+                    className='img-mobile'
                     priority
                   />
                 </S.PlaceholderBox>

@@ -37,6 +37,9 @@ const DivParent = styled.div`
       height: 7px;
       background: #D9D9D9;
     }
+    @media (max-width: 990px) {
+      width: 100%;
+    }
 `;
 
 const ButtonGradient = styled(Link)`
@@ -79,6 +82,11 @@ const ButtonGradient = styled(Link)`
     span {
       position: relative;
       z-index: 1;
+    }
+    @media (max-width: 990px) {
+      width: 100%;
+      display: flex;
+      justify-content:center;
     }
   `
 
