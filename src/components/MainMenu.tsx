@@ -225,18 +225,30 @@ const DivParent = styled.div`
       padding: 0 8px;
       visibility: hidden;
       &.mobile-open {
-        height: auto;
+        height: 100vh;
         padding: 15px;
         visibility: visible;
+        display: block !important;
+        bottom: unset;
+        top: 0;
       }
     }
-
     .btn {
       width: 100%;
       font-size: 12px;
       padding: 6px 2px;
+      border-bottom: 1px solid #fff;
+      border-radius: 0;
+      height: 50px;
+      flex: unset;
+      &.active {
+        border: 1px solid #416ec2!important;
+        border-top: none!important;
+        border-left: none!important;
+        border-right: none!important;
 
-      .mobile-open & {
+      }
+      .mobile-open{
         font-size: 14px;
         padding: 10px;
       }
