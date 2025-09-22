@@ -28,6 +28,11 @@ const LogoWrapper = styled.div`
   align-items: center;
   justify-content: center;
   
+  @media (max-width: 768px) {
+    width: 87.5px;
+    height: 77.5px;
+  }
+  
   .logo-container {
     position: relative;
     width: 100%;
