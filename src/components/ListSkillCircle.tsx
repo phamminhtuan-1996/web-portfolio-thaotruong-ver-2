@@ -13,29 +13,13 @@ position: relative;
   transition: 0.5s;
   animation: orbit 20s linear infinite;
   
-  @media (max-width: 768px) {
-    width: 240px;
-    height: 240px;
-  }
-  
-  @media (max-width: 480px) {
-    width: 200px;
-    height: 200px;
-  }
+ 
 }
 .circle-skill__parent--child__wrap {
   position: absolute;
   top: 50%;
   left: calc(50% - 55px);
   transform: translate(-50%, -50%);
-  
-  @media (max-width: 768px) {
-    left: calc(50% - 44px);
-  }
-  
-  @media (max-width: 480px) {
-    left: calc(50% - 37px);
-  }
 }
 .circle-skill__parent--child {
   transform: translate(-50%, -50%);
@@ -190,18 +174,6 @@ position: relative;
     transform: translate(-50%, -50%);
     width: 60px;
     height: 60px;
-    
-    @media (max-width: 768px) {
-      width: 48px;
-      height: 48px;
-      left: calc(50% - 44px);
-    }
-    
-    @media (max-width: 480px) {
-      width: 40px;
-      height: 40px;
-      left: calc(50% - 37px);
-    }
   }
 
 @keyframes orbit {
@@ -244,6 +216,14 @@ position: relative;
 
 &:hover .satellite-child {
   animation-play-state: paused;
+}
+@media (max-width: 990px) {
+  display: flex;
+  justify-content: center;
+  .circle-skill__parent--child__wrap, .figma  {
+    left: 50%;
+    
+  }
 }
 `;
 export default function ListSkillCircle() {

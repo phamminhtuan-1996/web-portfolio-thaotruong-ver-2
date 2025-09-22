@@ -174,7 +174,9 @@ const DivParent = styled.div`
     align-items: flex-start;
     max-width: 1320px;
     margin: 0 auto;
+    
   }
+    
   
   .education-left {
     flex: 1;
@@ -244,6 +246,15 @@ const DivParent = styled.div`
     bottom: -80px;;
     right: 0;
   }
+
+  @media (max-width: 990px) {
+     .education-content {
+      flex-direction: column; 
+     }
+      .education-image {
+        position: unset!important;
+      }
+    }
   
   .title-school {
     font-size: 1.1rem;
