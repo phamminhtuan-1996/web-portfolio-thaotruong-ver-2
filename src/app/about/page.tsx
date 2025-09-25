@@ -70,6 +70,13 @@ const DivParent = styled.div`
     opacity: 0;
   }
   
+  .character-wrapper-mobile {
+    display: none;
+    @media (max-width: 990px) {
+      display: block;
+    }
+  }
+
   .character-wrapper {
     position: relative;
     width: 100%;
@@ -77,6 +84,9 @@ const DivParent = styled.div`
     height: 500px;
     margin: 0 auto;
     opacity: 0;
+    @media (max-width: 990px) {
+      display: none;
+    }
   }
   
   .character-image {
@@ -89,6 +99,9 @@ const DivParent = styled.div`
   .experience {
     padding: 80px 0;
     background: #2A2A2A;
+    @media (max-width: 990px) {
+      padding: 13px 0;
+    }
   }
   
   .experience-header {
@@ -112,6 +125,9 @@ const DivParent = styled.div`
     background-clip: text;
     display: block;
     margin-bottom: 0.5rem;
+    @media (max-width: 990px) {
+      font-size: 12px;
+    }
   }
   
   .experience__title {
@@ -120,6 +136,7 @@ const DivParent = styled.div`
     color: #ffffff;
     margin: 0;
     text-transform: capitalize;
+
   }
   
   .link-cv {
@@ -136,6 +153,9 @@ const DivParent = styled.div`
     &:hover {
       color: #8b5cf6;
       transform: translateX(5px);
+    }
+    @media (max-width: 990px) {
+      font-size: 12px;
     }
   }
   
@@ -386,7 +406,7 @@ background: #2A2A2A;}
       margin-bottom: 2rem;
     }
     .about-paragraph {
-      font-size: 16px;
+      font-size: 14px;
       line-height: 24px;
       margin-bottom: 1.5rem;
     }
@@ -395,7 +415,7 @@ background: #2A2A2A;}
       line-height: 36px;
     }
     .design-description {
-      font-size: 16px;
+      font-size: 14px;
       line-height: 24px;
     }
     .character-wrapper {
@@ -441,7 +461,7 @@ background: #2A2A2A;}
     display: none!important;
   }
   .experience__title {
-    font-size: 36px;
+    font-size: 24px;
   }
   .message-contact {
     flex-direction: column;
@@ -1114,6 +1134,15 @@ It’s about solving problems, telling stories, and creating products that bewit
             </Col>
             
             <Col xs={12} md={6} >
+              <div className="character-wrapper-mobile">
+                <Image
+                  src="/img/ava-about-mobile.png"
+                  alt="Character"
+                  width={300}
+                  height={375}
+                  className="character-image d-block mx-auto"
+                />
+              </div>
               <div className="character-wrapper">
                 <Image
                   src="/img/ava_about.png"

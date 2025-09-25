@@ -23,15 +23,29 @@ const DivParent = styled.div`
 
     @media (max-width: 990px) {
         .range-time {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
+            text-align: left!important;
         }
         .company-name {
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 600;
+            margin: 4px 0;
         }
         .role-title {
-            font-size: 11px;
+            font-size: 12px;
+        }
+        .exp-item-row {
+            align-content: flex-start!important;
+            flex-direction: column-reverse;
+            &__range-time {
+                width: 100%;
+                text-align: left!important;
+            }
+            &__info {
+                width: 100%;
+                text-align: left!important;
+            }
         }
     } 
 `;
@@ -39,12 +53,12 @@ const DivParent = styled.div`
 export default function ExpItem({rangeTime = "6/2022 - Now", companyName = "AEMI LIMITED LIABILITY COMPANY ", role = "Product Designer" }) {
     return (
         <DivParent>
-            <Row className="align-items-center">
-                <Col xs={8} md={8} className="d-flex flex-column">
+            <Row className="exp-item-row align-items-center">
+                <Col xs={8} md={8} className="exp-item-row__info d-flex flex-column">
                     <span className="company-name">{companyName}</span> 
                     <span className="role-title">{role}</span>
                 </Col>
-                <Col xs={4} md={4} className="text-end">
+                <Col xs={4} md={4} className="exp-item-row__range-time text-end">
                     <span className="range-time">{rangeTime}</span>
                 </Col>
             </Row>
