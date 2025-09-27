@@ -539,6 +539,19 @@ background: #2A2A2A;}
       width: 20px;
   }
 }
+  @media (max-width: 990px) {
+    .contact-form {
+      padding: 0 0 0 0;
+    }
+    .contact-title__left {
+      font-size: 20px;
+    }
+    .contact-form-left {
+      p {
+        font-size: 14px;
+      }
+    }
+  }
 `;
 type ListExp = {
   rangeTime: string;
@@ -1264,8 +1277,8 @@ It’s about solving problems, telling stories, and creating products that bewit
           </div>
           <div className="list-client container" ref={listClientDom}>
             <div className="list-client__title">
-              <span className="creative-field">Creative Field</span>
-              <h1 className="text-uppercase text-white mb-4">I WORK WITH</h1>
+              <span className="creative-field">Worked with</span>
+              <h1 className="text-uppercase text-white mb-4">Clients & Companies</h1>
             </div>
             <TrainClientV2 data={listClients}/>
           </div>

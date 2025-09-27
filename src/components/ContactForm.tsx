@@ -203,7 +203,7 @@ export default function ContactForm() {
     };
 
     return (
-        <ContactSection>
+        <ContactSection className="contact-form">
             <Container>
                 <Row className='contact'>
                     {/* <Col xs={12}>
