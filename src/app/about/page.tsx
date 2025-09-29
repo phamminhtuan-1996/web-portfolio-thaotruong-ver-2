@@ -212,6 +212,9 @@ const DivParent = styled.div`
   
   .education-header {
     margin-bottom: 2rem;
+    &.mobile {
+      display: none;
+    }
   }
   
   .education-card {
