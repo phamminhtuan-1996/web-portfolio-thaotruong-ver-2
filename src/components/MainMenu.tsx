@@ -265,6 +265,10 @@ const DivParent = styled.div`
         padding: 10px;
       }
     }
+      .mobile-menu-toggle.open {
+        left: unset;
+        right: 1rem;
+      }
   }
 `;
 
@@ -318,7 +322,7 @@ export default function MainMenu() {
     <DivParent>
       {/* Mobile menu toggle button */}
       <button
-        className="mobile-menu-toggle"
+        className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`}
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         aria-label="Toggle menu"
       >
