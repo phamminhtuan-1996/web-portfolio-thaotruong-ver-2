@@ -1,5 +1,6 @@
 "use client";
 import {useState, useEffect} from 'react';
+import Image from 'next/image';
 import styled from "styled-components";
 
 const DivParent = styled.div`
@@ -52,7 +53,7 @@ export default function TrainClients({data = ['']}) {
                         key={index}
                         style={{transform: `translateX(-${item.value}%)`, transition: `0.5s`}}
                     >
-                        <img src={item.img} alt="clients" />
+                        <Image src={item.img} alt="clients" width={150} height={80} style={{objectFit: 'contain'}}/>
                     </div>
                 ))}
             </div>

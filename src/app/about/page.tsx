@@ -1,106 +1,322 @@
 "use client";
-import { useEffect, useState } from 'react';
-import { Row, Col, Button } from "react-bootstrap";
-import {linkCv} from '@/utils/constants';
-import Link from "next/link";
+import { useEffect, useState, useRef } from 'react';
+import { Row, Col } from "react-bootstrap";
 import Image from "next/image";
 import styled from "styled-components";
 import ExpItem from "@/components/ExpItem";
-import {TickCircle, Sms, Call, SmsTracking, Crown1} from 'iconsax-react';
+import {TickCircle} from 'iconsax-react';
 import { isMobileOrSmallScreen } from '../../utils/helper';
 import TrainClientV2 from '@/components/TrainClientV2';
 import DragDropTitleAbout from '@/components/DragDropTitleAbout';
+import ContactForm from '@/components/ContactForm';
+import ListSkillCircle from '@/components/ListSkillCircle';
+import anime from 'animejs';
+import { useLoading } from '@/components/LoadingProvider';
+import CVSelectionModal from '@/components/CVSelectionModal';
+import PDFViewerModal from '@/components/PDFViewerModal';
 const DivParent = styled.div`
-  // padding-bottom: 150px;
+  min-height: 100vh;
+  
   .header {
-    background-color: #0a0a0a;
-    height: 591px;
-    padding-top: 81px;
+    padding: 120px 0 80px;
+    position: relative;
+    overflow: visible;
+    opacity: 0;
   }
-  .header__content {
-    width: 647px;
-    height: 362px;
-    border-radius: 20px;
-    background-image: url("img/background-home.png");
-    background-size: cover;
-    background-position: 50% 50%;
-    margin-top: 24px;
-    padding-top: 30px;
+  
+  .about-title {
+    font-size: 4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, rgb(65, 110, 194), rgb(32, 103, 198), rgb(84, 185, 244)) text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin-bottom: 3rem;
+    opacity: 0;
   }
-  .header__content img {
-    // width: 100%;
-    // height: 100%;
+  
+  .about-paragraph {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #9ca3af;
+    margin-bottom: 2rem;
+    vertical-align: middle;
+    opacity: 0;
   }
-  .header__content .about-content {
-    font-size: 16px;
+  
+  .design-title {
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 47px;
+    color: #ffffff;
+    text-transform: uppercase;
+    vertical-align: middle;
+    margin-bottom: 1rem;
+    opacity: 0;
   }
-  .header__content span {
-    font-size: 12px;
-    color: #8F8F8F
+  
+  .design-description {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #9ca3af;
+    vertical-align: middle;
+    opacity: 0;
   }
-  .apostrophe-left {
-    top:0;
-    left: -10%;
+  
+  .character-wrapper-mobile {
+    display: none;
+    @media (max-width: 990px) {
+      display: block;
+    }
+  }
+
+  .character-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 500px;
+    margin: 0 auto;
+    opacity: 0;
+    @media (max-width: 990px) {
+      display: none;
+    }
+  }
+  
+  .character-image {
+    width: 100%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    z-index: 1;
   }
   .experience {
-    padding-top: 84px;
+    padding: 80px 0;
+    background: #2A2A2A;
+    @media (max-width: 990px) {
+      padding: 13px 0;
+    }
   }
-  .experience__title {
-    font-size: 48px;
-    margin-bottom: 44px;
+  
+  .experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.2);
+    padding-bottom: 1rem;
   }
-  .link-cv {
-    font-size: 24px;
+  
+  .creative-field {
+    font-family: Poppins;
     font-weight: 400;
-    color: #171616;
-    text-decoration: none;
+    font-size: 24px;
+    line-height: 138%;
+    letter-spacing: 3.5%;
+    background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    margin-bottom: 0.5rem;
+    @media (max-width: 990px) {
+      font-size: 12px;
+    }
   }
-  .link-cv:hover {
-    text-decoration: underline;
-  }
-  .education {
-    padding-top: 107px;
-    padding-bottom: 47px;
-  }
-  .title-school {
-    font-size: 20px;
+  
+  .experience__title {
+    font-size: 3rem;
     font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    text-transform: capitalize;
+
   }
+  
+  .link-cv {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #3b82f6;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      color: #8b5cf6;
+      transform: translateX(5px);
+    }
+    @media (max-width: 990px) {
+      font-size: 12px;
+    }
+  }
+  
+  .education {
+    padding: 80px 0;
+    background: #2A2A2A;
+  }
+  
+  .proudly-text {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 138%;
+    letter-spacing: 3.5%;
+    background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: right;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .education__title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    text-transform: capitalize;
+    text-align: right;
+  }
+  
+  .education-content {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+    max-width: 1320px;
+    margin: 0 auto;
+    
+  }
+    
+  
+  .education-left {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .education-right {
+    flex: 1;
+    height: 500px;
+  }
+  
+  .education-header {
+    margin-bottom: 2rem;
+    &.mobile {
+      display: none;
+    }
+  }
+  
+  .education-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &__wrap-img {
+      width: 76px;
+      height: 76px;
+      background-color: #ffff;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &:hover {
+      transform: translateY(-8px);
+      border-color: #3b82f6;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+    }
+    
+    &.certificate {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+      border-color: rgba(245, 158, 11, 0.3);
+      
+      &:hover {
+        border-color: #f59e0b;
+        box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+      }
+    }
+    
+    img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+  }
+  
+  .education-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    bottom: -80px;;
+    right: 0;
+  }
+
+  @media (max-width: 990px) {
+     .education-content {
+      flex-direction: column; 
+     }
+      .education-image {
+        position: unset!important;
+      }
+    }
+  
+  .title-school {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0.625rem 0;
+  }
+  
   .title-major {
-    font-size: 16px;
-  }
-  .education-item img{
-    width: 91px;
-    height: 79px;
-    object-fit: contain;
+    font-size: 0.9rem;
+    color: #9ca3af;
   }
   .footer {
     background-color: #0A0A0A;
-    padding-bottom: 150px;
     padding-top: 89px;
+  }
+  .footer__title {
+    text-align: center;
+  }
+  .footer__title--wrap {
+    justify-content: center;
   }
   .footer__title--wrap h1 {
     font-size: 32px;
-    margin-right: 68px;
+    text-align: center;
   }
   .footer__title--down {
     font-size: 32px;
-    color: transparent;
-    background-clip: text;
-    background-image: linear-gradient(to right,#FAC59F, #6B47AB)!important;
+    text-align: center;
 }
 .footer__title--down h1 {
   white-space: nowrap;
   font-size: 32px;
+  background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
 }
-  .footer__title--wrap::after {
-    content: "";
-    display: block;
-    width: 438px;
-    height: 1px;
-    background-color: white;
-}
-
 .list-skill {
   padding-top: 59px;
   padding-bottom: 86px;
@@ -112,84 +328,6 @@ const DivParent = styled.div`
   margin-bottom: 30px;
   display: block;
 }
-
-.circle-skill__parent {
-  width: 300px;
-  height: 300px;
-  border: 1px solid #FFFFFF52;
-  border-radius: 50%;
-  transition: 0.5s;
-  // animation: circle 15s linear infinite;
-}
-
-.circle-skill__parent--child {
-  width: 210px;
-  height: 210px;
-  border: 1px solid #FFFFFF52;
-  border-radius: 50%;
-  // animation: circle 15s infinite;
-}
-
-.satellite {
-  position: absolute;
-  transform: rotate(360deg);
-  // animation: circle-reverse 16s infinite;
-}
-
-.satellite-child {
-  position: absolute;
-  transform: rotate(360deg);
-  // animation: circle-reverse 16s infinite;
-}
-
-.satellite:nth-child(1) { 
-  top:0;
-  right:0;
-}
-.satellite:nth-child(2) { 
-  top:0;
-  left:0;
-}
-.satellite:nth-child(3) { 
-  bottom:0;
-  left:0;
-}
-.satellite:nth-child(4) { 
-  bottom:0;
-  right:0;
-}
-
-.satellite-child:nth-child(1) {
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.satellite-child:nth-child(2) { 
-  bottom: -15px;
-  right: 50%;
-  transform: translateX(-50%);
-}
-
-@keyframes circle {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
- }
-@keyframes circle-reverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
- }
-
-
-
 
  .message {
   padding-top: 76px;
@@ -258,19 +396,34 @@ const DivParent = styled.div`
 .message__input--wrap textarea {
   display: none;
 }
+
+.wrap-contact {
+background: #2A2A2A;}
+
  @media (max-width: 990px) {
-    .header__content .row {
-      margin: 0;
-      padding: 0;
-    }
-    .header__content {
-      width: calc(100vw - 32px);
-      height: auto;
-    }
     .header {
-        height: auto;
-        position: relative;
-        padding-bottom: 186px;
+        padding: 80px 0 60px;
+    }
+    .about-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .about-paragraph {
+      font-size: 14px;
+      line-height: 24px;
+      margin-bottom: 1.5rem;
+    }
+    .design-title {
+      font-size: 24px;
+      line-height: 36px;
+    }
+    .design-description {
+      font-size: 14px;
+      line-height: 24px;
+    }
+    .character-wrapper {
+      height: 400px;
+      margin-top: 2rem;
     }
     .slogan-mobile {
       display: block;
@@ -282,17 +435,6 @@ const DivParent = styled.div`
     .content-about {
       font-size: 12px;
       margin: 0;
-    }
-    .header__content .col-md-5 {
-      order: 2;
-      display: flex;
-    }
-    .header__content .col-md-5 img {
-      width: 50%;
-      height: 100%;
-    }
-    .header .col-md-7 {
-      padding: 0 3rem;
     }
     .apostrophe-left {
       top: 0;
@@ -322,7 +464,7 @@ const DivParent = styled.div`
     display: none!important;
   }
   .experience__title {
-    font-size: 36px;
+    font-size: 24px;
   }
   .message-contact {
     flex-direction: column;
@@ -363,11 +505,11 @@ const DivParent = styled.div`
   }
   .footer__title--wrap h1 {
     font-size: 16px;
-    margin-right: 1rem;
+    margin-right: 0;
   }
   .footer__title--down h1 {
     font-size: 16px;
-    white-space: wrap!important;
+    white-space: normal!important;
   }
   .footer__title--wrap::after {
     width: 50%;
@@ -400,6 +542,40 @@ const DivParent = styled.div`
       width: 20px;
   }
 }
+  @media (max-width: 990px) {
+    .contact-form {
+      padding: 0 0 0 0;
+    }
+    .contact-title__left {
+      font-size: 20px;
+    }
+    .contact-form-left {
+      p {
+        font-size: 14px;
+      }
+    }
+    .education-header {
+      display: none;
+      &.mobile {
+        display: block;
+        .proudly-text {
+          font-size: 12px;
+        }
+          .education__title {
+          font-size: 24px;}
+        }
+    }
+    .train-client__item {
+      width: 120px;
+      height: 60px;
+      padding: 0.5rem;
+      img {
+        width: 50%;
+        height: auto;
+        object-fit: contain!important;
+      }
+    }
+  }
 `;
 type ListExp = {
   rangeTime: string;
@@ -424,10 +600,19 @@ type ListTitleAboutDragDrop = {
 
 
 export default function About() {
-  const [isMobile, setMobile] = useState<boolean>(false);
+  const [, setMobile] = useState<boolean>(false);
+  const { isLoading } = useLoading();
+  const [showCVModal, setShowCVModal] = useState(false);
+  const [showPDFModal, setShowPDFModal] = useState(false);
+  const [selectedCV, setSelectedCV] = useState<'thaotruong' | 'ats' | null>(null);
+  const experienceDom = useRef<HTMLDivElement | null>(null);
+  const educationDom = useRef<HTMLDivElement | null>(null);
+  const skillDom = useRef<HTMLDivElement | null>(null);
+  const listClientDom = useRef<HTMLDivElement | null>(null);
+  const contactDom = useRef<HTMLDivElement | null>(null);
   const listExp: ListExp[] = [
-    {rangeTime: "6/2022 - Now", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
-    {rangeTime: "3/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
+    {rangeTime: "06/2022 - 07/2025", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
+    {rangeTime: "03/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
     {rangeTime: "10/2020 - 10/2024", companyName: "FREELANCE", role: "Product Designer"},
     {rangeTime: "11/2017 - 10/2020", companyName: "ICHIP TECHNOLOGY & YOURTV MEDIA GROUP", role: "Digital Marketing - SEO"},
   ]
@@ -439,10 +624,10 @@ export default function About() {
   ];
 
   const listTitleAboutDragDrop: ListTitleAboutDragDrop[] = [
-    { titleBig: '2000+', title: 'screens', x: -390, y: 485, xMobile: 28, yMobile: 3},
-    { titleBig: 'ထ', title: 'ideas', x: -171, y: 520, xMobile: 5, yMobile: 10 },
-    { titleBig: '4+', title: 'years experience', x: -657, y: -550, xMobile: 52, yMobile: 10 },
-    { titleBig: '10+', title: 'projects', x: -488, y: -472, xMobile: 76, yMobile: 5 },
+    { titleBig: '2000+', title: 'screens', x: -410, y: -48, xMobile: 28, yMobile: 3},
+    { titleBig: 'ထ', title: 'ideas', x: -82, y: -99, xMobile: 5, yMobile: 10 },
+    { titleBig: '4+', title: 'years experience', x: -651, y: 304, xMobile: 52, yMobile: 10 },
+    { titleBig: '10+', title: 'projects', x: -374, y: 329, xMobile: 76, yMobile: 5 },
   ]
 
   const listHardSkill: string[] = [
@@ -474,141 +659,627 @@ export default function About() {
     '/img/list-clients/tarocha.png',
     '/img/list-clients/zo-skin.png',
   ];
+  
+  const handleCVClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Add query parameter to URL to trigger CV popup
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set("cv", "normal-cv");
+    window.history.pushState({}, "", currentUrl.toString());
+    
+    // Trigger a popstate event to notify AutoOpenCV component
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
+  
+  const handleCVSelection = (type: "thaotruong" | "ats") => {
+    setSelectedCV(type);
+    setShowCVModal(false);
+    setShowPDFModal(true);
+  };
+  
+  const handleClosePDF = () => {
+    setShowPDFModal(false);
+    setSelectedCV(null);
+  };
+
+  // Animation state tracking
+  const animationStates = useRef({
+    experience: false,
+    education: false,
+    skill: false,
+    listClient: false,
+    contact: false
+  });
+
+  // Hide experience elements
+  const hideExperienceElements = () => {
+    const creativeField = document.querySelector('.experience .creative-field') as HTMLElement;
+    const expTitle = document.querySelector('.experience .experience__title') as HTMLElement;
+    const linkCv = document.querySelector('.experience .link-cv') as HTMLElement;
+    const expItems = document.querySelectorAll('.experience .exp-item');
+    
+    if (creativeField) {
+      creativeField.style.opacity = '0';
+      creativeField.style.transform = 'translateX(-50px)';
+    }
+    if (expTitle) {
+      expTitle.style.opacity = '0';
+      expTitle.style.transform = 'scale(0.8)';
+    }
+    if (linkCv) {
+      linkCv.style.opacity = '0';
+      linkCv.style.transform = 'translateX(50px)';
+    }
+    expItems.forEach((item) => {
+      const el = item as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(40px)';
+    });
+  };
+
+  // Experience animation function
+  const animateExperience = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.experience .creative-field',
+        opacity: [0, 1],
+        translateX: [-50, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.experience .experience__title',
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.experience .link-cv',
+        opacity: [0, 1],
+        translateX: [50, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=800')
+      .add({
+        targets: '.experience .exp-item',
+        opacity: [0, 1],
+        translateY: [40, 0],
+        duration: 900,
+        delay: anime.stagger(120),
+        easing: 'easeOutExpo'
+      }, '-=600');
+  };
+
+  // Hide education elements
+  const hideEducationElements = () => {
+    const eduCards = document.querySelectorAll('.education .education-card');
+    const eduClientTitle = document.querySelector('.education .education-client-title') as HTMLElement;
+    const eduClients = document.querySelectorAll('.education .education-client-item');
+    const eduImage = document.querySelector('.education .education-image') as HTMLElement;
+    
+    eduCards.forEach((card) => {
+      const el = card as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+    });
+    
+    if (eduClientTitle) {
+      eduClientTitle.style.opacity = '0';
+      eduClientTitle.style.transform = 'scale(0.9)';
+    }
+    
+    eduClients.forEach((client) => {
+      const el = client as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'scale(0.8)';
+    });
+    
+    if (eduImage) {
+      eduImage.style.opacity = '0';
+      eduImage.style.transform = 'rotate(-5deg) scale(0.95)';
+    }
+  };
+
+  // Hide skill elements
+  const hideSkillElements = () => {
+    const footerTitleWrap = document.querySelectorAll('.footer .footer__title--wrap h1');
+    const footerTitleDown = document.querySelectorAll('.footer .footer__title--down h1');
+    const footerTitle = [...footerTitleWrap, ...footerTitleDown];
+    const skillTitles = document.querySelectorAll('.list-skill .list-skill__title');
+    const skillCircleParent = document.querySelector('.circle-skill__parent') as HTMLElement;
+    const skillCircleChild = document.querySelector('.circle-skill__parent--child') as HTMLElement;
+    const skillItems = document.querySelectorAll('.list-skill .skill-item');
+    
+    footerTitle.forEach((title) => {
+      const el = title as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+    });
+    
+    skillTitles.forEach((title) => {
+      const el = title as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-30px)';
+    });
+    
+    if (skillCircleParent) {
+      skillCircleParent.style.opacity = '0';
+      skillCircleParent.style.transform = 'scale(0)';
+    }
+    
+    if (skillCircleChild) {
+      skillCircleChild.style.opacity = '0';
+      skillCircleChild.style.transform = 'scale(0)';
+    }
+    
+    skillItems.forEach((item) => {
+      const el = item as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+    });
+  };
+
+  // Hide listClient elements
+  const hideListClientElements = () => {
+    const clientCreativeField = document.querySelector('.list-client .creative-field') as HTMLElement;
+    const clientTitle = document.querySelector('.list-client .list-client__title h1') as HTMLElement;
+    const sliderTrack = document.querySelector('.list-client .slider-track') as HTMLElement;
+    
+    if (clientCreativeField) {
+      clientCreativeField.style.opacity = '0';
+      clientCreativeField.style.transform = 'translateX(-40px)';
+    }
+    
+    if (clientTitle) {
+      clientTitle.style.opacity = '0';
+      clientTitle.style.transform = 'scale(0.9)';
+    }
+    
+    if (sliderTrack) {
+      sliderTrack.style.opacity = '0';
+      sliderTrack.style.transform = 'translateX(100px)';
+    }
+  };
+
+  // ListClient animation function  
+  const animateListClient = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.list-client .creative-field',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.list-client .list-client__title h1',
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.list-client .slider-track',
+        opacity: [0, 1],
+        translateX: [100, 0],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      }, '-=600');
+  };
+
+  // Hide contact elements
+  const hideContactElements = () => {
+    const contactCreativeField = document.querySelector('.wrap-contact .creative-field') as HTMLElement;
+    const contactCard = document.querySelector('.wrap-contact .contact-card') as HTMLElement;
+    const contactInfo = document.querySelectorAll('.wrap-contact .contact-info');
+    
+    if (contactCreativeField) {
+      contactCreativeField.style.opacity = '0';
+      contactCreativeField.style.transform = 'translateY(-30px)';
+    }
+    
+    if (contactCard) {
+      contactCard.style.opacity = '0';
+      contactCard.style.transform = 'translateY(50px)';
+    }
+    
+    contactInfo.forEach((info) => {
+      const el = info as HTMLElement;
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-30px)';
+    });
+  };
+
+  // Contact animation function
+  const animateContact = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.wrap-contact .creative-field',
+        opacity: [0, 1],
+        translateY: [-30, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.wrap-contact .contact-card',
+        opacity: [0, 1],
+        translateY: [50, 0],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.wrap-contact .contact-info',
+        opacity: [0, 1],
+        translateX: [-30, 0],
+        duration: 900,
+        delay: anime.stagger(150),
+        easing: 'easeOutExpo'
+      }, '-=500');
+  };
+
+  // Skill animation function
+  const animateSkill = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.footer .footer__title--wrap h1',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.footer .footer__title--down h1',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.list-skill .list-skill__title',
+        opacity: [0, 1],
+        translateX: [-30, 0],
+        duration: 900,
+        delay: anime.stagger(150),
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.circle-skill__parent',
+        opacity: [0, 1],
+        scale: [0, 1],
+        duration: 1400,
+        easing: 'easeOutElastic(1, .5)'
+      }, '-=700')
+      .add({
+        targets: '.circle-skill__parent--child',
+        opacity: [0, 1],
+        scale: [0, 1],
+        duration: 1200,
+        easing: 'easeOutElastic(1, .8)'
+      }, '-=1000')
+      .add({
+        targets: '.list-skill .skill-item',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 800,
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo'
+      }, '-=600');
+  };
+
+  // Education animation function
+  const animateEducation = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.education .education-card',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 900,
+        delay: anime.stagger(150),
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.education .education-image',
+        opacity: [0, 1],
+        rotate: [-5, 0],
+        scale: [0.95, 1],
+        duration: 1200,
+        easing: 'easeOutElastic(1, .5)'
+      }, '-=700')
+      .add({
+        targets: '.education .education-client-title',
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.education .education-client-item',
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        duration: 800,
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo'
+      }, '-=500');
+  };
+
+  const handleScrollAnimate = () => {
+    // Section configurations
+    const sections = [
+      {
+        name: 'experience',
+        ref: experienceDom,
+        hide: hideExperienceElements,
+        animate: animateExperience
+      },
+      {
+        name: 'education',
+        ref: educationDom,
+        hide: hideEducationElements,
+        animate: animateEducation
+      },
+      {
+        name: 'skill',
+        ref: skillDom,
+        hide: hideSkillElements,
+        animate: animateSkill
+      },
+      {
+        name: 'listClient',
+        ref: listClientDom,
+        hide: hideListClientElements,
+        animate: animateListClient
+      },
+      {
+        name: 'contact',
+        ref: contactDom,
+        hide: hideContactElements,
+        animate: animateContact
+      }
+    ];
+    
+    // Hide all sections initially
+    sections.forEach(section => section.hide());
+
+    const bodyElement = document.body;
+    const scrollHandler = function(event: Event) {
+      const target = event.target as HTMLElement;
+      const positionScroll = target.scrollTop || 0;
+      const windowHeight = window.innerHeight;
+      const triggerOffset = windowHeight * 0.7;
+      
+      // Process each section
+      sections.forEach(section => {
+        const sectionTop = section.ref.current?.offsetTop || 0;
+        const triggerPoint = sectionTop - triggerOffset;
+        const isAnimated = animationStates.current[section.name as keyof typeof animationStates.current];
+        
+        if (positionScroll >= triggerPoint) {
+          if (!isAnimated) {
+            animationStates.current[section.name as keyof typeof animationStates.current] = true;
+            section.animate();
+          }
+        } else {
+          if (isAnimated) {
+            animationStates.current[section.name as keyof typeof animationStates.current] = false;
+            section.hide();
+          }
+        }
+      });
+    };
+    
+    bodyElement.addEventListener('scroll', scrollHandler);
+    
+    // Return cleanup function
+    return () => {
+      bodyElement.removeEventListener('scroll', scrollHandler);
+      // Reset all animation states
+      Object.keys(animationStates.current).forEach(key => {
+        animationStates.current[key as keyof typeof animationStates.current] = false;
+      });
+    };
+  }
 useEffect(() => {
     setMobile(isMobileOrSmallScreen());
 }, [])
 
+  // Header animation function
+  const animateHeader = () => {
+    anime.timeline({loop: false})
+      .add({
+        targets: '.header',
+        opacity: [0, 1],
+        translateY: [-50, 0],
+        duration: 1200,
+        easing: 'easeOutExpo'
+      })
+      .add({
+        targets: '.about-title',
+        opacity: [0, 1],
+        scale: [0.85, 1],
+        duration: 1000,
+        easing: 'easeOutExpo'
+      }, '-=800')
+      .add({
+        targets: '.about-paragraph',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=600')
+      .add({
+        targets: '.design-title',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.design-description',
+        opacity: [0, 1],
+        translateX: [-40, 0],
+        duration: 900,
+        easing: 'easeOutExpo'
+      }, '-=700')
+      .add({
+        targets: '.character-wrapper',
+        opacity: [0, 1],
+        scale: [0.7, 1],
+        rotate: [10, 0],
+        duration: 1400,
+        easing: 'easeOutElastic(1, .5)'
+      }, '-=1000');
+  };
+
+  useEffect(() => {
+    // Only run animation after loading is complete
+    if (!isLoading) {
+      // Small delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        // Call header animation function
+        animateHeader();
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    const cleanup = handleScrollAnimate();
+    
+    // Cleanup when component unmounts
+    return cleanup;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <DivParent>
-      <div className="header d-flex flex-column align-items-center overflow-hidden">
-        <Image src="img/about-me.svg" alt="about me" width={169} height={29} />
-        <div className="header__content">
-          <Row className="w-100">
-            <Col xs={12} md={5} className="d-flex justify-content-center">
-              <Image
-                src="/img/avt-thaotruong.png"
-                alt="avt-thaotruong"
-                width={264}
-                height={332}
-              />
-            </Col>
-            <Col xs={12} md={7} className="d-flex align-items-center">
-              <p className="content-about text-white position-relative">
-              <Image
-                src="/img/apostrophe-left.svg"
-                alt="avt-thaotruong"
-                width={27}
-                height={24}
-                className="apostrophe-left position-absolute"
-              />        
-                Hi there, I’m Thao, also known as Minzie! <br/> As a UX/UI designer
-                with 4+ years of <br/> experience and a background in <br/> marketing, I
-                channel my creativity and <br/> emotions into crafting impactful
-                designs. My expertise lies in creating intuitive user <br/>
-                experiences that resonate deeply with users while leveraging
-                marketing insights <br/> to drive measurable results 
-                <Image
-                    src="/img/apostrophe-right.svg"
-                    alt="avt-thaotruong"
-                    width={27}
-                    height={24}
-                    className="ms-2"
-                />
+      <div className="header">
+        <div className="container">
+          <h1 className="about-title">ABOUT ME</h1>
+          <Row className="align-items-center">
+            <Col xs={12} md={6} >
+              <p className="about-paragraph">
+                Hi there, I’m Thao, also known as Minzie! As a UX/UI designer with 4+ years of experience and a background in marketing, I channel my creativity and emotions into crafting impactful designs. My expertise lies in creating intuitive user experiences that resonate deeply with users while leveraging marketing insights to drive measurable results
+              </p>
+              
+              <h2 className="design-title">Design, to me, is more than aesthetics</h2>
+              
+              <p className="design-description">
+It’s about solving problems, telling stories, and creating products that bewitch and inspire. I believe in a user-centered approach, where understanding the end-user’s needs and desires is the foundation of every project.
               </p>
             </Col>
-          </Row>
-        </div>
-        {listTitleAboutDragDrop.map((item) => (
-          <>
-            <DragDropTitleAbout {...item}/>
-          </>
-        ))}
-      </div>
-      <div className="experience">
-        <div className="container">
-          <Image src="/img/creative_field.svg" width={149} height={20} alt="creative_field" />
-          <h1 className="experience__title">Experiences</h1>
-          <Row>
-            <Col md={9}>
-              {listExp.map((item, index) => (
-                <ExpItem {...item} key={index}/>
-              ))}
-              
-            </Col>
-            <Col md={3} className="wrap-cv d-flex justify-content-end">
-              <Image
-                src="/img/right-carousel-cv.svg"
-                alt="right-carousel-cv"
-                width={46} 
-                height={32} 
-                className="me-2"
-              />
-              <Link href={linkCv} className="link-cv" target="_blank" >See more in my CV</Link>
-            </Col>
-          </Row>
-        </div>
-      </div>
-      <div className="education">
-        <div className="education__title--mobile pe-4 flex-column justify-content-end align-items-end">
-          <Image src="/img/proudly.svg" alt="proudly" width={85} height={25}/>
-          <h1 className="experience__title">Education</h1>
-        </div>
-      
-        <div className="container">
-          <Row>
-            <Col md={6} className="d-flex align-items-center">
-              <Row className="education__list">
-                {listEducation.map((item,index) => (
-                  <Col xs={6} md={6} className="education-item d-flex flex-column mb-4" key={index}>
-                    <img src={item.thumbnail} alt="education logo"/>
-                    <span className="title-school">{item.name}</span>
-                    <span className="title-major">{item.major}</span>
-                </Col>
-                )) }
-                
-
-              </Row>
-            </Col>
-            <Col md={6} className="d-flex flex-column align-items-end">
-              <div className="education__title--desktop flex-column align-items-end">
-                <Image src="/img/proudly.svg" alt="proudly" width={85} height={25}/>
-                <h1 className="experience__title">Education</h1>
+            
+            <Col xs={12} md={6} >
+              <div className="character-wrapper-mobile">
+                <Image
+                  src="/img/ava-about-mobile.png"
+                  alt="Character"
+                  width={250}
+                  height={250}
+                  className="character-image d-block mx-auto"
+                />
               </div>
-              <Image src="/img/list-education.png" alt="education" className="education__img" width={561} height={370} />
+              <div className="character-wrapper">
+                <Image
+                  src="/img/ava_about.png"
+                  alt="Character"
+                  width={300}
+                  height={375}
+                  className="character-image d-block mx-auto"
+                />
+                {/* Reuse DragDropTitleAbout for stat boxes - matches the design */}
+                {listTitleAboutDragDrop.map((item, index) => (
+                  <DragDropTitleAbout 
+                    key={index} 
+                    {...item}
+                    x={item.x}
+                    y={item.y}
+                  />
+                ))}
+              </div>
             </Col>
           </Row>
+        </div>
+      </div>
+  
+      <div className="experience" ref={experienceDom}>
+        <div className="container">
+          <div>
+            <span className="creative-field">Creative Field</span>
+            <div className="experience-header">
+              <h1 className="experience__title">Experiences</h1>
+              <a href="#" className="link-cv" onClick={handleCVClick}>
+                See more in my CV →
+              </a>
+            </div>
+          </div>
+          <div style={{marginTop: '2rem'}}>
+            {listExp.map((item, index) => (
+              <div key={index} className="exp-item">
+                <ExpItem {...item}/>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <div className="education position-relative" ref={educationDom}>
+        <div className="container">
+        <div className="education-header mobile">
+              <span className="proudly-text">Proudly</span>
+              <h1 className="education__title">Education</h1>
+            </div>
+          <div className="education-content">
+            <div className="education-left">
+              {/* First 4 education items from existing data */}
+              {listEducation.map((item, index) => (
+                <div key={index} className="education-card">
+                  <div className="education-card__wrap-img">
+                    <Image
+                      src={item.thumbnail}
+                      alt={item.name}
+                      width={60}
+                      height={60}
+                    />
+                  </div>
+                  
+                  <h3 className="title-school">{item.name}</h3>
+                  <p className="title-major">{item.major}</p>
+                </div>
+              ))}
+            </div>
+            <div className="education-right position-relative">
+              <div className="education-header">
+                <span className="proudly-text">Proudly</span>
+                <h1 className="education__title">Education</h1>
+              </div>
+              <Image
+                src="/img/list-education.png"
+                alt="Education achievements"
+                width={500}
+                height={400}
+                className="education-image position-absolute"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className="footer overflow-hidden">
         <div className="container">
           <div className="footer__title">
-            <div className="footer__title--wrap d-flex align-items-center">
+            <div className="footer__title--wrap d-flex align-items-center justify-content-center">
               <h1 className="text-white">Learning is a journey</h1>
             </div>
             <div className="footer__title--down">
               <h1>Each step shapes who we are and leads us closer to our potential.</h1>
             </div>
           </div>
-          <div className="list-skill">
+          <div className="list-skill" ref={skillDom}>
             <Row>
               <Col md={4}>
                 <span className="list-skill__title text-white">Tools</span>
-                <div className="circle-skill d-none">
-                  <div className="circle-skill__parent position-relative d-flex justify-content-center align-items-center">
-                  <img src="/img/skill/Adobe_Illustrator_CC_icon.png" alt="figma" className="satellite"/>
-                    <img src="/img/skill/Tool icon-1.png" alt="figma" className="satellite" />
-                    <img src="/img/skill/Tool icon.png" alt="figma" className="satellite"/>
-                    <img src="/img/skill/Wordpress.png" alt="figma"  className="satellite"/>
-                    <div className="circle-skill__parent--child position-relative d-flex justify-content-center align-items-center">
-                     <img src="/img/skill/AdobeXD.png" alt="figma" className="satellite-child"/>
-                     <img src="/img/skill/Tool icon-2.png" alt="figma" className="satellite-child" />
-                      <div className="child-core">
-                        <img src="/img/skill/figma.png" alt="figma" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <img src="/img/tools_details.png" alt="tools_details" />
+                <ListSkillCircle />
               </Col>
               <Col md={4}>
                 <span className="list-skill__title text-start text-white">Skills</span>
@@ -632,55 +1303,37 @@ useEffect(() => {
             </Row>
           </div>
           </div>
-          <div className="list-client">
-            <div className="list-client__title d-flex flex-column justify-content-center align-items-center">
-              <Image src="/img/clients.svg" alt="lets-discuss" width={263} height={36} className="mb-3 d-block"/>
-              <h1 className="text-uppercase text-center text-white mb-4">I WORK WITH</h1>
+          <div className="list-client container" ref={listClientDom}>
+            <div className="list-client__title">
+              <span className="creative-field">Worked with</span>
+              <h1 className="text-uppercase text-white mb-4">Clients & Companies</h1>
             </div>
             <TrainClientV2 data={listClients}/>
           </div>
-          <div className="container">
-          <div className="message" id="message">
-            <div className="message__title  d-flex flex-column align-items-center justify-content-center">
-              <h1 className="text-uppercase text-center text-white mb-4">Have an Awesome Project Idea?</h1>
-              <Image src="/img/lets-discuss.svg" alt="lets-discuss" width={263} height={36}/>
+          <div className="wrap-contact py-4" ref={contactDom}>
+            <div className="container">
+
+            <span className="creative-field">Contact</span>
             </div>
-            <form
-              action="https://docs.google.com/forms/d/e/1FAIpQLSd5UeS35O2bRd9JyTZH6PR4Cj3pH7ehq_4bhUPmucl16HL-uQ/formResponse"
-              className="message__input mx-auto d-flex justify-content-between"
-              method="POST"
-              target="_blank"
-            >
-              <div className="message__input--wrap">
-                {!isMobile && (
-                  <Sms size="32" color="#6229CC"/>
-                )}
-                <input type="text" name="entry.604871011" placeholder="Message here"/>
-                <textarea name="entry.604871011" cols={50} rows={8} placeholder="Message here"></textarea>
-              </div>
-              <div className="message__input--wrap-right d-flex justify-content-center align-items-center">
-                <Button type="submit" className="d-block h-100">Send</Button>
-              </div>
-            </form>
-            <div className="message-contact mx-auto mt-4 d-flex justify-content-between">
-              <div className="message-contact__item">
-                <Call size={isMobile ? 24 : 32} color="#FFF"/>
-                <span className="text-white ms-3 text-decoration-none">038 679 8487</span>
-              </div>
-              <div className="message-contact__item">
-                <SmsTracking size={isMobile ? 24 : 32}  color="#FFF"/>
-                <span className="text-white ms-3 text-decoration-none">thaotruongdesign@gmail.com</span>
-              </div>
-              <div className="message-contact__item">
-                <Crown1 size={isMobile ? 24 : 32}  color="#FFF"/>
-                <span className="text-white ms-3">Certified Product Designer</span>
-              </div>
-            </div>
-          </div>
-          
-        </div>
+          <ContactForm/>
+        </div> 
+
         
       </div>
+      
+      {/* CV Selection Modal */}
+      <CVSelectionModal
+        show={showCVModal}
+        onHide={() => setShowCVModal(false)}
+        onSelect={handleCVSelection}
+      />
+      
+      {/* PDF Viewer Modal */}
+      <PDFViewerModal
+        show={showPDFModal}
+        onHide={handleClosePDF}
+        cvType={selectedCV}
+      />
     </DivParent>  
   ); 
 }

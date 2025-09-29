@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import styled from "styled-components";
 
 const DivParent = styled.div`
@@ -51,7 +52,7 @@ export default function TrainClients({ data = [''] }: TrainClientsProps) {
       <div className="slider-track" ref={trackRef}>
         {duplicated.map((img, i) => (
           <div className="train-client__item bg-dark d-flex justify-content-center align-items-center" key={i}>
-            <img src={img} alt={`client-${i}`} />
+            <Image src={img} alt={`client-${i}`} width={150} height={80} style={{objectFit: 'contain'}}/>
           </div>
         ))}
       </div>

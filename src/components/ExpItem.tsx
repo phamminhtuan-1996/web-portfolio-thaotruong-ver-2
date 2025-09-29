@@ -3,58 +3,63 @@ import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 
 const DivParent = styled.div`
-    margin-bottom: 24px;
-    .circle-time {
-        width: 20px;
-        height: 20px;
-        background-color: #9F70E0;
-        border-radius: 50%;
-        margin-right: 20px;
-    }
+    margin-bottom: 32px;
     .range-time {
-        font-size: 24px;
-        font-weight: 700;
+        font-size: 18px;
+        font-weight: 400;
+        color: #7E7D7D;
     }
     .company-name {
-        font-size: 24px;
-        font-weight: 700;
+        font-size: 20px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 4px;
     }
     .role-title {
-        font-size: 18px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #FFFFFF;
     }
 
     @media (max-width: 990px) {
-        .circle-time {
-            width: 8px;
-            height: 8px;
-            margin-right: 15px;
+        .range-time {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: left!important;
         }
-    .range-time {
-        font-size: 11px;
-        // white-space: nowrap;
-        font-weight: 600;
-      }
-      .company-name {
-        font-size: 11px;
-        font-weight: 600;
-      }
-      .role-title {
-        font-size: 11px;
-      }
+        .company-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 4px 0;
+        }
+        .role-title {
+            font-size: 12px;
+        }
+        .exp-item-row {
+            align-content: flex-start!important;
+            flex-direction: column-reverse;
+            &__range-time {
+                width: 100%;
+                text-align: left!important;
+            }
+            &__info {
+                width: 100%;
+                text-align: left!important;
+            }
+        }
     } 
 `;
 
 export default function ExpItem({rangeTime = "6/2022 - Now", companyName = "AEMI LIMITED LIABILITY COMPANY ", role = "Product Designer" }) {
     return (
         <DivParent>
-            <Row>
-                <Col  xs={5} md={4} className="d-flex align-items-center justify-conten-center">
-                    <div className="circle-time"></div>
-                    <span className="range-time">{rangeTime}</span>
-                </Col>
-                <Col xs={7} md={8} className="d-flex flex-column">
+            <Row className="exp-item-row align-items-center">
+                <Col xs={8} md={8} className="exp-item-row__info d-flex flex-column">
                     <span className="company-name">{companyName}</span> 
                     <span className="role-title">{role}</span>
+                </Col>
+                <Col xs={4} md={4} className="exp-item-row__range-time text-end">
+                    <span className="range-time">{rangeTime}</span>
                 </Col>
             </Row>
         </DivParent>

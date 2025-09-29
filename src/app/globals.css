@@ -19,7 +19,6 @@ body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  
 }
 
 body {
@@ -27,9 +26,21 @@ body {
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* cursor: url('https://i.ibb.co/rFSYJFn/cursor.png'), auto; */
 }
-
+body::before {
+  display: block;
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url('/img/background-home-v2.png')!important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #090909;
+  z-index: -1;
+}
 * {
   box-sizing: border-box;
   padding: 0;
