@@ -20,7 +20,7 @@ const PDFViewer = dynamic(
 interface PDFViewerModalProps {
     show: boolean;
     onHide: () => void;
-    cvType: 'normal' | 'ats' | null;
+    cvType: 'thaotruong' | 'ats' | null;
 }
 
 const ModalWrapper = styled.div`
@@ -105,7 +105,7 @@ export default function PDFViewerModal({ show, onHide, cvType }: PDFViewerModalP
             >
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {cvType === 'normal' ? 'Creative CV' : 'ATS-Friendly CV'}
+                        {cvType === 'thaotruong' ? 'Creative CV' : 'ATS-Friendly CV'}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

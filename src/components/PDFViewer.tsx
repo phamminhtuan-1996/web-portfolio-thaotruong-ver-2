@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 interface PDFViewerProps {
-    cvType: 'normal' | 'ats';
+    cvType: 'thaotruong' | 'ats';
 }
 
 const ViewerContainer = styled.div`

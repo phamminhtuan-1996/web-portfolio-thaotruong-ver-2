@@ -10,7 +10,7 @@ export default function AutoOpenCV() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const [showPDFModal, setShowPDFModal] = useState(false);
-    const [cvType, setCvType] = useState<'normal' | 'ats'>('normal');
+    const [cvType, setCvType] = useState<'thaotruong' | 'ats'>('thaotruong');
 
     useEffect(() => {
         const checkAndOpenCV = () => {
@@ -20,8 +20,8 @@ export default function AutoOpenCV() {
             
             if (cvParam) {
                 // Determine CV type based on parameter value
-                if (cvParam === 'normal-cv' || cvParam === 'creative-cv') {
-                    setCvType('normal');
+                if (cvParam === 'cv-thaotruong' || cvParam === 'creative-cv') {
+                    setCvType('thaotruong');
                     setShowPDFModal(true);
                 } else if (cvParam === 'ats-cv') {
                     setCvType('ats');
