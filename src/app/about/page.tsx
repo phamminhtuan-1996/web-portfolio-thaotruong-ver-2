@@ -551,6 +551,22 @@ background: #2A2A2A;}
         font-size: 14px;
       }
     }
+    .education-header {
+      display: none;
+      &.mobile {
+        display: block;
+        }
+    }
+    .train-client__item {
+      width: 120px;
+      height: 60px;
+      padding: 0.5rem;
+      img {
+        width: 50%;
+        height: auto;
+        object-fit: contain!important;
+      }
+    }
   }
 `;
 type ListExp = {
@@ -1151,8 +1167,8 @@ It’s about solving problems, telling stories, and creating products that bewit
                 <Image
                   src="/img/ava-about-mobile.png"
                   alt="Character"
-                  width={300}
-                  height={375}
+                  width={250}
+                  height={250}
                   className="character-image d-block mx-auto"
                 />
               </div>
@@ -1202,6 +1218,10 @@ It’s about solving problems, telling stories, and creating products that bewit
       
       <div className="education position-relative" ref={educationDom}>
         <div className="container">
+        <div className="education-header mobile">
+              <span className="proudly-text">Proudly</span>
+              <h1 className="education__title">Education</h1>
+            </div>
           <div className="education-content">
             <div className="education-left">
               {/* First 4 education items from existing data */}
