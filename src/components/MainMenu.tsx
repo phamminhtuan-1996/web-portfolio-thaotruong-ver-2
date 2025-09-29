@@ -237,16 +237,17 @@ const DivParent = styled.div`
       width: 100%;
       font-size: 12px;
       padding: 6px 2px;
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid #ffffff14;
       border-radius: 0;
       height: 50px;
       flex: unset;
       &.active {
-        border: 1px solid #416ec2!important;
+        border: 1px solid #2855a9!important;
         border-top: none!important;
         border-left: none!important;
         border-right: none!important;
-
+color: #2855a9;
+font-weight: 700;
       }
       .mobile-open{
         font-size: 14px;

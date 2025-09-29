@@ -558,6 +558,11 @@ background: #2A2A2A;}
       display: none;
       &.mobile {
         display: block;
+        .proudly-text {
+          font-size: 12px;
+        }
+          .education__title {
+          font-size: 24px;}
         }
     }
     .train-client__item {
