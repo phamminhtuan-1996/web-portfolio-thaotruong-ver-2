@@ -501,7 +501,6 @@ export default function Portfolio() {
             
             return () => clearTimeout(timer);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
     // Check URL for portfolio ID on load

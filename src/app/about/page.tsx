@@ -604,7 +604,7 @@ export default function About() {
   const { isLoading } = useLoading();
   const [showCVModal, setShowCVModal] = useState(false);
   const [showPDFModal, setShowPDFModal] = useState(false);
-  const [selectedCV, setSelectedCV] = useState<'normal' | 'ats' | null>(null);
+  const [selectedCV, setSelectedCV] = useState<'thaotruong' | 'ats' | null>(null);
   const experienceDom = useRef<HTMLDivElement | null>(null);
   const educationDom = useRef<HTMLDivElement | null>(null);
   const skillDom = useRef<HTMLDivElement | null>(null);
@@ -671,7 +671,7 @@ export default function About() {
     window.dispatchEvent(new PopStateEvent("popstate"));
   };
   
-  const handleCVSelection = (type: "normal" | "ats") => {
+  const handleCVSelection = (type: "thaotruong" | "ats") => {
     setSelectedCV(type);
     setShowCVModal(false);
     setShowPDFModal(true);

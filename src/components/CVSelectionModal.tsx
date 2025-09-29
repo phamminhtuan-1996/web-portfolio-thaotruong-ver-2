@@ -8,7 +8,7 @@ import SVGIcon from './SVGIcon';
 interface CVSelectionModalProps {
     show: boolean;
     onHide: () => void;
-    onSelect: (type: 'normal' | 'ats') => void;
+    onSelect: (type: 'thaotruong' | 'ats') => void;
 }
 
 const StyledModal = styled(Modal)`
@@ -278,7 +278,7 @@ export default function CVSelectionModal({ show, onHide, onSelect }: CVSelection
         }
     }, [show]);
     
-    const handleDownload = (type: 'normal' | 'ats') => {
+    const handleDownload = (type: 'thaotruong' | 'ats') => {
         const link = document.createElement('a');
         link.href = `/my-cv/cv-${type}.pdf`;
         link.download = `cv-${type}.pdf`;
@@ -352,7 +352,7 @@ export default function CVSelectionModal({ show, onHide, onSelect }: CVSelection
                                     <ViewButton 
                                         variant="creative"
                                         className="flex-grow-1 d-flex align-items-center justify-content-center gap-2"
-                                        onClick={() => onSelect('normal')}
+                                        onClick={() => onSelect('thaotruong')}
                                     >
                                         <Eye size="20" color="#fff" variant="Bold"/>
                                         View This CV
@@ -367,7 +367,7 @@ export default function CVSelectionModal({ show, onHide, onSelect }: CVSelection
                                     >
                                         <DownloadButton 
                                             variant="outline-light"
-                                            onClick={() => handleDownload('normal')}
+                                            onClick={() => handleDownload('thaotruong')}
                                         >
                                             <SVGIcon name="download-cv" size={20} color="white"/>
                                         </DownloadButton>
