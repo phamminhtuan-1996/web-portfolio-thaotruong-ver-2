@@ -14,6 +14,7 @@ import anime from 'animejs';
 import { useLoading } from '@/components/LoadingProvider';
 import CVSelectionModal from '@/components/CVSelectionModal';
 import PDFViewerModal from '@/components/PDFViewerModal';
+import { linkCv } from '@/utils/constants';
 const DivParent = styled.div`
   min-height: 100vh;
   
@@ -662,13 +663,23 @@ export default function About() {
   
   const handleCVClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Add query parameter to URL to trigger CV popup
-    const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set("cv", "normal-cv");
-    window.history.pushState({}, "", currentUrl.toString());
-    
-    // Trigger a popstate event to notify AutoOpenCV component
-    window.dispatchEvent(new PopStateEvent("popstate"));
+
+    // Check if it's mobile (screen width <= 990px)
+    const isMobile = window.innerWidth <= 990;
+
+    if (isMobile) {
+      // On mobile, open CV link in new tab
+      window.open(linkCv, '_blank');
+    } else {
+      // On desktop, show modal as before
+      // Add query parameter to URL to trigger CV popup
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set("cv", "cv-thaotruong");
+      window.history.pushState({}, "", currentUrl.toString());
+
+      // Trigger a popstate event to notify AutoOpenCV component
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    }
   };
   
   const handleCVSelection = (type: "thaotruong" | "ats") => {

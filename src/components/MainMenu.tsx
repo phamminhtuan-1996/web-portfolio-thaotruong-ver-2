@@ -7,6 +7,7 @@ import Image from "next/image";
 import { ImportCurve } from "iconsax-react";
 import CVSelectionModal from "./CVSelectionModal";
 import PDFViewerModal from "./PDFViewerModal";
+import { linkCv } from "@/utils/constants";
 
 const DivParent = styled.div`
   .main-menu {
@@ -299,13 +300,22 @@ export default function MainMenu() {
   }, []);
 
   const handleCVClick = () => {
-    // Add query parameter to URL to trigger CV popup
-    const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set("cv", "cv-thaotruong");
-    window.history.pushState({}, "", currentUrl.toString());
+    // Check if it's mobile (screen width <= 990px)
+    const isMobile = window.innerWidth <= 990;
 
-    // Trigger a popstate event to notify AutoOpenCV component
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    if (isMobile) {
+      // On mobile, open CV link in new tab
+      window.open(linkCv, '_blank');
+    } else {
+      // On desktop, show modal as before
+      // Add query parameter to URL to trigger CV popup
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set("cv", "cv-thaotruong");
+      window.history.pushState({}, "", currentUrl.toString());
+
+      // Trigger a popstate event to notify AutoOpenCV component
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    }
   };
 
   const handleCVSelection = (type: "thaotruong" | "ats") => {
