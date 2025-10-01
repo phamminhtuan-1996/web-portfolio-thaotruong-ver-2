@@ -1,0 +1,79 @@
+coi giúp tôi đây là lỗi gì làm xong commit and push giúp tôi
+[14:46:10.909] Running build in Washington, D.C., USA (East) – iad1
+[14:46:10.909] Build machine configuration: 2 cores, 8 GB
+[14:46:10.925] Cloning github.com/phamminhtuan-1996/web-portfolio-thaotruong-ver-2 (Branch: main, Commit: 9888f12)
+[14:46:11.075] Previous build caches not available
+[14:46:15.916] Cloning completed: 4.991s
+[14:46:16.261] Running "vercel build"
+[14:46:16.691] Vercel CLI 46.0.2
+[14:46:17.057] Installing dependencies...
+[14:46:17.462] yarn install v1.22.19
+[14:46:17.536] [1/4] Resolving packages...
+[14:46:17.699] [2/4] Fetching packages...
+[14:46:39.034] [3/4] Linking dependencies...
+[14:46:39.037] warning "babel-plugin-styled-components > @babel/plugin-syntax-jsx@7.25.9" has unmet peer dependency "@babel/core@^7.0.0-0".
+[14:46:39.038] warning " > bootstrap@5.3.3" has unmet peer dependency "@popperjs/core@^2.11.8".
+[14:46:39.039] warning " > react-isotope@1.0.7" has unmet peer dependency "prop-types@^15.5.4".
+[14:46:39.039] warning " > react-isotope@1.0.7" has incorrect peer dependency "react@^15.0.0 || ^16.0.0".
+[14:46:39.040] warning " > react-isotope@1.0.7" has incorrect peer dependency "react-dom@^15.0.0 || ^16.0.0".
+[14:46:39.040] warning " > slick-carousel@1.8.1" has unmet peer dependency "jquery@>=1.8.0".
+[14:46:43.326] [4/4] Building fresh packages...
+[14:46:43.886] Done in 26.43s.
+[14:46:43.911] Detected Next.js version: 15.1.0
+[14:46:43.914] Running "yarn run build"
+[14:46:44.090] yarn run v1.22.19
+[14:46:44.114] $ next build
+[14:46:45.113] Attention: Next.js now collects completely anonymous telemetry regarding usage.
+[14:46:45.113] This information is used to shape Next.js' roadmap and prioritize features.
+[14:46:45.114] You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+[14:46:45.115] https://nextjs.org/telemetry
+[14:46:45.115] 
+[14:46:45.218]    ▲ Next.js 15.1.0
+[14:46:45.219] 
+[14:46:45.241]    Creating an optimized production build ...
+[14:47:07.140]  ✓ Compiled successfully
+[14:47:07.146]    Linting and checking validity of types ...
+[14:47:11.935] 
+[14:47:11.936] Failed to compile.
+[14:47:11.936] 
+[14:47:11.936] ./src/app/about/page.tsx
+[14:47:11.936] 563:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.936] 598:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.937] 599:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.937] 600:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.938] 601:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.938] 603:22  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.938] 604:22  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.945] 606:25  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.947] 611:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.947] 
+[14:47:11.948] ./src/app/portfolio/page.tsx
+[14:47:11.948] 233:37  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.948] 233:37  Warning: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
+[14:47:11.948] 234:37  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.949] 234:37  Warning: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
+[14:47:11.951] 281:33  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.952] 
+[14:47:11.952] ./src/components/MainMenu.tsx
+[14:47:11.953] 3:9  Error: 'linkCv' is defined but never used.  @typescript-eslint/no-unused-vars
+[14:47:11.965] 
+[14:47:11.965] ./src/components/ModalProject.tsx
+[14:47:11.966] 53:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.966] 53:17  Warning: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
+[14:47:11.966] 57:18  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.966] 57:18  Warning: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
+[14:47:11.967] 
+[14:47:11.977] ./src/components/PopupWarningReponsive.tsx
+[14:47:11.978] 33:8  Warning: React Hook useEffect has a missing dependency: 'checkMobileAndPage'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+[14:47:11.978] 37:8  Warning: React Hook useEffect has missing dependencies: 'checkMobileAndPage' and 'pathname'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+[14:47:11.979] 
+[14:47:11.979] ./src/components/TrainClientV2.tsx
+[14:47:11.979] 54:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.980] 
+[14:47:11.980] ./src/components/TrainClients.tsx
+[14:47:11.980] 55:25  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+[14:47:11.980] 
+[14:47:11.981] info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+[14:47:11.992] error Command failed with exit code 1.
+[14:47:11.994] info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+[14:47:12.087] Error: Command "yarn run build" exited with 1
