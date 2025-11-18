@@ -612,7 +612,7 @@ export default function About() {
   const listClientDom = useRef<HTMLDivElement | null>(null);
   const contactDom = useRef<HTMLDivElement | null>(null);
   const listExp: ListExp[] = [
-    {rangeTime: "06/2022 - 07/2025", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
+    {rangeTime: "06/2022 -  08/2025", companyName: "AEMI LIMITED LIABILITY COMPANY", role: "Product Designer"},
     {rangeTime: "03/2021 - 6/2022", companyName: "CDN - FABOSHOP COMPUTER SOFTWARE COMPANY", role: "UX/UI Designer"},
     {rangeTime: "10/2020 - 10/2024", companyName: "FREELANCE", role: "Product Designer"},
     {rangeTime: "11/2017 - 10/2020", companyName: "ICHIP TECHNOLOGY & YOURTV MEDIA GROUP", role: "Digital Marketing - SEO"},
