@@ -7,7 +7,7 @@ import CustomCursor from '@/components/CustomCursor';
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Analytics } from "@vercel/analytics/react"
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +41,7 @@ export default function RootLayout({
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="format-detection" content="telephone=no" />
           <Analytics/>
+          <SpeedInsights/>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <LoadingProviderWrapper>
