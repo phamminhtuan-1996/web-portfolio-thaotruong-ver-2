@@ -116,7 +116,7 @@ const DivParent = styled.div`
   }
   .btn.active {
     border: none;
-    color: #416ec2;
+    color: #8E54E9;
   }
 
   /* Mobile menu toggle */
