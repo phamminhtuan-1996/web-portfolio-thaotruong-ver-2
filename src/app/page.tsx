@@ -8,7 +8,7 @@ import anime from 'animejs';
 import { useLoading } from '@/components/LoadingProvider';
 const Global = createGlobalStyle`
   :root {
-    --primary-blue: #4A90E2;
+    --primary-blue: #8E54E9;
     --dark-bg: #0A0A0A;
     --dark-secondary: #1A1A1A;
     --text-gray: #808080;
@@ -127,7 +127,7 @@ const S = {
   
   Tag: styled.span`
     padding: 0.5rem 1rem;
-    background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    background: linear-gradient(90deg, #4776E6 0%, #8E54E9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

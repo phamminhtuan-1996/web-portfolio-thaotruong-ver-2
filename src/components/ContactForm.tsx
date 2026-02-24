@@ -28,7 +28,7 @@ const ContactSection = styled.div`
     }
     
     .contact-info {
-        color: #7CA3EE;
+        color: #8E54E9;
         display: flex;
         align-items: center;
         gap: 0.75rem;
@@ -41,7 +41,7 @@ const ContactSection = styled.div`
     }
     
     .form-label {
-        color: #7CA3EE;
+        color: #fff;
         font-weight: 500;
         margin-bottom: 0.5rem;
     }
@@ -56,7 +56,7 @@ const ContactSection = styled.div`
         
         &:focus {
             background: rgba(255, 255, 255, 0.08);
-            border-color: #7CA3EE;
+            border-color: #8E54E9;
             box-shadow: 0 0 0 0.2rem rgba(124, 163, 238, 0.25);
             color: #fff;
         }
@@ -67,7 +67,7 @@ const ContactSection = styled.div`
     }
     
     .submit-btn {
-        background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+        background: #9182E1;
         border: none;
         padding: 0.75rem 2rem;
         border-radius: 8px;
@@ -218,11 +218,11 @@ export default function ContactForm() {
                         </p>
                         <div className='d-flex flex-column'>
                             <span className='contact-info mb-4'>
-                                <Call size={24} color="#7CA3EE"/> 
+                                <Call size={24} color="#8E54E9"/> 
                                 038 679 8487
                             </span> 
                             <span className='contact-info'>
-                                <Sms size={24} color="#7CA3EE"/> 
+                                <Sms size={24} color="#8E54E9"/> 
                                 thaotruongdesign@gmail.com
                             </span>
                         </div>

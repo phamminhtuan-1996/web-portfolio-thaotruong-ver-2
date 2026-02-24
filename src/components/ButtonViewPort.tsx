@@ -47,7 +47,7 @@ const ButtonGradient = styled(Link)`
     align-items: center;
     gap: 0.5rem;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
     color: #FFFFFF;
     text-decoration: none;
     border-radius: 12px;

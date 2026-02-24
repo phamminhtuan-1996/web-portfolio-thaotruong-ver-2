@@ -31,7 +31,7 @@ const HeroSection = styled.section`
 const HeroTitle = styled.h1`
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 900;
-    background: linear-gradient(135deg, #416EC2, #2067C6, #54B9F4);
+    background: linear-gradient(135deg, #4776E6, #8E54E9);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -155,13 +155,13 @@ const FilterTabs = styled.div<{$isSticky?: boolean}>`
 
 const FilterTab = styled.button<{$isActive: boolean}>`
     background: ${props => props.$isActive 
-        ? 'rgba(59, 130, 246, 0.2)' 
+        ? '#8e54e940' 
         : 'rgba(255, 255, 255, 0.1)'};
     backdrop-filter: blur(10px);
     border: 1px solid ${props => props.$isActive 
-        ? 'rgba(59, 130, 246, 0.5)' 
+        ? '#8E54E9' 
         : 'rgba(255, 255, 255, 0.2)'};
-    color: ${props => props.$isActive ? '#3b82f6' : '#9ca3af'};
+    color: ${props => props.$isActive ? '#8E54E9' : '#9ca3af'};
     padding: 12px 24px;
     border-radius: 25px;
     cursor: pointer;

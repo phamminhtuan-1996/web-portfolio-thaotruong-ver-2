@@ -5,7 +5,7 @@ const DivParent = styled.div`
     height: 142px;
     border-radius: 10px;
     .block-title {
-        color: #416EC2;
+        color: #8E54E9;
         font-weight: 700;
 
     }

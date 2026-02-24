@@ -19,7 +19,7 @@ const DivParent = styled.div`
         font-size: 4rem;
         font-weight: 900;
         text-transform: uppercase;
-        background: linear-gradient(135deg, rgb(65, 110, 194), rgb(32, 103, 198), rgb(84, 185, 244)) text;
+        background: linear-gradient(135deg, #4776E6, #8E54E9) text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;

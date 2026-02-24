@@ -29,7 +29,7 @@ const DivParent = styled.div`
     font-size: 4rem;
     font-weight: 900;
     text-transform: uppercase;
-    background: linear-gradient(135deg, rgb(65, 110, 194), rgb(32, 103, 198), rgb(84, 185, 244)) text;
+    background: linear-gradient(135deg, #4776E6, #8E54E9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -120,7 +120,7 @@ const DivParent = styled.div`
     font-size: 24px;
     line-height: 138%;
     letter-spacing: 3.5%;
-    background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    background: linear-gradient( #4776E6, #8E54E9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -143,7 +143,7 @@ const DivParent = styled.div`
   .link-cv {
     font-size: 1rem;
     font-weight: 400;
-    color: #3b82f6;
+    color: #fff;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -171,7 +171,7 @@ const DivParent = styled.div`
     font-size: 24px;
     line-height: 138%;
     letter-spacing: 3.5%;
-    background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+    background: linear-gradient(90deg, #4776E6 0%, #8E54E9 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -312,7 +312,7 @@ const DivParent = styled.div`
 .footer__title--down h1 {
   white-space: nowrap;
   font-size: 32px;
-  background: linear-gradient(90deg, #416EC2 0%, #2067C6 50%, #54B9F4 100%);
+  background: linear-gradient(90deg, #4776E6 0%, #8E54E9 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
