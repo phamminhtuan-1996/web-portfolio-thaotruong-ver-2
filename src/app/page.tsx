@@ -510,7 +510,7 @@ export default function Home() {
                     priority
                   />
                   <Image 
-                    src="/img/avt-owner-port-mobile.png" 
+                    src="/img/avt-owner-port.png" 
                     alt="Thao Truong - Product Designer" 
                     width={700}
                     height={700}

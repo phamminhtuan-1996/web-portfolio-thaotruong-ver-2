@@ -170,9 +170,9 @@ const FilterTab = styled.button<{$isActive: boolean}>`
     white-space: nowrap;
     
     &:hover {
-        background: rgba(59, 130, 246, 0.2);
-        color: #3b82f6;
-        border-color: rgba(59, 130, 246, 0.5);
+        background: #8e54e940;
+        color: #8E54E9;
+        border-color: #8E54E9;
         transform: translateY(-2px);
     }
     
