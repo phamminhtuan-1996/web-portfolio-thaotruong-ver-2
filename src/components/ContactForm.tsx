@@ -26,9 +26,12 @@ const ContactSection = styled.div`
         line-height: 1.2;
         margin-bottom: 2rem;
     }
+    .content-contact-form {
+        margin-bottom: 32px;
+    }
     
     .contact-info {
-        color: #8E54E9;
+        color: #9182E1;
         display: flex;
         align-items: center;
         gap: 0.75rem;
@@ -213,7 +216,7 @@ export default function ContactForm() {
                         <h2 className='text-white contact-title__left text-uppercase'>
                             Have an Awesome Project Idea? Let&apos;s Discuss
                         </h2>
-                        <p className='text-white'>
+                        <p className='content-contact-form text-white'>
                             I’m eager to bring my design skills into a collaborative team where ideas turn into impactful products. If you value creativity and problem-solving, I’d love to contribute and grow with you!
                         </p>
                         <div className='d-flex flex-column'>
