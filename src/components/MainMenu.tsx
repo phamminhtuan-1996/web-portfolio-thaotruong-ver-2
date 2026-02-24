@@ -127,7 +127,7 @@ const DivParent = styled.div`
     left: 1rem;
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #416ec2 0%, #2067c6 50%, #54b9f4 100%);
+    background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
     border-radius: 50%;
     border: none;
     color: white;
