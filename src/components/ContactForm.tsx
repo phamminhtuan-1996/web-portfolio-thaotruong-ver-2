@@ -221,11 +221,11 @@ export default function ContactForm() {
                         </p>
                         <div className='d-flex flex-column'>
                             <span className='contact-info mb-4'>
-                                <Call size={24} color="#8E54E9"/> 
+                                <Call size={24} color="#9182E1"/> 
                                 038 679 8487
                             </span> 
                             <span className='contact-info'>
-                                <Sms size={24} color="#8E54E9"/> 
+                                <Sms size={24} color="#9182E1"/> 
                                 thaotruongdesign@gmail.com
                             </span>
                         </div>
