@@ -243,11 +243,11 @@ const DivParent = styled.div`
       height: 50px;
       flex: unset;
       &.active {
-        border: 1px solid #2855a9!important;
+        border: 1px solid #9182E1!important;
         border-top: none!important;
         border-left: none!important;
         border-right: none!important;
-color: #2855a9;
+color: #9182E1;
 font-weight: 700;
       }
       .mobile-open{
